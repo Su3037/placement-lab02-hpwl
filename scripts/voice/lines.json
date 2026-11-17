@@ -1,0 +1,352 @@
+[
+ {
+  "key": "concise-k01-1-zh",
+  "lang": "zh",
+  "text": "这一讲用几分钟，把半周长线长，也就是 H P W L，从定义讲到代码。"
+ },
+ {
+  "key": "concise-k01-1-en",
+  "lang": "en",
+  "text": "In a few minutes: half-perimeter wirelength, or H P W L, from the definition to the code."
+ },
+ {
+  "key": "concise-k01-2-zh",
+  "lang": "zh",
+  "text": "布局决定每个单元放在哪里；单元之间由线网相连。"
+ },
+ {
+  "key": "concise-k01-2-en",
+  "lang": "en",
+  "text": "Placement decides where each cell goes, and nets connect the cells."
+ },
+ {
+  "key": "concise-k02-1-zh",
+  "lang": "zh",
+  "text": "真实导线要等到布线阶段才画出来，代价很高。"
+ },
+ {
+  "key": "concise-k02-1-en",
+  "lang": "en",
+  "text": "Real wires are only drawn at routing time, and that is expensive."
+ },
+ {
+  "key": "concise-k02-2-zh",
+  "lang": "zh",
+  "text": "所以布局时，先用一个又快、又能比较的估计：H P W L。"
+ },
+ {
+  "key": "concise-k02-2-en",
+  "lang": "en",
+  "text": "So during placement we use a fast, comparable estimate instead: H P W L."
+ },
+ {
+  "key": "concise-k02-3-zh",
+  "lang": "zh",
+  "text": "图里的细虚线只说明谁和谁相连，不是导线。"
+ },
+ {
+  "key": "concise-k02-3-en",
+  "lang": "en",
+  "text": "The thin dashed lines only show who connects to whom; they are not wires."
+ },
+ {
+  "key": "concise-k03-1-zh",
+  "lang": "zh",
+  "text": "先看两个引脚。P 在 1、1，Q 在 5、4。横向差 4，纵向差 3。"
+ },
+ {
+  "key": "concise-k03-1-en",
+  "lang": "en",
+  "text": "Start with two pins. P at one, one. Q at five, four. Four across, three up."
+ },
+ {
+  "key": "concise-k03-2-zh",
+  "lang": "zh",
+  "text": "H P W L 等于 4 加 3，等于 7。这就是曼哈顿距离，不是直线距离 5。"
+ },
+ {
+  "key": "concise-k03-2-en",
+  "lang": "en",
+  "text": "H P W L is four plus three, seven. That is the Manhattan distance, not the straight-line five."
+ },
+ {
+  "key": "concise-k03-3-zh",
+  "lang": "zh",
+  "text": "芯片导线大多横平竖直。这条 L 形，只是许多等长路径之一。"
+ },
+ {
+  "key": "concise-k03-3-en",
+  "lang": "en",
+  "text": "Chip wires mostly run horizontally and vertically; this L is one of many equal-length paths."
+ },
+ {
+  "key": "concise-k04-1-zh",
+  "lang": "zh",
+  "text": "四个引脚的线网 N 1。逐个读取引脚，记下最小和最大的 x 和 y。"
+ },
+ {
+  "key": "concise-k04-1-en",
+  "lang": "en",
+  "text": "A four-pin net, N one. Read the pins one by one, and keep the smallest and largest x and y."
+ },
+ {
+  "key": "concise-k04-2-zh",
+  "lang": "zh",
+  "text": "P 给出初值。Q 刷新最大 x 和最大 y。R 再刷新最大 y。S 在内部，什么也不改。"
+ },
+ {
+  "key": "concise-k04-2-en",
+  "lang": "en",
+  "text": "P sets the start. Q raises max x and max y. R raises max y again. S is inside, and changes nothing."
+ },
+ {
+  "key": "concise-k04-3-zh",
+  "lang": "zh",
+  "text": "宽是 7 减 1，等于 6；高是 6 减 1，等于 5；H P W L 等于 11。"
+ },
+ {
+  "key": "concise-k04-3-en",
+  "lang": "en",
+  "text": "Width: seven minus one, six. Height: six minus one, five. So H P W L is eleven."
+ },
+ {
+  "key": "concise-k05-1-zh",
+  "lang": "zh",
+  "text": "把极值引脚 Q 向右拖。最大 x 从 7 变成 9，H P W L 从 11 变成 13。"
+ },
+ {
+  "key": "concise-k05-1-en",
+  "lang": "en",
+  "text": "Drag the extreme pin Q to the right. Max x goes from seven to nine, and H P W L from eleven to thirteen."
+ },
+ {
+  "key": "concise-k05-2-zh",
+  "lang": "zh",
+  "text": "再把 Q 往下拉。越过 y 等于 1 时，最小 y 换成 Q，H P W L 变成 14。"
+ },
+ {
+  "key": "concise-k05-2-en",
+  "lang": "en",
+  "text": "Now pull Q down. Once it passes y equals one, Q becomes the minimum y, and H P W L becomes fourteen."
+ },
+ {
+  "key": "concise-k05-3-zh",
+  "lang": "zh",
+  "text": "每一帧的数字都由同一组坐标当场重算。"
+ },
+ {
+  "key": "concise-k05-3-en",
+  "lang": "en",
+  "text": "Every frame recomputes the numbers from the same coordinates."
+ },
+ {
+  "key": "concise-k06-1-zh",
+  "lang": "zh",
+  "text": "再移动内部引脚 S。只要留在绿色区域里，N 1 一直是 14。"
+ },
+ {
+  "key": "concise-k06-1-en",
+  "lang": "en",
+  "text": "Now move the interior pin S. While it stays in the green region, N one stays at fourteen."
+ },
+ {
+  "key": "concise-k06-2-zh",
+  "lang": "zh",
+  "text": "但 S 也在线网 N 2 上。N 2 从 4 变成 2，总和从 18 变成 16。"
+ },
+ {
+  "key": "concise-k06-2-en",
+  "lang": "en",
+  "text": "But S is also on net N two. N two drops from four to two, and the total from eighteen to sixteen."
+ },
+ {
+  "key": "concise-k06-3-zh",
+  "lang": "zh",
+  "text": "选中的线网没变，不等于总线长没变。"
+ },
+ {
+  "key": "concise-k06-3-en",
+  "lang": "en",
+  "text": "An unchanged net does not mean an unchanged total."
+ },
+ {
+  "key": "concise-k07-1-zh",
+  "lang": "zh",
+  "text": "老师的例子有六个单元、六个线网。A B C D 是一个四引脚线网，只算一个包围盒。"
+ },
+ {
+  "key": "concise-k07-1-en",
+  "lang": "en",
+  "text": "The teacher's example has six cells and six nets. A B C D is one four-pin net, with a single box."
+ },
+ {
+  "key": "concise-k07-2-zh",
+  "lang": "zh",
+  "text": "逐网计算：A B、C D、A C、B D 各为 8；A B C D 为 16；E F 为 4。"
+ },
+ {
+  "key": "concise-k07-2-en",
+  "lang": "en",
+  "text": "Net by net: A B, C D, A C and B D are eight each. A B C D is sixteen. E F is four."
+ },
+ {
+  "key": "concise-k07-3-zh",
+  "lang": "zh",
+  "text": "总和是 8 乘 4，加 16，加 4，等于 52。"
+ },
+ {
+  "key": "concise-k07-3-en",
+  "lang": "en",
+  "text": "The total: eight times four, plus sixteen, plus four, is fifty-two."
+ },
+ {
+  "key": "concise-k08-1-zh",
+  "lang": "zh",
+  "text": "写成代码，第一步先检查输入：未知引脚、空线网、坐标缺失，都要报错。"
+ },
+ {
+  "key": "concise-k08-1-en",
+  "lang": "en",
+  "text": "In code, validate first: unknown pins, empty nets and missing coordinates are errors."
+ },
+ {
+  "key": "concise-k08-2-zh",
+  "lang": "zh",
+  "text": "然后对每个线网求最小、最大的 x 和 y，宽加高，累加到总和。"
+ },
+ {
+  "key": "concise-k08-2-en",
+  "lang": "en",
+  "text": "Then, for each net, take the min and max of x and y, and add width plus height to the total."
+ },
+ {
+  "key": "concise-k08-3-zh",
+  "lang": "zh",
+  "text": "一次遍历全部引脚，代价与引脚总数成正比。"
+ },
+ {
+  "key": "concise-k08-3-en",
+  "lang": "en",
+  "text": "One pass over all pins; the cost grows linearly with the pin count."
+ },
+ {
+  "key": "concise-k09-1-zh",
+  "lang": "zh",
+  "text": "记住：H P W L 等于宽加高，是包围盒周长的一半；多引脚线网只算一个盒子。"
+ },
+ {
+  "key": "concise-k09-1-en",
+  "lang": "en",
+  "text": "Remember: H P W L is width plus height, half the box perimeter, and a multi-pin net counts one box."
+ },
+ {
+  "key": "concise-k09-2-zh",
+  "lang": "zh",
+  "text": "移动极值引脚会改变盒子；内部移动不改变这个线网，但可能改变别的线网。"
+ },
+ {
+  "key": "concise-k09-2-en",
+  "lang": "en",
+  "text": "Moving an extreme pin changes the box; an interior move leaves that net alone but may change others."
+ },
+ {
+  "key": "concise-k09-3-zh",
+  "lang": "zh",
+  "text": "进阶片讲它的边界，比如为什么 H P W L 为 0，也不是好布局。"
+ },
+ {
+  "key": "concise-k09-3-en",
+  "lang": "en",
+  "text": "The advanced film covers its limits, such as why an H P W L of zero is not a good placement."
+ },
+ {
+  "key": "lab-w01-1-zh",
+  "lang": "zh",
+  "text": "这是实验台。打开时载入老师的起始布局，总 H P W L 是 52。"
+ },
+ {
+  "key": "lab-w01-1-en",
+  "lang": "en",
+  "text": "This is the lab. It opens with the teacher's starter layout, with a total H P W L of fifty-two."
+ },
+ {
+  "key": "lab-w02-1-zh",
+  "lang": "zh",
+  "text": "点一个线网，它的包围盒和极值引脚就会高亮，表格也同时更新。"
+ },
+ {
+  "key": "lab-w02-1-en",
+  "lang": "en",
+  "text": "Click a net to highlight its box and extreme pins; the table updates at the same time."
+ },
+ {
+  "key": "lab-w03-1-zh",
+  "lang": "zh",
+  "text": "直接拖动单元。把 C 拖到 3、5，相关线网当场重算。"
+ },
+ {
+  "key": "lab-w03-1-en",
+  "lang": "en",
+  "text": "Drag a cell directly. Move C to three, five, and every net it touches is recomputed."
+ },
+ {
+  "key": "lab-w04-1-zh",
+  "lang": "zh",
+  "text": "也可以用键盘：选中单元后按方向键；撤销按钮随时退回上一步。"
+ },
+ {
+  "key": "lab-w04-1-en",
+  "lang": "en",
+  "text": "Or use the keyboard: focus a cell and press the arrow keys. Undo steps back at any time."
+ },
+ {
+  "key": "lab-w05-1-zh",
+  "lang": "zh",
+  "text": "逐步扫描一次读一个引脚，演示最小值和最大值怎样更新。"
+ },
+ {
+  "key": "lab-w05-1-en",
+  "lang": "en",
+  "text": "The step-by-step scan reads one pin at a time and shows how the min and max update."
+ },
+ {
+  "key": "lab-w06-1-zh",
+  "lang": "zh",
+  "text": "切换到固定焊盘模式：A 和 D 被锁住，拖不动，状态栏会说明原因。"
+ },
+ {
+  "key": "lab-w06-1-en",
+  "lang": "en",
+  "text": "Switch to fixed-anchor mode: A and D are locked, and the status line says why they will not move."
+ },
+ {
+  "key": "lab-w07-1-zh",
+  "lang": "zh",
+  "text": "看片时，随时按“试试这一帧”，实验台会接过画面上的真实坐标。"
+ },
+ {
+  "key": "lab-w07-1-en",
+  "lang": "en",
+  "text": "While watching, press Try this frame, and the lab takes over the exact coordinates on screen."
+ },
+ {
+  "key": "lab-w08-1-zh",
+  "lang": "zh",
+  "text": "挑战检查的是你在实验台里的真实布局，不同的正确摆法都能通过。"
+ },
+ {
+  "key": "lab-w08-1-en",
+  "lang": "en",
+  "text": "Challenges check the real layout in your lab, so different correct arrangements all pass."
+ },
+ {
+  "key": "lab-w09-1-zh",
+  "lang": "zh",
+  "text": "最后下载 Python 练习包，补全函数，用检查脚本验证你的实现。"
+ },
+ {
+  "key": "lab-w09-1-en",
+  "lang": "en",
+  "text": "Finally, download the Python pack, complete the functions, and verify them with the checker."
+ }
+]
