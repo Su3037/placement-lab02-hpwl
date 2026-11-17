@@ -19,13 +19,13 @@ browser 48/48, media 25/25, clean-clone rebuild OK (PSNR 54.3 dB on a re-rendere
 
 ## Deployment status
 
-- [ ] `main` pushed
+- [x] `main` pushed (commit 567515b and later)
 - [ ] Pages enabled with source “GitHub Actions” and the `pages` workflow green
 - [ ] `node tests/browser.mjs --base https://su3037.github.io/placement-lab02-hpwl/` passes against the deployment
 
 ## Next actions
 
-1. If Pages is not live: Settings → Pages → Build and deployment → Source: **GitHub Actions**, then re-run the
+1. Pages is not enabled yet (first `pages` run failed at configure-pages: "Get Pages site failed. Not Found"). Owner action: Settings → Pages → Build and deployment → Source: **GitHub Actions**, then re-run the
    `pages` workflow (Actions tab → pages → Run workflow).
 2. Run the deployment browser check above and record the result in `docs/verification.md`.
 3. Submission: `docs/submission-draft.md` is a draft only. Nothing has been posted to Issue #25 and the teacher
@@ -35,3 +35,9 @@ browser 48/48, media 25/25, clean-clone rebuild OK (PSNR 54.3 dB on a re-rendere
 
 No posting to Issue #25 or messaging the teacher without explicit instruction; no force-push; no changes to other
 repositories; teacher files are not redistributed (only the transcribed numeric example).
+
+## Notes
+
+- The cloud work environment cannot reach `*.github.io` (egress proxy refuses it), so the deployment check runs in
+  GitHub Actions instead: the `verify` job of `pages.yml` runs `tests/browser.mjs --base` against the live site
+  after each deploy and uploads `deployment-browser-report`.

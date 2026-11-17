@@ -24,3 +24,22 @@ jobs:
           path: site
       - id: deployment
         uses: actions/deploy-pages@v4
+  verify:
+    needs: deploy
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - name: Browser checks against the live deployment
+        run: |
+          sleep 20
+          node tests/browser.mjs --base https://su3037.github.io/placement-lab02-hpwl/
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: deployment-browser-report
+          path: build/browser-report.json
