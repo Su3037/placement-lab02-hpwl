@@ -1,0 +1,174 @@
+{
+ "id": "advanced.en",
+ "film": "advanced",
+ "lang": "en",
+ "provisional": false,
+ "scriptSha256": "016bb3152b5fad217aea7c501f9aebe9b602a49e85f7800df689b88d61bc4516",
+ "kind": "reading",
+ "rule": {
+  "zhBase": 0.8,
+  "zhRate": 4.5,
+  "enBase": 0.8,
+  "enRate": 15,
+  "minLine": 2,
+  "tail": 0.8,
+  "lastTail": 2.5,
+  "lead": 0.6
+ },
+ "duration": 154.367,
+ "segments": [
+  {
+   "id": "a01",
+   "chapter": "01",
+   "start": 0,
+   "end": 12.2,
+   "sceneEnd": 13,
+   "lines": [
+    {
+     "start": 0.6,
+     "end": 7.844
+    },
+    {
+     "start": 7.844,
+     "end": 12.2
+    }
+   ]
+  },
+  {
+   "id": "a02",
+   "chapter": "01",
+   "start": 13,
+   "end": 27.489,
+   "sceneEnd": 28.289,
+   "lines": [
+    {
+     "start": 13,
+     "end": 19.356
+    },
+    {
+     "start": 19.356,
+     "end": 27.489
+    }
+   ]
+  },
+  {
+   "id": "a03",
+   "chapter": "02",
+   "start": 28.289,
+   "end": 43.444,
+   "sceneEnd": 44.244,
+   "lines": [
+    {
+     "start": 28.289,
+     "end": 34.533
+    },
+    {
+     "start": 34.533,
+     "end": 43.444
+    }
+   ]
+  },
+  {
+   "id": "a04",
+   "chapter": "02",
+   "start": 44.244,
+   "end": 69.756,
+   "sceneEnd": 70.556,
+   "lines": [
+    {
+     "start": 44.244,
+     "end": 51.378
+    },
+    {
+     "start": 51.378,
+     "end": 60.956
+    },
+    {
+     "start": 60.956,
+     "end": 69.756
+    }
+   ]
+  },
+  {
+   "id": "a05",
+   "chapter": "03",
+   "start": 70.556,
+   "end": 85.378,
+   "sceneEnd": 86.178,
+   "lines": [
+    {
+     "start": 70.556,
+     "end": 77.8
+    },
+    {
+     "start": 77.8,
+     "end": 85.378
+    }
+   ]
+  },
+  {
+   "id": "a06",
+   "chapter": "04",
+   "start": 86.178,
+   "end": 106.911,
+   "sceneEnd": 107.711,
+   "lines": [
+    {
+     "start": 86.178,
+     "end": 93.867
+    },
+    {
+     "start": 93.867,
+     "end": 100.889
+    },
+    {
+     "start": 100.889,
+     "end": 106.911
+    }
+   ]
+  },
+  {
+   "id": "a07",
+   "chapter": "04",
+   "start": 107.711,
+   "end": 126.667,
+   "sceneEnd": 127.467,
+   "lines": [
+    {
+     "start": 107.711,
+     "end": 114.733
+    },
+    {
+     "start": 114.733,
+     "end": 122.089
+    },
+    {
+     "start": 122.089,
+     "end": 126.667
+    }
+   ]
+  },
+  {
+   "id": "a08",
+   "chapter": "05",
+   "start": 127.467,
+   "end": 151.867,
+   "sceneEnd": 154.367,
+   "lines": [
+    {
+     "start": 127.467,
+     "end": 134.711
+    },
+    {
+     "start": 134.711,
+     "end": 142.844
+    },
+    {
+     "start": 142.844,
+     "end": 151.867
+    }
+   ]
+  }
+ ],
+ "violations": []
+}

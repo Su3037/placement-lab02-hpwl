@@ -6,22 +6,20 @@ unless it says so. Reports: `build/*.json` (not committed; regenerate with the c
 
 ## Summary
 
+Results for the four-film, house-style version (commit after `5981241`).
+
 | Command | Result |
 |---|---|
-| GitHub Actions `ci` (runs 1–2: unit, data rebuild diff, browser, media) | success on Ubuntu 24.04 |
-| `npm test` (node --test) | **32 / 32** pass: domain 17, grading 6, timeline 9 |
-| `npm test` (python unittest) | **5 / 5** pass: goldens, reference passes 19/19 cases, starter fails until implemented, silent-skip caught, JS↔Python agree on 300 seeded cases (seed 20261117) |
-| `node tests/browser.mjs` (local server, subpath `/placement-lab02-hpwl/` and root) | **48 / 48** pass |
-| `node scripts/check-media.mjs` | **25 / 25** pass |
-| `sh scripts/clean-rebuild.sh` at commit `03a39a5` | pass: generated data, VTT, slide manifest and Python zip byte-identical to the committed ones; unit tests pass in the clone; re-rendered 116–120 s vs committed film **PSNR 54.3 dB** (threshold 35) |
-| Deployment: `node tests/browser.mjs --base https://su3037.github.io/placement-lab02-hpwl/` | **47 / 47** pass on the live site (GitHub Actions `pages` run 44015443846, job `verify`, 2026-11-17; the root-path check runs only locally) |
+| `npm test` (node --test) | **35 / 35** pass: domain, grading, timeline (all four films × zh/en: clocks, random access, cue boundaries, goldens, handoff, captions, music-locked title, lab walkthrough, voice clocks final) |
+| `npm test` (python unittest) | **5 / 5** pass, including JS↔Python agreement on 300 seeded cases (seed 20261117) |
+| `node tests/browser.mjs` (local server, subpath `/placement-lab02-hpwl/` and root) | **62 / 62** pass |
+| `node scripts/check-media.mjs` | **151 / 151** pass: for each of the 8 films, codec, frame count = round(clock × 30), duration, full decode, render record and source hashes, clock hash and kind, AAC soundtrack of the right kind and audible, every voice take in the mix, captions and chapters VTT; decoded frames vs fresh `renderAt(t)` (PSNR ≥ 32 dB, 7 frames per film); exact frame map; slide PDFs with page numbers |
+| `sh scripts/clean-rebuild.sh` | pass: generated data, clocks, VTT, transcripts, slide manifest and Python zip byte-identical; unit tests pass in the clone; re-rendered advanced.zh 40–44 s vs committed film **PSNR 55.6 dB** (threshold 35) |
 
-Not done / not claimed: byte-identical MP4 across machines; audio review (the film is silent, no audio track);
-English-captioned MP4 (not rendered; English is shipped as WebVTT and a caption bar); screen-reader testing with
-real assistive technology (only ARIA attributes and keyboard paths are tested).
-
-Encoded frames were also inspected by eye (`media-source/frames/`, 10 frames across the film) and the sample was
-checked frame by frame around the extremum switch (Q passing y = 1).
+Not done / not claimed: byte-identical MP4 across machines; a listening review of every voice clip (durations and
+speech rates were checked; the clips are Apple's basic Tingting and Samantha voices because no Enhanced or Premium
+voice is installed on the owner's Mac); the story film's soundtrack cannot be rebuilt from the repository alone
+(the licensed track is not committed); screen-reader testing with real assistive technology.
 
 ## Requirement → file → test crosswalk
 
@@ -44,83 +42,219 @@ Numbers refer to the acceptance list in section 7 of the handoff prompt.
 
 ## Browser checks (`tests/browser.mjs`)
 
-| | Check |
-|---|---|
-| PASS | subpath load without errors |
-| PASS | all sections present |
-| PASS | worked table totals 52 / 116 |
-| PASS | lab starts at 52 |
-| PASS | net selector selects EF |
-| PASS | keyboard moves B by the snap step |
-| PASS | keyboard focus stays on B after re-render |
-| PASS | displayed total = domain total of the lab state |
-| PASS | mouse drag moves C to (3,5) via the shared geometry |
-| PASS | undo restores C |
-| PASS | touch pointer drag moves E |
-| PASS | fixed-anchor mode blocks moving A |
-| PASS | mode switch keeps coordinates and constraints |
-| PASS | scan log reports pin 2 of 4 |
-| PASS | c1 passes with the right numbers |
-| PASS | c1 tracked as independent |
-| PASS | c5 rejects the HPWL-0 collapse |
-| PASS | c5 passes with the compact layout |
-| PASS | c5 tracked as studied answer |
-| PASS | two-stage hints |
-| PASS | quiz gives feedback |
-| PASS | try-this-frame transfers the exact interpolated coordinates |
-| PASS | handoff keeps fixture, net and mode |
-| PASS | lab shows the intermediate-frame notice |
-| PASS | lab recomputes after handoff with the same function |
-| PASS | handoff of a fixed-anchor frame carries mode, anchors and footprint flag |
-| PASS | English caption bar follows the frame |
-| PASS | caption bar is empty in the silent tail after a cue |
-| PASS | video duration matches the clock (±1 frame) |
-| PASS | refresh with #lab works |
-| PASS | slide viewer shows page 1 with notes |
-| PASS | no page errors after interaction |
-| PASS | English page loads at 390 px |
-| PASS | no horizontal page overflow at 390 px |
-| PASS | body text at least 16 px on phone |
-| PASS | lab board fits the phone width |
-| PASS | root path load without errors |
-| PASS | missing film shows an explicit error |
-| PASS | lab still works without the film |
-| PASS | missing data shows a load error instead of a blank page |
-| PASS | renderAt(12.300) same semantic state in any order |
-| PASS | renderAt(12.300) pixel-identical in any order |
-| PASS | renderAt(107.500) same semantic state in any order |
-| PASS | renderAt(107.500) pixel-identical in any order |
-| PASS | renderAt(114.934) same semantic state in any order |
-| PASS | renderAt(114.934) pixel-identical in any order |
-| PASS | renderAt(222.832) same semantic state in any order |
-| PASS | renderAt(222.832) pixel-identical in any order |
+- PASS subpath load without errors
+- PASS all ten numbered sections present in house order
+- PASS lesson has background, definitions, worked example and pseudocode
+- PASS four film cards in order 科普 → 精讲 → 进阶 → 实验演示
+- PASS worked table totals 52 / 116
+- PASS lab starts at 52
+- PASS net selector selects EF
+- PASS keyboard moves B by the snap step
+- PASS keyboard focus stays on B after re-render
+- PASS displayed total = domain total of the lab state
+- PASS mouse drag moves C to (3,5) via the shared geometry
+- PASS undo restores C
+- PASS touch pointer drag moves E
+- PASS fixed-anchor mode blocks moving A
+- PASS mode switch keeps coordinates and constraints
+- PASS scan log reports pin 2 of 4
+- PASS c1 passes with the right numbers
+- PASS c1 tracked as independent
+- PASS c5 rejects the HPWL-0 collapse
+- PASS c5 passes with the compact layout
+- PASS c5 tracked as studied answer
+- PASS two-stage hints
+- PASS quiz gives feedback
+- PASS try-this-frame transfers the exact interpolated coordinates
+- PASS handoff keeps fixture, net and mode
+- PASS lab shows the intermediate-frame notice
+- PASS lab recomputes after handoff with the same function (shown to display precision)
+- PASS handoff of a fixed-anchor frame carries mode, anchors and footprint flag
+- PASS English caption bar follows the frame
+- PASS caption bar is empty in the silent tail after a cue
+- PASS video duration matches the clock (±1 frame)
+- PASS film card switches video and chapters
+- PASS film story.zh rendered
+- PASS film story.en rendered
+- PASS film concise.zh rendered
+- PASS film concise.en rendered
+- PASS film advanced.zh rendered
+- PASS film advanced.en rendered
+- PASS film lab.zh rendered
+- PASS film lab.en rendered
+- PASS refresh with #lab works
+- PASS slide viewer shows page 1 with notes
+- PASS no page errors after interaction
+- PASS English page loads at 390 px
+- PASS no horizontal page overflow at 390 px
+- PASS body text at least 16 px on phone
+- PASS lab board fits the phone width
+- PASS English page plays the English version of the film
+- PASS root path load without errors
+- PASS missing film shows an explicit error
+- PASS lab still works without the film
+- PASS missing data shows a load error instead of a blank page
+- PASS renderAt(12.300) same semantic state in any order
+- PASS renderAt(12.300) pixel-identical in any order
+- PASS renderAt(53.300) same semantic state in any order
+- PASS renderAt(53.300) pixel-identical in any order
+- PASS renderAt(63.434) same semantic state in any order
+- PASS renderAt(63.434) pixel-identical in any order
+- PASS renderAt(80.159) same semantic state in any order
+- PASS renderAt(80.159) pixel-identical in any order
+- PASS renderAt(32.842) same semantic state in any order
+- PASS renderAt(32.842) pixel-identical in any order
 
 ## Media checks (`scripts/check-media.mjs`)
 
-| | Check | Detail |
-|---|---|---|
-| PASS | film: h264 1920x1080 yuv420p | {"codec_name":"h264","width":1920,"height":1080,"pix_fmt":"yuv420p","r |
-| PASS | film: frame count 9241 | 9241 |
-| PASS | film: duration matches clock window | 308.033333 |
-| PASS | film: full decode without errors |  |
-| PASS | film: mp4 hash matches render record |  |
-| PASS | film: rendered from the current sources |  |
-| PASS | film: clock is the current clock |  |
-| PASS | sample: h264 1920x1080 yuv420p | {"codec_name":"h264","width":1920,"height":1080,"pix_fmt":"yuv420p","r |
-| PASS | sample: frame count 1234 | 1234 |
-| PASS | sample: duration matches clock window | 41.133333 |
-| PASS | sample: full decode without errors |  |
-| PASS | sample: mp4 hash matches render record |  |
-| PASS | sample: rendered from the current sources |  |
-| PASS | captions zh: valid, ordered, inside the film |  |
-| PASS | captions en: valid, ordered, inside the film |  |
-| PASS | film frame 0 (t=0.000) matches renderAt(t) | PSNR 43.4 dB |
-| PASS | film frame 3225 (t=107.500) matches renderAt(t) | PSNR 40.0 dB |
-| PASS | film frame 3456 (t=115.200) matches renderAt(t) | PSNR 40.2 dB |
-| PASS | film frame 3852 (t=128.400) matches renderAt(t) | PSNR 40.3 dB |
-| PASS | film frame 6745 (t=224.833) matches renderAt(t) | PSNR 41.5 dB |
-| PASS | film frame 7854 (t=261.800) matches renderAt(t) | PSNR 40.1 dB |
-| PASS | film frame 9240 (t=308.000) matches renderAt(t) | PSNR 42.8 dB |
-| PASS | frame map is exact: frame f matches t=f/fps better than t=(f+6)/fps during motion | same 39.7 dB vs shifted 24.9 dB |
-| PASS | slides zh: 13 PDF pages with visible page numbers | 13 pages |
-| PASS | slides en: 13 PDF pages with visible page numbers | 13 pages |
+- PASS story.zh: h264 1920x1080 yuv420p
+- PASS story.zh: frame count 5695 = round(clock duration x fps)
+- PASS story.zh: duration matches the clock
+- PASS story.zh: full decode without errors
+- PASS story.zh: mp4 hash matches render record
+- PASS story.zh: rendered from the current sources
+- PASS story.zh: rendered from the current clock (music)
+- PASS story.zh: AAC stereo soundtrack (music)
+- PASS story.zh: soundtrack is audible
+- PASS story.zh captions: valid, ordered, inside the film, ids match the clock
+- PASS story.zh chapters: valid, ordered, inside the film, ids match the clock
+- PASS story.en: h264 1920x1080 yuv420p
+- PASS story.en: frame count 5695 = round(clock duration x fps)
+- PASS story.en: duration matches the clock
+- PASS story.en: full decode without errors
+- PASS story.en: mp4 hash matches render record
+- PASS story.en: rendered from the current sources
+- PASS story.en: rendered from the current clock (music)
+- PASS story.en: AAC stereo soundtrack (music)
+- PASS story.en: soundtrack is audible
+- PASS story.en captions: valid, ordered, inside the film, ids match the clock
+- PASS story.en chapters: valid, ordered, inside the film, ids match the clock
+- PASS concise.zh: h264 1920x1080 yuv420p
+- PASS concise.zh: frame count 5983 = round(clock duration x fps)
+- PASS concise.zh: duration matches the clock
+- PASS concise.zh: full decode without errors
+- PASS concise.zh: mp4 hash matches render record
+- PASS concise.zh: rendered from the current sources
+- PASS concise.zh: rendered from the current clock (voice)
+- PASS concise.zh: AAC stereo soundtrack (voice+score)
+- PASS concise.zh: soundtrack is audible
+- PASS concise.zh: every caption line has its voice take in the mix
+- PASS concise.zh captions: valid, ordered, inside the film, ids match the clock
+- PASS concise.zh chapters: valid, ordered, inside the film, ids match the clock
+- PASS concise.en: h264 1920x1080 yuv420p
+- PASS concise.en: frame count 5113 = round(clock duration x fps)
+- PASS concise.en: duration matches the clock
+- PASS concise.en: full decode without errors
+- PASS concise.en: mp4 hash matches render record
+- PASS concise.en: rendered from the current sources
+- PASS concise.en: rendered from the current clock (voice)
+- PASS concise.en: AAC stereo soundtrack (voice+score)
+- PASS concise.en: soundtrack is audible
+- PASS concise.en: every caption line has its voice take in the mix
+- PASS concise.en captions: valid, ordered, inside the film, ids match the clock
+- PASS concise.en chapters: valid, ordered, inside the film, ids match the clock
+- PASS advanced.zh: h264 1920x1080 yuv420p
+- PASS advanced.zh: frame count 4631 = round(clock duration x fps)
+- PASS advanced.zh: duration matches the clock
+- PASS advanced.zh: full decode without errors
+- PASS advanced.zh: mp4 hash matches render record
+- PASS advanced.zh: rendered from the current sources
+- PASS advanced.zh: rendered from the current clock (reading)
+- PASS advanced.zh: AAC stereo soundtrack (score)
+- PASS advanced.zh: soundtrack is audible
+- PASS advanced.zh captions: valid, ordered, inside the film, ids match the clock
+- PASS advanced.zh chapters: valid, ordered, inside the film, ids match the clock
+- PASS advanced.en: h264 1920x1080 yuv420p
+- PASS advanced.en: frame count 4631 = round(clock duration x fps)
+- PASS advanced.en: duration matches the clock
+- PASS advanced.en: full decode without errors
+- PASS advanced.en: mp4 hash matches render record
+- PASS advanced.en: rendered from the current sources
+- PASS advanced.en: rendered from the current clock (reading)
+- PASS advanced.en: AAC stereo soundtrack (score)
+- PASS advanced.en: soundtrack is audible
+- PASS advanced.en captions: valid, ordered, inside the film, ids match the clock
+- PASS advanced.en chapters: valid, ordered, inside the film, ids match the clock
+- PASS lab.zh: h264 1920x1080 yuv420p
+- PASS lab.zh: frame count 2220 = round(clock duration x fps)
+- PASS lab.zh: duration matches the clock
+- PASS lab.zh: full decode without errors
+- PASS lab.zh: mp4 hash matches render record
+- PASS lab.zh: rendered from the current sources
+- PASS lab.zh: rendered from the current clock (voice)
+- PASS lab.zh: AAC stereo soundtrack (voice+score)
+- PASS lab.zh: soundtrack is audible
+- PASS lab.zh: every caption line has its voice take in the mix
+- PASS lab.zh captions: valid, ordered, inside the film, ids match the clock
+- PASS lab.zh chapters: valid, ordered, inside the film, ids match the clock
+- PASS lab.en: h264 1920x1080 yuv420p
+- PASS lab.en: frame count 1868 = round(clock duration x fps)
+- PASS lab.en: duration matches the clock
+- PASS lab.en: full decode without errors
+- PASS lab.en: mp4 hash matches render record
+- PASS lab.en: rendered from the current sources
+- PASS lab.en: rendered from the current clock (voice)
+- PASS lab.en: AAC stereo soundtrack (voice+score)
+- PASS lab.en: soundtrack is audible
+- PASS lab.en: every caption line has its voice take in the mix
+- PASS lab.en captions: valid, ordered, inside the film, ids match the clock
+- PASS lab.en chapters: valid, ordered, inside the film, ids match the clock
+- PASS story.zh frame 0 (t=0.000) matches renderAt(t) (PSNR 43.5 dB)
+- PASS story.zh frame 323 (t=10.767) matches renderAt(t) (PSNR 43.0 dB)
+- PASS story.zh frame 522 (t=17.400) matches renderAt(t) (PSNR 41.7 dB)
+- PASS story.zh frame 961 (t=32.033) matches renderAt(t) (PSNR 43.4 dB)
+- PASS story.zh frame 2107 (t=70.233) matches renderAt(t) (PSNR 42.7 dB)
+- PASS story.zh frame 4043 (t=134.767) matches renderAt(t) (PSNR 40.2 dB)
+- PASS story.zh frame 5694 (t=189.800) matches renderAt(t) (PSNR 42.3 dB)
+- PASS frame map is exact: frame f matches t=f/fps better than t=(f+6)/fps during motion
+- PASS story.en frame 0 (t=0.000) matches renderAt(t) (PSNR 43.5 dB)
+- PASS story.en frame 323 (t=10.767) matches renderAt(t) (PSNR 43.0 dB)
+- PASS story.en frame 522 (t=17.400) matches renderAt(t) (PSNR 41.4 dB)
+- PASS story.en frame 961 (t=32.033) matches renderAt(t) (PSNR 43.3 dB)
+- PASS story.en frame 2107 (t=70.233) matches renderAt(t) (PSNR 42.6 dB)
+- PASS story.en frame 4043 (t=134.767) matches renderAt(t) (PSNR 40.2 dB)
+- PASS story.en frame 5694 (t=189.800) matches renderAt(t) (PSNR 42.3 dB)
+- PASS concise.zh frame 0 (t=0.000) matches renderAt(t) (PSNR 42.5 dB)
+- PASS concise.zh frame 456 (t=15.200) matches renderAt(t) (PSNR 42.7 dB)
+- PASS concise.zh frame 993 (t=33.100) matches renderAt(t) (PSNR 42.5 dB)
+- PASS concise.zh frame 1729 (t=57.633) matches renderAt(t) (PSNR 43.0 dB)
+- PASS concise.zh frame 2213 (t=73.767) matches renderAt(t) (PSNR 41.7 dB)
+- PASS concise.zh frame 4247 (t=141.567) matches renderAt(t) (PSNR 41.8 dB)
+- PASS concise.zh frame 5982 (t=199.400) matches renderAt(t) (PSNR 42.0 dB)
+- PASS concise.en frame 0 (t=0.000) matches renderAt(t) (PSNR 41.8 dB)
+- PASS concise.en frame 375 (t=12.500) matches renderAt(t) (PSNR 42.4 dB)
+- PASS concise.en frame 850 (t=28.333) matches renderAt(t) (PSNR 42.7 dB)
+- PASS concise.en frame 1463 (t=48.767) matches renderAt(t) (PSNR 43.2 dB)
+- PASS concise.en frame 1891 (t=63.033) matches renderAt(t) (PSNR 41.9 dB)
+- PASS concise.en frame 3630 (t=121.000) matches renderAt(t) (PSNR 41.7 dB)
+- PASS concise.en frame 5112 (t=170.400) matches renderAt(t) (PSNR 42.0 dB)
+- PASS advanced.zh frame 0 (t=0.000) matches renderAt(t) (PSNR 42.4 dB)
+- PASS advanced.zh frame 390 (t=13.000) matches renderAt(t) (PSNR 42.5 dB)
+- PASS advanced.zh frame 849 (t=28.300) matches renderAt(t) (PSNR 40.7 dB)
+- PASS advanced.zh frame 1327 (t=44.233) matches renderAt(t) (PSNR 41.0 dB)
+- PASS advanced.zh frame 1713 (t=57.100) matches renderAt(t) (PSNR 40.8 dB)
+- PASS advanced.zh frame 3287 (t=109.567) matches renderAt(t) (PSNR 40.6 dB)
+- PASS advanced.zh frame 4630 (t=154.333) matches renderAt(t) (PSNR 42.1 dB)
+- PASS advanced.en frame 0 (t=0.000) matches renderAt(t) (PSNR 41.9 dB)
+- PASS advanced.en frame 390 (t=13.000) matches renderAt(t) (PSNR 42.6 dB)
+- PASS advanced.en frame 849 (t=28.300) matches renderAt(t) (PSNR 40.7 dB)
+- PASS advanced.en frame 1327 (t=44.233) matches renderAt(t) (PSNR 40.9 dB)
+- PASS advanced.en frame 1713 (t=57.100) matches renderAt(t) (PSNR 40.8 dB)
+- PASS advanced.en frame 3287 (t=109.567) matches renderAt(t) (PSNR 40.6 dB)
+- PASS advanced.en frame 4630 (t=154.333) matches renderAt(t) (PSNR 41.9 dB)
+- PASS lab.zh frame 0 (t=0.000) matches renderAt(t) (PSNR 42.1 dB)
+- PASS lab.zh frame 261 (t=8.700) matches renderAt(t) (PSNR 42.2 dB)
+- PASS lab.zh frame 496 (t=16.533) matches renderAt(t) (PSNR 42.2 dB)
+- PASS lab.zh frame 732 (t=24.400) matches renderAt(t) (PSNR 42.1 dB)
+- PASS lab.zh frame 821 (t=27.367) matches renderAt(t) (PSNR 41.8 dB)
+- PASS lab.zh frame 1575 (t=52.500) matches renderAt(t) (PSNR 41.9 dB)
+- PASS lab.zh frame 2219 (t=73.967) matches renderAt(t) (PSNR 41.6 dB)
+- PASS lab.en frame 0 (t=0.000) matches renderAt(t) (PSNR 42.1 dB)
+- PASS lab.en frame 236 (t=7.867) matches renderAt(t) (PSNR 42.2 dB)
+- PASS lab.en frame 428 (t=14.267) matches renderAt(t) (PSNR 41.9 dB)
+- PASS lab.en frame 631 (t=21.033) matches renderAt(t) (PSNR 42.0 dB)
+- PASS lab.en frame 691 (t=23.033) matches renderAt(t) (PSNR 41.7 dB)
+- PASS lab.en frame 1326 (t=44.200) matches renderAt(t) (PSNR 41.7 dB)
+- PASS lab.en frame 1867 (t=62.233) matches renderAt(t) (PSNR 41.5 dB)
+- PASS slides zh: 13 PDF pages with visible page numbers
+- PASS slides en: 13 PDF pages with visible page numbers

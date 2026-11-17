@@ -1,0 +1,130 @@
+WEBVTT
+
+s01-1
+00:00:00.400 --> 00:00:05.644
+The streets run straight and square. To link these four shops with fibre,
+
+s01-2
+00:00:05.644 --> 00:00:08.644
+how much do you need at the very least?
+
+s02-1
+00:00:11.050 --> 00:00:15.961
+Draw the smallest box: width + height. No route is shorter.
+
+s03-1
+00:00:17.710 --> 00:00:22.066
+Chip placement asks this question at every step.
+
+s03-2
+00:00:22.066 --> 00:00:27.088
+Cells are the shops; a net is a group that must be linked.
+
+s03-3
+00:00:27.088 --> 00:00:31.666
+The wires are not drawn yet, but their length is needed now.
+
+s05-1
+00:00:40.900 --> 00:00:44.367
+Two pins: four across, three up.
+
+s05-2
+00:00:44.367 --> 00:00:48.833
+HPWL = 7: Manhattan distance, not the straight-line 5.
+
+s06-1
+00:00:49.360 --> 00:00:52.827
+Four pins, one box: 11.
+
+s07-1
+00:00:53.600 --> 00:00:58.178
+Drag Q on the edge and the box grows: 11 → 13.
+
+s07-2
+00:00:58.178 --> 00:01:02.200
+Below P's height, the lowest pin changes: 14.
+
+s08-1
+00:01:03.450 --> 00:01:07.028
+Move S inside the box: N1 stays the same.
+
+s09-1
+00:01:08.500 --> 00:01:13.300
+The teacher's example: six nets, one box each.
+
+s09-2
+00:01:13.300 --> 00:01:17.300
+8, 8, 8, 8, 16, 4.
+
+s09-3
+00:01:17.300 --> 00:01:19.300
+Total: 52.
+
+s10-1
+00:01:20.460 --> 00:01:23.482
+A compact arrangement: 14.
+
+s10-2
+00:01:23.482 --> 00:01:27.282
+Push harder and stack them all on one point: 0.
+
+s10-3
+00:01:27.282 --> 00:01:31.304
+Give each cell a 1 × 1 footprint: all 15 pairs overlap.
+
+s11-1
+00:01:37.490 --> 00:01:41.401
+The lowest score, and the least usable layout.
+
+s12-1
+00:01:42.800 --> 00:01:45.822
+Fix the pads A and D where they are.
+
+s12-2
+00:01:45.822 --> 00:01:52.822
+Require footprints not to overlap, and the honest best is 49.
+
+s12-3
+00:01:52.822 --> 00:01:58.178
+Points could reach 48; the extra 1 is the room the squares need.
+
+s13-1
+00:01:59.570 --> 00:02:05.148
+A and D are 8 + 8 apart: the nets that reach them add up to at least 48.
+
+s13-2
+00:02:05.148 --> 00:02:09.726
+That bound is proved, not guessed.
+
+s14-1
+00:02:14.460 --> 00:02:17.927
+A real chip has millions of nets.
+
+s14-2
+00:02:17.927 --> 00:02:23.393
+Every step of a placer recomputes all of their boxes.
+
+s14-3
+00:02:23.393 --> 00:02:28.860
+So the estimate must be cheap: one pass and you have it.
+
+s14-4
+00:02:28.860 --> 00:02:33.882
+It is cheap but incomplete: it ignores congestion and timing.
+
+s14-5
+00:02:33.882 --> 00:02:39.349
+It is a lower-bound estimate of wire length, to be used with constraints.
+
+s14-6
+00:02:39.349 --> 00:02:44.482
+When a net has 100 pins, can one box still be trusted?
+
+s15-1
+00:02:50.900 --> 00:02:55.033
+Head to the lab and drag the pins yourself.
+
+s15-2
+00:02:55.033 --> 00:03:00.833
+Music: We Never (Remix) · Hi Noise / Qiucheng
+

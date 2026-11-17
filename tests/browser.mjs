@@ -5,12 +5,16 @@ import {createRequire} from 'node:module';
 import {mkdirSync, writeFileSync, readFileSync, existsSync} from 'node:fs';
 import {startServer} from '../scripts/serve.mjs';
 import * as D from '../site/js/domain.js';
+import {stateAt, frameAt, frameTime} from '../site/js/timeline.js';
 
 const require = createRequire(import.meta.url);
 const {chromium} = require('playwright');
 const ROOT = new URL('../', import.meta.url);
 const fixtures = D.prepareFixtures(JSON.parse(readFileSync(new URL('fixtures/hpwl-fixtures.json', ROOT))));
-const clock = JSON.parse(readFileSync(new URL('site/data/clock.json', ROOT)));
+// The player opens on the first film (科普 story, music clock); its zh clock drives the handoff and caption checks.
+const readJ = p => JSON.parse(readFileSync(new URL(p, ROOT)));
+const storyScript = readJ('site/data/films/story.json'), clock = readJ('site/data/films/story.clock.zh.json');
+const index = readJ('site/data/films/index.json');
 const baseArg = process.argv.includes('--base') ? process.argv[process.argv.indexOf('--base') + 1] : null;
 const results = [];
 const check = (name, ok, detail = '') => { results.push({name, ok: Boolean(ok), detail: String(detail).slice(0, 300)}); console.log(`${ok ? 'PASS' : 'FAIL'} ${name}${detail && !ok ? ' :: ' + detail : ''}`); };
@@ -40,7 +44,9 @@ try {
     const {ctx, page, errors} = await open(BASE);
     check('subpath load without errors', errors.length === 0 && await page.evaluate(() => window.appReady === true), errors.join('; '));
     const ids = await page.evaluate(() => [...document.querySelectorAll('main section')].map(s => s.id));
-    check('all sections present', ['outcomes', 'background', 'definitions', 'worked', 'film', 'lab', 'pseudocode', 'mistakes', 'challenges', 'quiz', 'python', 'slides', 'repro'].every(i => ids.includes(i)), ids);
+    check('all ten numbered sections present in house order', JSON.stringify(ids) === JSON.stringify(['goals', 'films', 'lesson', 'slides', 'lab', 'challenges', 'quiz', 'python', 'mistakes', 'repro']), ids);
+    check('lesson has background, definitions, worked example and pseudocode', await page.evaluate(() => ['background', 'definitions', 'worked', 'pseudocode'].every(id => document.querySelector(`#lesson #${id}`))));
+    check('four film cards in order 科普 → 精讲 → 进阶 → 实验演示', JSON.stringify(await page.evaluate(() => [...document.querySelectorAll('#films .film-card')].map(b => b.dataset.film))) === '["story","concise","advanced","lab"]');
     const worked = await page.evaluate(() => [...document.querySelectorAll('#worked tfoot b')].map(b => b.textContent));
     check('worked table totals 52 / 116', worked[0] === '52' && worked[1] === '116', worked);
     check('lab starts at 52', await labTotal(page) === 52);
@@ -116,33 +122,43 @@ try {
     check('quiz gives feedback', /✓/.test(await page.textContent('#quiz .quiz-item .fb')));
 
     // film: frame-to-lab handoff (only when the full film exists)
-    if (existsSync(new URL('site/media/film.zh.mp4', ROOT))) {
-      await page.waitForFunction(() => document.querySelector('#film video').readyState >= 1, null, {timeout: 20000});
-      const seg = clock.segments.find(x => x.id === 'extreme_move'), L = seg.lines[1];
-      const t = L.start + 0.3 * (L.end - L.start);
-      await page.evaluate(t => new Promise(r => { const v = document.querySelector('#film video'); v.addEventListener('seeked', r, {once: true}); v.currentTime = t; }), t);
+    if (existsSync(new URL('site/media/story.zh.mp4', ROOT))) {
+      await page.waitForFunction(() => document.querySelector('#films video').readyState >= 1, null, {timeout: 20000});
+      const sg = seg('extreme_move');
+      let t = sg.start;
+      while (t < sg.sceneEnd && !stateAt(frameTime(frameAt(t, 30), 30), fixtures, storyScript, clock).intermediate) t += 1 / 30;
+      t += 0.5;
+      await page.evaluate(t => new Promise(r => { const v = document.querySelector('#films video'); v.addEventListener('seeked', r, {once: true}); v.currentTime = t; }), t);
       const cur = await page.evaluate(() => { const c = window.hpwlPlayer.current(); return {f: c.f, t: c.t, pos: c.state.board.positions, cue: c.state.cueId, inter: c.state.intermediate}; });
-      await page.click('#film [data-a="try"]');
+      await page.click('#films [data-a="try"]');
       s = await labState(page);
-      check('try-this-frame transfers the exact interpolated coordinates', JSON.stringify(s.positions) === JSON.stringify(cur.pos) && cur.cue === 'extreme_move' && cur.inter, JSON.stringify({cur, lab: s.positions}));
+      check('try-this-frame transfers the exact interpolated coordinates', JSON.stringify(s.positions) === JSON.stringify(cur.pos) && cur.cue === sg.id && cur.inter, JSON.stringify({cur, lab: s.positions}));
       check('handoff keeps fixture, net and mode', s.fixtureId === 'multi' && s.selectedNet === 'N1' && s.mode === 'free');
       check('lab shows the intermediate-frame notice', /中间帧/.test(await page.textContent('#lab .lab-banner')));
-      check('lab recomputes after handoff with the same function', await labTotal(page) === D.evaluate(s.nets, s.positions).total);
-      const fx = clock.segments.find(x => x.id === 'fixed_anchor');
-      await page.evaluate(t => new Promise(r => { const v = document.querySelector('#film video'); v.addEventListener('seeked', r, {once: true}); v.currentTime = t; }), fx.sceneEnd - 0.2);
-      await page.click('#film [data-a="try"]');
+      check('lab recomputes after handoff with the same function (shown to display precision)', Math.abs(await labTotal(page) - D.evaluate(s.nets, s.positions).total) < 0.005);
+      const fx = seg('fixed_anchor');
+      await page.evaluate(t => new Promise(r => { const v = document.querySelector('#films video'); v.addEventListener('seeked', r, {once: true}); v.currentTime = t; }), fx.sceneEnd - 0.2);
+      await page.click('#films [data-a="try"]');
       s = await labState(page);
       check('handoff of a fixed-anchor frame carries mode, anchors and footprint flag', s.mode === 'fixed' && s.footprint === true && s.positions.A.x === 0 && D.analyse(s).total === 49);
-      await page.selectOption('#film [data-k="capsel"]', 'en');
-      const capT = fx.lines[2].start + 0.5;
-      await page.evaluate(t => new Promise(r => { const v = document.querySelector('#film video'); v.addEventListener('seeked', r, {once: true}); v.currentTime = t; }), capT);
+      await page.selectOption('#films [data-k="capsel"]', 'en');
+      const capL = fx.lines.find((L, i) => storyScript.cues.find(c => c.id === fx.id).lines[i].en);
+      const capT = (capL.start + capL.end) / 2;
+      await page.evaluate(t => new Promise(r => { const v = document.querySelector('#films video'); v.addEventListener('seeked', r, {once: true}); v.currentTime = t; }), capT);
       const capWant = await page.evaluate(() => window.hpwlPlayer.current().state.caption?.en || '');
-      check('English caption bar follows the frame', capWant.length > 10 && (await page.textContent('#film .caption-bar')) === capWant, capWant);
-      await page.evaluate(t => new Promise(r => { const v = document.querySelector('#film video'); v.addEventListener('seeked', r, {once: true}); v.currentTime = t; }), fx.sceneEnd - 0.2);
-      check('caption bar is empty in the silent tail after a cue', (await page.textContent('#film .caption-bar')) === '');
-      const dur = await page.evaluate(() => document.querySelector('#film video').duration);
+      check('English caption bar follows the frame', capWant.length > 10 && (await page.textContent('#films .caption-bar')) === capWant, capWant);
+      await page.evaluate(t => new Promise(r => { const v = document.querySelector('#films video'); v.addEventListener('seeked', r, {once: true}); v.currentTime = t; }), fx.sceneEnd - 0.2);
+      check('caption bar is empty in the silent tail after a cue', (await page.textContent('#films .caption-bar')) === '');
+      const dur = await page.evaluate(() => document.querySelector('#films video').duration);
       check('video duration matches the clock (±1 frame)', Math.abs(dur - clock.duration) <= 1 / 30 + 1e-3, `${dur} vs ${clock.duration}`);
-    } else check('full film present', false, 'site/media/film.zh.mp4 missing');
+          // switching films: the advanced card loads its own video, clock and chapters
+      await page.click('#films .film-card[data-film="advanced"]');
+      await page.waitForFunction(() => window.hpwlPlayer.current()?.film === 'advanced');
+      const adv = index.find(e => e.id === 'advanced');
+      check('film card switches video and chapters', (await page.getAttribute('#films video source', 'src')) === adv.langs.zh.video &&
+        await page.locator('#films .chapters li').count() === readJ('site/data/films/advanced.clock.zh.json').segments.length);
+      for (const e of index) for (const l of ['zh', 'en']) check(`film ${e.id}.${l} rendered`, existsSync(new URL(`site/${e.langs[l].video}`, ROOT)));
+    } else check('full film present', false, 'site/media/story.zh.mp4 missing');
 
     // refresh at a hash
     await page.goto(BASE + '#lab'); await page.waitForFunction(() => window.appReady);
@@ -164,6 +180,7 @@ try {
     check('body text at least 16 px on phone', fontPx >= 16, fontPx);
     const bw = await page.evaluate(() => document.querySelector('#lab .lab-board svg').getBoundingClientRect().width);
     check('lab board fits the phone width', bw <= 390 && bw > 300, bw);
+    check('English page plays the English version of the film', await page.evaluate(() => document.querySelector('#films [data-k="vlang"]').value === 'en' && window.hpwlPlayer.current().vlang === 'en'));
     await page.screenshot({path: new URL('build/page-en-390.png', ROOT).pathname, fullPage: false});
     await ctx.close();
   }
@@ -179,30 +196,30 @@ try {
   {
     const ctx = await browser.newContext({viewport: {width: 1200, height: 900}});
     const page = await ctx.newPage();
-    await page.route('**/media/film.zh.mp4', r => r.fulfill({status: 404, body: 'missing'}));
+    await page.route('**/media/story.zh.mp4', r => r.fulfill({status: 404, body: 'missing'}));
     await page.goto(BASE); await page.waitForFunction(() => window.appReady);
-    await page.waitForFunction(() => !document.querySelector('#film [data-k="err"]').hidden, null, {timeout: 10000}).catch(() => {});
-    check('missing film shows an explicit error', await page.evaluate(() => !document.querySelector('#film [data-k="err"]').hidden));
+    await page.waitForFunction(() => !document.querySelector('#films [data-k="err"]').hidden, null, {timeout: 10000}).catch(() => {});
+    check('missing film shows an explicit error', await page.evaluate(() => !document.querySelector('#films [data-k="err"]').hidden));
     check('lab still works without the film', await labTotal(page) === 52);
     await ctx.close();
     const ctx2 = await browser.newContext(); const p2 = await ctx2.newPage();
-    await p2.route('**/data/clock.json', r => r.fulfill({status: 404, body: 'missing'}));
+    await p2.route('**/data/films/index.json', r => r.fulfill({status: 404, body: 'missing'}));
     await p2.goto(BASE); await p2.waitForFunction(() => window.appReady || window.appError);
-    check('missing data shows a load error instead of a blank page', /clock\.json/.test(await p2.textContent('#app')));
+    check('missing data shows a load error instead of a blank page', /index\.json/.test(await p2.textContent('#app')));
     await ctx2.close();
   }
 
   // 5. renderAt determinism: fresh 12.3 vs after 2 -> 27 -> 12.3, pixel-identical in this environment
   {
     const shot = async seq => {
-      const {ctx, page} = await open(`${BASE}render.html`, {viewport: {width: 1920, height: 1080}});
+      const {ctx, page} = await open(`${BASE}render.html?film=story&lang=zh`, {viewport: {width: 1920, height: 1080}});
       let snap;
       for (const t of seq) snap = await page.evaluate(t => window.renderAt(t), t);
       const png = await page.screenshot({clip: {x: 0, y: 0, width: 1920, height: 1080}});
       await ctx.close();
       return {png, snap};
     };
-    for (const t of [12.3, seg('extreme_move').start, seg('extreme_move').lines[1].start + 1.234, seg('collapse').start - 1e-3]) {
+    for (const t of [12.3, seg('extreme_move').start, seg('extreme_move').lines.at(-1).start + 1.234, seg('compact_collapse').start - 1e-3, clock.track.hits[2] + 0.01]) {
       const a = await shot([t]), b = await shot([2, 27, clock.duration, t]), c = await shot([t, 100, t]);
       check(`renderAt(${t.toFixed(3)}) same semantic state in any order`, JSON.stringify(a.snap) === JSON.stringify(b.snap) && JSON.stringify(a.snap) === JSON.stringify(c.snap));
       check(`renderAt(${t.toFixed(3)}) pixel-identical in any order`, a.png.equals(b.png) && a.png.equals(c.png));
@@ -215,7 +232,7 @@ try {
   if (srv) await srv.close();
   if (srvRoot) await srvRoot.close();
 }
-function seg(id) { return clock.segments.find(s => s.id === id); }
+function seg(scene) { return clock.segments[storyScript.cues.findIndex(c => (c.scene ?? c.id) === scene)]; }
 mkdirSync(new URL('build/', ROOT), {recursive: true});
 const passed = results.filter(r => r.ok).length;
 writeFileSync(new URL('build/browser-report.json', ROOT), JSON.stringify({base: BASE, passed, total: results.length, results}, null, 1));

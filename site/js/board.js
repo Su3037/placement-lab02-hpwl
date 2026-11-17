@@ -2,13 +2,16 @@
 // It only DRAWS a state; every number it prints comes from domain.js on the same positions.
 import {netBox, neutralRegion, footprintOverlaps, coincidentPairs, isLocked, fmt, euclidean} from './domain.js';
 
-export const CELL_COLORS = {A: '#5aa9e6', B: '#f2a65a', C: '#6cc58a', D: '#e5708b', E: '#b48ef0', F: '#e8cf62',
-  P: '#5aa9e6', Q: '#f2a65a', R: '#6cc58a', S: '#b48ef0', T: '#e8cf62'};
-export const NET_COLORS = {AB: '#7cc7f5', CD: '#f59fb0', AC: '#8de0a6', BD: '#f7cf6b', ABCD: '#3fd1c0', EF: '#c7b2ff',
-  PQ: '#3fd1c0', N1: '#3fd1c0', N2: '#f7cf6b'};
-const FALLBACK = ['#3fd1c0', '#f7cf6b', '#c7b2ff', '#f59fb0', '#8de0a6', '#7cc7f5'];
+// House palette (dark technical films): ivory text, gold focus, teal main net, muted secondary hues.
+export const THEME = {bg: '#081a22', line: '#1d3640', grid: '#14303a', axis: '#3d5d64', tick: '#6f8a8c', ink: '#eeeadd', muted: '#8fa3a3',
+  gold: '#ddbd78', teal: '#76cbb5', rose: '#d99a9a', sage: '#9fc79a', node: '#0b2029'};
+export const CELL_COLORS = {A: '#86a9e0', B: '#d58f62', C: '#a3b26f', D: '#d99a9a', E: '#a18bc0', F: '#d9b06c',
+  P: '#86a9e0', Q: '#d58f62', R: '#a3b26f', S: '#a18bc0', T: '#d9b06c'};
+export const NET_COLORS = {AB: '#86a9e0', CD: '#d99a9a', AC: '#a3b26f', BD: '#d9b06c', ABCD: '#76cbb5', EF: '#a18bc0',
+  PQ: '#76cbb5', N1: '#76cbb5', N2: '#d9b06c'};
+const FALLBACK = ['#76cbb5', '#d9b06c', '#a18bc0', '#d99a9a', '#a3b26f', '#86a9e0'];
 export const netColor = (id, i = 0) => NET_COLORS[id] ?? FALLBACK[i % FALLBACK.length];
-export const cellColor = id => CELL_COLORS[id] ?? '#9fb3c8';
+export const cellColor = id => CELL_COLORS[id] ?? '#8fa3a3';
 
 const L = {
   zh: {width: '宽', height: '高', free: '自由点模式', fixed: '固定焊盘模式', fixedPad: '固定', neutral: 'S 可自由移动的区域', notWire: '虚线 = 连接关系，不是导线',
@@ -57,15 +60,23 @@ export function Board(view, {width = 900, height = 900, interactive = false, id 
   for (let x = Math.ceil(b.xmin); x <= b.xmax; x++) { const p = toScreen({x, y: b.ymin}), q = toScreen({x, y: b.ymax}); grid.push(`M${n2(p.x)} ${n2(p.y)}V${n2(q.y)}`); }
   for (let y = Math.ceil(b.ymin); y <= b.ymax; y++) { const p = toScreen({x: b.xmin, y}), q = toScreen({x: b.xmax, y}); grid.push(`M${n2(p.x)} ${n2(p.y)}H${n2(q.x)}`); }
   const o = toScreen({x: b.xmin, y: b.ymin}), xe = toScreen({x: b.xmax, y: b.ymin}), ye = toScreen({x: b.xmin, y: b.ymax});
-  parts.push(`<rect width="${width}" height="${height}" rx="18" fill="#0f151d"/>`);
-  parts.push(`<path d="${grid.join('')}" stroke="#223041" stroke-width="1" fill="none"/>`);
-  parts.push(`<path d="M${n2(o.x)} ${n2(o.y)}H${n2(xe.x + 18)}M${n2(o.x)} ${n2(o.y)}V${n2(ye.y - 18)}" stroke="#55657a" stroke-width="2" fill="none"/>`);
-  parts.push(`<path d="M${n2(xe.x + 18)} ${n2(o.y)}l-9 -5v10zM${n2(o.x)} ${n2(ye.y - 18)}l-5 9h10z" fill="#55657a"/>`);
+  parts.push(`<rect width="${width}" height="${height}" rx="14" fill="${THEME.bg}" stroke="${THEME.line}" stroke-width="1.5"/>`);
+  parts.push(`<path d="${grid.join('')}" stroke="${THEME.grid}" stroke-width="1" fill="none"/>`);
+  if (hl.city) { // city blocks between the streets (grid lines); pins sit on street corners
+    const blocks = [];
+    for (let x = Math.ceil(b.xmin); x < b.xmax; x++) for (let y = Math.ceil(b.ymin); y < b.ymax; y++) {
+      const a = toScreen({x: x + 0.16, y: y + 0.84}), c = toScreen({x: x + 0.84, y: y + 0.16});
+      blocks.push(`<rect x="${n2(a.x)}" y="${n2(a.y)}" width="${n2(c.x - a.x)}" height="${n2(c.y - a.y)}" rx="3"/>`);
+    }
+    parts.push(`<g fill="#10303a" fill-opacity=".85" stroke="#1d3e48" stroke-width="1">${blocks.join('')}</g>`);
+  }
+  parts.push(`<path d="M${n2(o.x)} ${n2(o.y)}H${n2(xe.x + 18)}M${n2(o.x)} ${n2(o.y)}V${n2(ye.y - 18)}" stroke="${THEME.axis}" stroke-width="1.6" fill="none"/>`);
+  parts.push(`<path d="M${n2(xe.x + 18)} ${n2(o.y)}l-9 -5v10zM${n2(o.x)} ${n2(ye.y - 18)}l-5 9h10z" fill="${THEME.axis}"/>`);
   const tick = [];
   const stepLabel = (b.xmax - b.xmin) > 9 ? 2 : 1;
   for (let x = Math.ceil(b.xmin); x <= b.xmax; x += stepLabel) { const p = toScreen({x, y: b.ymin}); tick.push(`<text x="${n2(p.x)}" y="${n2(p.y + 26 * fs)}" text-anchor="middle">${x}</text>`); }
   for (let y = Math.ceil(b.ymin); y <= b.ymax; y += stepLabel) { const p = toScreen({x: b.xmin, y}); tick.push(`<text x="${n2(p.x - 14 * fs)}" y="${n2(p.y + 6)}" text-anchor="end">${y}</text>`); }
-  parts.push(`<g fill="#6f8096" font-size="${18 * fs}" font-family="var(--mono)">${tick.join('')}<text x="${n2(xe.x + 22)}" y="${n2(o.y + 6)}" font-style="italic">x</text><text x="${n2(o.x - 6)}" y="${n2(ye.y - 26)}" font-style="italic" text-anchor="middle">y</text></g>`);
+  parts.push(`<g fill="${THEME.tick}" font-size="${18 * fs}" font-family="var(--mono)">${tick.join('')}<text x="${n2(xe.x + 22)}" y="${n2(o.y + 6)}" font-style="italic">x</text><text x="${n2(o.x - 6)}" y="${n2(ye.y - 26)}" font-style="italic" text-anchor="middle">y</text></g>`);
 
   const nets = view.nets.filter(n => !view.visibleNets || view.visibleNets.includes(n.id));
   const boxes = Object.fromEntries(nets.map(n => [n.id, netBox(n, view.positions)]));
@@ -78,8 +89,8 @@ export function Board(view, {width = 900, height = 900, interactive = false, id 
     const r = net && neutralRegion(net, view.positions, hl.neutral.pin);
     if (r) {
       const a = toScreen({x: r.minX, y: r.maxY}), c = toScreen({x: r.maxX, y: r.minY});
-      parts.push(`<rect x="${n2(a.x)}" y="${n2(a.y)}" width="${n2(c.x - a.x)}" height="${n2(c.y - a.y)}" fill="#3ccf7a" fill-opacity=".13" stroke="#3ccf7a" stroke-opacity=".7" stroke-dasharray="4 6" stroke-width="2"/>`);
-      if (!compact) parts.push(`<text x="${n2(a.x + 10)}" y="${n2(c.y - 12)}" fill="#7fe0a6" font-size="19">${escapeText(t.neutral)}</text>`);
+      parts.push(`<rect x="${n2(a.x)}" y="${n2(a.y)}" width="${n2(c.x - a.x)}" height="${n2(c.y - a.y)}" fill="${THEME.sage}" fill-opacity=".12" stroke="${THEME.sage}" stroke-opacity=".7" stroke-dasharray="4 6" stroke-width="2"/>`);
+      if (!compact) parts.push(`<text x="${n2(a.x + 10)}" y="${n2(c.y - 12)}" fill="${THEME.sage}" font-size="19">${escapeText(t.neutral)}</text>`);
     }
   }
 
@@ -103,7 +114,7 @@ export function Board(view, {width = 900, height = 900, interactive = false, id 
     const op = strong ? 1 : 0.55;
     let out = `<rect x="${n2(a.x)}" y="${n2(a.y)}" width="${n2(w)}" height="${n2(h)}" fill="${col}" fill-opacity="${strong ? 0.1 : 0.04}" stroke="${col}" stroke-opacity="${op}" stroke-width="${strong ? 3.5 : 2}" ${strong ? '' : 'stroke-dasharray="8 6"'}/>`;
     if (w < 1 && h < 1) out += `<circle cx="${n2(a.x)}" cy="${n2(a.y)}" r="${strong ? 9 : 6}" fill="none" stroke="${col}" stroke-width="2"/>`;
-    if (strong || view.showBoxes === 'all') {
+    if ((strong || view.showBoxes === 'all') && !hl.tiny) {
       const label = `${bx.id} = ${fmt(bx.hpwl)}`;
       const size = (strong ? 21 : 17) * fs, lw = label.length * size * 0.62, lh = size * 1.1;
       // Try label slots around the box and keep the first one that does not collide with earlier labels or cells.
@@ -134,28 +145,28 @@ export function Board(view, {width = 900, height = 900, interactive = false, id 
   if (sel && hl.perimeter) {
     const a = toScreen({x: sel.minX, y: sel.maxY}), c = toScreen({x: sel.maxX, y: sel.minY});
     const per = 2 * ((c.x - a.x) + (c.y - a.y));
-    parts.push(`<path d="M${n2(a.x)} ${n2(c.y)}H${n2(c.x)}V${n2(a.y)}H${n2(a.x)}Z" fill="none" stroke="#e8edf3" stroke-opacity=".5" stroke-width="5" stroke-dasharray="${n2(per * (hl.perimeter.full ?? 0))} ${n2(per + 10)}"/>`);
+    parts.push(`<path d="M${n2(a.x)} ${n2(c.y)}H${n2(c.x)}V${n2(a.y)}H${n2(a.x)}Z" fill="none" stroke="${THEME.ink}" stroke-opacity=".45" stroke-width="4" stroke-dasharray="${n2(per * (hl.perimeter.full ?? 0))} ${n2(per + 10)}"/>`);
     const half = (c.x - a.x) + (c.y - a.y);
-    parts.push(`<path d="M${n2(a.x)} ${n2(c.y)}H${n2(c.x)}V${n2(a.y)}" fill="none" stroke="#ffd166" stroke-width="8" stroke-linecap="round" stroke-dasharray="${n2(half * (hl.perimeter.half ?? 0))} ${n2(half + 10)}"/>`);
+    parts.push(`<path d="M${n2(a.x)} ${n2(c.y)}H${n2(c.x)}V${n2(a.y)}" fill="none" stroke="${THEME.gold}" stroke-width="7" stroke-linecap="round" stroke-dasharray="${n2(half * (hl.perimeter.half ?? 0))} ${n2(half + 10)}"/>`);
   }
 
   // two-pin extras: straight-line distance and one L path
   if (hl.euclid && sel && sel.pins.length === 2) {
     const [p, q] = sel.pins.map(id => view.positions[id]); const a = toScreen(p), c = toScreen(q);
-    parts.push(`<path d="M${n2(a.x)} ${n2(a.y)}L${n2(c.x)} ${n2(c.y)}" stroke="#ff7b7b" stroke-width="3" stroke-dasharray="10 8" opacity="${hl.euclid}"/>`);
-    parts.push(`<text x="${n2((a.x + c.x) / 2 - 16)}" y="${n2((a.y + c.y) / 2 - 14)}" fill="#ff9d9d" font-size="${20 * fs}" text-anchor="end" opacity="${hl.euclid}">${escapeText(t.euclid)} ${fmt(euclidean(p, q))} ✗</text>`);
+    parts.push(`<path d="M${n2(a.x)} ${n2(a.y)}L${n2(c.x)} ${n2(c.y)}" stroke="${THEME.rose}" stroke-width="3" stroke-dasharray="10 8" opacity="${hl.euclid}"/>`);
+    parts.push(`<text x="${n2((a.x + c.x) / 2 - 16)}" y="${n2((a.y + c.y) / 2 - 14)}" fill="${THEME.rose}" font-size="${20 * fs}" text-anchor="end" opacity="${hl.euclid}">${escapeText(t.euclid)} ${fmt(euclidean(p, q))} ✗</text>`);
   }
   if (hl.lpath && sel && sel.pins.length === 2) {
     const [p, q] = sel.pins.map(id => view.positions[id]); const a = toScreen(p), c = toScreen(q);
     const len = Math.abs(c.x - a.x) + Math.abs(c.y - a.y);
-    parts.push(`<path d="M${n2(a.x)} ${n2(a.y)}H${n2(c.x)}V${n2(c.y)}" fill="none" stroke="#ffd166" stroke-width="5" stroke-dasharray="${n2(len * hl.lpath)} ${n2(len + 10)}"/>`);
-    if (hl.lpath >= 1 && !compact) parts.push(`<text x="${n2(c.x + 14)}" y="${n2((a.y + c.y) / 2 + 30)}" fill="#ffd166" font-size="19">${escapeText(t.lpath)}</text>`);
+    parts.push(`<path d="M${n2(a.x)} ${n2(a.y)}H${n2(c.x)}V${n2(c.y)}" fill="none" stroke="${THEME.gold}" stroke-width="5" stroke-dasharray="${n2(len * hl.lpath)} ${n2(len + 10)}"/>`);
+    if (hl.lpath >= 1 && !compact) parts.push(`<text x="${n2(c.x + 14)}" y="${n2((a.y + c.y) / 2 + 30)}" fill="${THEME.gold}" font-size="19">${escapeText(t.lpath)}</text>`);
   }
 
   // dimensions of the selected box
   if (sel && hl.dims) {
     const a = toScreen({x: sel.minX, y: sel.maxY}), c = toScreen({x: sel.maxX, y: sel.minY});
-    const col = '#e8edf3', yb = c.y + 46 * fs, xl = a.x - 46 * fs;
+    const col = THEME.ink, yb = c.y + 46 * fs, xl = a.x - 46 * fs;
     parts.push(`<g stroke="${col}" stroke-width="2" fill="none" opacity="${hl.dims}"><path d="M${n2(a.x)} ${n2(c.y + 8)}V${n2(yb + 8)}M${n2(c.x)} ${n2(c.y + 8)}V${n2(yb + 8)}M${n2(a.x)} ${n2(yb)}H${n2(c.x)}"/><path d="M${n2(a.x - 8)} ${n2(a.y)}H${n2(xl - 8)}M${n2(a.x - 8)} ${n2(c.y)}H${n2(xl - 8)}M${n2(xl)} ${n2(a.y)}V${n2(c.y)}"/></g>`);
     parts.push(`<g fill="${col}" font-size="${22 * fs}" font-family="var(--mono)" opacity="${hl.dims}"><text x="${n2((a.x + c.x) / 2)}" y="${n2(yb - 10)}" text-anchor="middle">${escapeText(t.width)} ${fmt(sel.width)}</text><text x="${n2(xl - 12)}" y="${n2((a.y + c.y) / 2 + 7)}" text-anchor="end">${escapeText(t.height)} ${fmt(sel.height)}</text></g>`);
   }
@@ -175,8 +186,8 @@ export function Board(view, {width = 900, height = 900, interactive = false, id 
         ? `<text x="${n2(hi.x)}" y="${n2(hi.y - (key === 'minX' ? 58 : 36) * fs)}" text-anchor="middle">${txt}</text>`
         : `<text x="${n2(hi.x + 8)}" y="${n2(hi.y + (key === 'minY' ? 16 : -6))}">${txt}</text>`);
     }
-    parts.push(`<path d="${pr.join('')}" stroke="#ffd166" stroke-opacity="${0.45 * hl.extremes}" stroke-width="1.5" stroke-dasharray="4 7" fill="none"/>`);
-    parts.push(`<g fill="#ffd166" font-size="${17 * fs}" font-family="var(--mono)" opacity="${hl.extremes}">${lab.join('')}</g>`);
+    parts.push(`<path d="${pr.join('')}" stroke="${THEME.gold}" stroke-opacity="${0.45 * hl.extremes}" stroke-width="1.5" stroke-dasharray="4 7" fill="none"/>`);
+    parts.push(`<g fill="${THEME.gold}" font-size="${17 * fs}" font-family="var(--mono)" opacity="${hl.extremes}">${lab.join('')}</g>`);
   }
 
   // 1x1 footprints (teaching proxy for cell area)
@@ -184,7 +195,7 @@ export function Board(view, {width = 900, height = 900, interactive = false, id 
     const bad = new Set(footprintOverlaps(view.positions, view.cells).flatMap(o => o.pair));
     const fp = view.cells.map(c => {
       const p = view.positions[c], a = toScreen({x: p.x - 0.5, y: p.y + 0.5});
-      return `<rect x="${n2(a.x)}" y="${n2(a.y)}" width="${n2(s)}" height="${n2(s)}" rx="4" fill="${bad.has(c) ? '#ff5d6c' : cellColor(c)}" fill-opacity="${bad.has(c) ? 0.22 : 0.12}" stroke="${bad.has(c) ? '#ff5d6c' : cellColor(c)}" stroke-width="2"/>`;
+      return `<rect x="${n2(a.x)}" y="${n2(a.y)}" width="${n2(s)}" height="${n2(s)}" rx="4" fill="${bad.has(c) ? THEME.rose : cellColor(c)}" fill-opacity="${bad.has(c) ? 0.22 : 0.12}" stroke="${bad.has(c) ? THEME.rose : cellColor(c)}" stroke-width="2"/>`;
     });
     parts.push(`<g opacity="${view.footprint === true ? 1 : view.footprint}">${fp.join('')}</g>`);
   }
@@ -204,30 +215,33 @@ export function Board(view, {width = 900, height = 900, interactive = false, id 
   const order = [...view.cells].sort((a, c) => (a === focusCell) - (c === focusCell));
   const cellsSvg = order.map(c => {
     const p = toScreen(view.positions[c]);
+    if (hl.tiny) return `<circle cx="${n2(p.x)}" cy="${n2(p.y)}" r="4.5" fill="${THEME.node}" stroke="${selPins?.has(c) ? THEME.gold : THEME.teal}" stroke-opacity="${selPins?.has(c) ? 1 : 0.7}" stroke-width="1.6"/>`;
     const locked = isLocked(view, c), pad = (view.fixed ?? []).includes(c);
     let dim = selPins && hl.dimOthers !== false && !selPins.has(c) ? 0.35 : 1;
     if (scanRead && selPins.has(c) && !scanRead.has(c)) dim = 0.45;
+    if (hl.appear !== undefined) dim *= hl.appear;
+    const pulseRing = hl.pulse ? `<circle r="${n2(r + 8 + 10 * hl.pulse)}" fill="none" stroke="${THEME.gold}" stroke-opacity="${n2(0.8 * (1 - hl.pulse))}" stroke-width="2"/>` : '';
     const ring = locked
-      ? `<rect x="${n2(-r - 6)}" y="${n2(-r - 6)}" width="${n2(2 * r + 12)}" height="${n2(2 * r + 12)}" rx="6" fill="none" stroke="#e8edf3" stroke-width="3"/>`
-      : pad ? `<circle r="${n2(r + 6)}" fill="none" stroke="#e8edf3" stroke-opacity=".6" stroke-width="2" stroke-dasharray="4 4"/>` : '';
-    const scanRing = c === scanCur ? `<circle r="${n2(r + 11)}" fill="none" stroke="#ffd166" stroke-width="4"/>` : '';
-    const lock = locked ? `<g transform="translate(${n2(r * 0.75)} ${n2(-r * 0.75)})"><rect x="-8" y="-3" width="16" height="12" rx="2" fill="#e8edf3"/><path d="M-5 -3v-4a5 5 0 0 1 10 0v4" fill="none" stroke="#e8edf3" stroke-width="2.5"/></g>` : '';
-    const coord = hl.coords ? `<text x="${n2(r + 8)}" y="${n2(r + 20)}" fill="#c9d3df" font-size="${18 * fs}" font-family="var(--mono)">(${fmt(view.positions[c].x)}, ${fmt(view.positions[c].y)})</text>` : '';
+      ? `<rect x="${n2(-r - 6)}" y="${n2(-r - 6)}" width="${n2(2 * r + 12)}" height="${n2(2 * r + 12)}" rx="6" fill="none" stroke="${THEME.ink}" stroke-width="2.5"/>`
+      : pad ? `<circle r="${n2(r + 6)}" fill="none" stroke="${THEME.ink}" stroke-opacity=".55" stroke-width="1.6" stroke-dasharray="4 4"/>` : '';
+    const scanRing = c === scanCur ? `<circle r="${n2(r + 11)}" fill="none" stroke="${THEME.gold}" stroke-width="3.5"/>` : '';
+    const lock = locked ? `<g transform="translate(${n2(r * 0.75)} ${n2(-r * 0.75)})"><rect x="-8" y="-3" width="16" height="12" rx="2" fill="${THEME.gold}"/><path d="M-5 -3v-4a5 5 0 0 1 10 0v4" fill="none" stroke="${THEME.gold}" stroke-width="2.5"/></g>` : '';
+    const coord = hl.coords ? `<text x="${n2(r + 8)}" y="${n2(r + 20)}" fill="${THEME.muted}" font-size="${18 * fs}" font-family="var(--mono)">(${fmt(view.positions[c].x)}, ${fmt(view.positions[c].y)})</text>` : '';
     const attrs = interactive
       ? ` data-cell="${c}" tabindex="${c === focusCell ? 0 : -1}" role="button" aria-label="${escapeText(`${c} (${fmt(view.positions[c].x)}, ${fmt(view.positions[c].y)})${locked ? ' ' + t.fixedPad : ''}`)}" class="cell${locked ? ' locked' : ''}${c === focusCell ? ' focus' : ''}"`
       : ' class="cell"';
-    return `<g${attrs} transform="translate(${n2(p.x)} ${n2(p.y)})" opacity="${dim}">${scanRing}${ring}<circle r="${n2(r)}" fill="${cellColor(c)}" stroke="#0f151d" stroke-width="3"/><text y="${n2(r * 0.36)}" text-anchor="middle" fill="#0b1016" font-size="${n2(r * 1.05)}" font-weight="700">${c}</text>${lock}${coord}</g>`;
+    return `<g${attrs} transform="translate(${n2(p.x)} ${n2(p.y)})" opacity="${n2(dim)}">${pulseRing}${scanRing}${ring}<circle r="${n2(r + 5)}" fill="none" stroke="${cellColor(c)}" stroke-opacity=".18" stroke-width="6"/><circle r="${n2(r)}" fill="${THEME.node}" stroke="${cellColor(c)}" stroke-width="2.6"/><text y="${n2(r * 0.36)}" text-anchor="middle" fill="${cellColor(c)}" font-size="${n2(r * 1.05)}" font-weight="500" font-family="var(--serif)">${c}</text>${lock}${coord}</g>`;
   });
   parts.push(cellsSvg.join(''));
   const stacked = Object.keys(stackCount);
   if (stacked.length >= 3) {
     const p = toScreen(view.positions[stacked[0]]);
-    parts.push(`<g transform="translate(${n2(p.x + r + 10)} ${n2(p.y - r - 10)})"><rect x="0" y="-24" width="${compact ? 92 : 128}" height="34" rx="17" fill="#ff5d6c"/><text x="${compact ? 46 : 64}" y="0" text-anchor="middle" fill="#fff" font-size="${19 * fs}" font-weight="700">${escapeText(t.stacked)} ×${new Set(stacked).size}</text></g>`);
+    parts.push(`<g transform="translate(${n2(p.x + r + 10)} ${n2(p.y - r - 10)})"><rect x="0" y="-24" width="${compact ? 92 : 128}" height="34" rx="17" fill="none" stroke="${THEME.rose}" stroke-width="2"/><text x="${compact ? 46 : 64}" y="0" text-anchor="middle" fill="${THEME.rose}" font-size="${19 * fs}" font-weight="500">${escapeText(t.stacked)} ×${new Set(stacked).size}</text></g>`);
   }
 
   // mode tag
-  if (view.showMode) parts.push(`<text x="${width - 18}" y="34" text-anchor="end" fill="${view.mode === 'fixed' ? '#ffd166' : '#8aa0b6'}" font-size="${19 * fs}">${escapeText(view.mode === 'fixed' ? t.fixed : t.free)}</text>`);
-  if (hl.legend) parts.push(`<text x="18" y="34" fill="#8aa0b6" font-size="${18 * fs}">${escapeText(t.notWire)}</text>`);
+  if (view.showMode) parts.push(`<text x="${width - 18}" y="34" text-anchor="end" fill="${view.mode === 'fixed' ? THEME.gold : THEME.muted}" font-size="${19 * fs}">${escapeText(view.mode === 'fixed' ? t.fixed : t.free)}</text>`);
+  if (hl.legend) parts.push(`<text x="18" y="34" fill="${THEME.muted}" font-size="${18 * fs}">${escapeText(t.notWire)}</text>`);
 
   return `<svg id="${escapeText(id)}" class="shared-board" viewBox="0 0 ${width} ${height}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${escapeText(t.board)}" font-family="var(--sans)">${parts.join('')}</svg>`;
 }

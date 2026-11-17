@@ -1,0 +1,104 @@
+{
+ "output": "site/media/advanced.en.mp4",
+ "lang": "en",
+ "start": 0,
+ "end": 154.367,
+ "fps": 30,
+ "frames": 4631,
+ "width": 1920,
+ "height": 1080,
+ "crf": 20,
+ "codec": "h264",
+ "pixFmt": "yuv420p",
+ "durationProbe": 154.367,
+ "film": "advanced",
+ "clockId": "advanced.en",
+ "clockKind": "reading",
+ "clockDuration": 154.367,
+ "clockSha256": "df876b2e598e422a29f92e5c82a60d9be2b7cb4022be1dcb2ba47a8b79a90237",
+ "audio": {
+  "film": "advanced",
+  "lang": "en",
+  "duration": 154.367,
+  "audio": "score",
+  "wavSha256": "4f3f03ef066caf13dca1184c10b605b5b455001e4c0da2678605ba0a019f6389"
+ },
+ "timeOfFrame": "start + frameIndex / fps",
+ "cueFrames": [
+  {
+   "id": "a01",
+   "firstFrame": 0,
+   "lastFrame": 389
+  },
+  {
+   "id": "a02",
+   "firstFrame": 390,
+   "lastFrame": 848
+  },
+  {
+   "id": "a03",
+   "firstFrame": 849,
+   "lastFrame": 1327
+  },
+  {
+   "id": "a04",
+   "firstFrame": 1328,
+   "lastFrame": 2116
+  },
+  {
+   "id": "a05",
+   "firstFrame": 2117,
+   "lastFrame": 2585
+  },
+  {
+   "id": "a06",
+   "firstFrame": 2586,
+   "lastFrame": 3231
+  },
+  {
+   "id": "a07",
+   "firstFrame": 3232,
+   "lastFrame": 3824
+  },
+  {
+   "id": "a08",
+   "firstFrame": 3825,
+   "lastFrame": 4630
+  }
+ ],
+ "sources": {
+  "site/css/film.css": "db34be4e00e9bbd44cb66b2321c62adaddff120a709b99b0b973a757f89e64fa",
+  "site/css/fonts.css": "4f54c21456413d07b1e91ab4218985dc58c6b8c838ea3003bbbbc77c444344a3",
+  "site/data/films/advanced.clock.en.json": "df876b2e598e422a29f92e5c82a60d9be2b7cb4022be1dcb2ba47a8b79a90237",
+  "site/data/films/advanced.json": "0e8c482aee30998bdee66cea7b8c1978d53e9967b5201e71535d2b7e5c07a940",
+  "site/data/fixtures.json": "efd240cc7818b0687518bdcbe4bf7f2fbaacf0c6f0db29fa3c6c19d12d6890c5",
+  "site/fonts/JetBrainsMono-Bold.woff2": "923023cb46936a8b8b7e8f197b86284929b91702336148f54ae3d02e70997bf7",
+  "site/fonts/JetBrainsMono-Regular.woff2": "003483b84443899726b599ed4ac8b025fae2250f64eaf964594554090f8fd371",
+  "site/fonts/Newsreader-Italic.woff2": "67a84221c778de1498d6f3a6b0571980eb4dc29ba2d2a4d9081d407d2dc52b54",
+  "site/fonts/Newsreader-Medium.woff2": "cb3e9eb516fb93bb07a3ba8a27dc5c179183f56b09db8fd23c994c37096e4fea",
+  "site/fonts/Newsreader-Regular.woff2": "f98f7cfa2d428a88201d6bbee007a68c2ee42e982bf89c3ede8533c6789a862c",
+  "site/fonts/NotoSans-Italic.woff2": "96376f91cd1875cc4722ecfdfcbd06127e128cfe50d49840cee79a7ba932c399",
+  "site/fonts/NotoSans-Regular.woff2": "83c706bdf9a1c16c1af27eeada9776e7ff7215560f1dd36f5842c1b4359ad983",
+  "site/fonts/NotoSans-SemiBold.woff2": "cba9a79f5952d0805e8d8b7a0143197ab33f23979e5e0156c0c2826142914f99",
+  "site/fonts/NotoSansSC-Bold.woff2": "45bc1d21717d8591afa5c7c8a664aa3c426be5f02b3089e111730826da8ad3cb",
+  "site/fonts/NotoSansSC-Regular.woff2": "c97aea1496634e99be314777eab8cac8f90214e6d6ca2f3258e5bf8a09bdfa02",
+  "site/fonts/NotoSerifSC-Regular.woff2": "2aa4717623174839f2f90ca2b12076e47d580f7e37df2e7e3731f90bc47eb1d7",
+  "site/fonts/NotoSerifSC-SemiBold.woff2": "a4d213c37dacf45a17cb7d23d0b9bd4a17dde7de857c739293f44a9925ca779f",
+  "site/js/board.js": "98e0db3d1ccd11bd6952cf5beb978e9cd572e7e242fc68109674805cd81fc23d",
+  "site/js/domain.js": "dc2f26a2f0a68bb714b1efbc4934ce03cdad1eddc48b31024023744a92082ac9",
+  "site/js/scene.js": "953cf7cb2468d54eaef17de412f818ea4006bb6ad254ac52cf942b53e6bd0b11",
+  "site/js/timeline.js": "ba78180a88baf207bae51649fc5eb1e73d15c909bdf13ab8ad613add09bc0a8b",
+  "site/render.html": "b3d10f947cc66b9189b9851a3d07a6a5a102f3eefe08cb3b0b00411280f4e7da"
+ },
+ "environment": {
+  "node": "v22.23.4",
+  "playwright": "1.63.0",
+  "chromium": "153.0.8010.12",
+  "ffmpeg": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "platform": "linux-x64"
+ },
+ "mp4Sha256": "29992b259c68403f7d0a5d33f31d50363021ffb5ace8c2a279feff990b627b50",
+ "bytes": 12413000,
+ "wallSeconds": 165,
+ "pageErrors": []
+}

@@ -1,0 +1,82 @@
+WEBVTT
+
+a01-1
+00:00:00.600 --> 00:00:07.844
+The concise film gave the definition. This one asks why, and what if.
+
+a01-2
+00:00:07.844 --> 00:00:12.200
+Each section answers one question with an actual computation.
+
+a02-1
+00:00:13.000 --> 00:00:19.356
+The box perimeter is 2 × (6 + 5) = 22; half of it is width + height = 11.
+
+a02-2
+00:00:19.356 --> 00:00:27.489
+So HPWL is not the perimeter 22, not the all-pairs sum 35, and not the length of a real wire.
+
+a03-1
+00:00:28.289 --> 00:00:34.533
+ABCD's minimum x is reached by both A and C: they are tied extreme pins.
+
+a03-2
+00:00:34.533 --> 00:00:43.444
+(Free-point mode) Move A right by 2: C still holds x = 0, ABCD stays 16; AB 8 → 6, AC 8 → 10, total still 52.
+
+a04-1
+00:00:44.244 --> 00:00:51.378
+The teacher's compact reference: same nets, total HPWL = 2 + 2 + 2 + 2 + 4 + 2 = 14.
+
+a04-2
+00:00:51.378 --> 00:01:00.956
+52 → 14 is 38 coordinate units less. It compares two placements; it is not an optimization run or a measured routing saving.
+
+a04-3
+00:01:00.956 --> 00:01:09.756
+The data marks A and D as fixed pads, yet the compact layout moves them: this is a free-point measurement only.
+
+a05-1
+00:01:10.556 --> 00:01:17.800
+Optional: give each net a weight, e.g. ABCD weighs 5 and the others 1.
+
+a05-2
+00:01:17.800 --> 00:01:25.378
+Weighted sums: starter 116, compact 30. Weights change the objective, not the definition of HPWL.
+
+a06-1
+00:01:26.178 --> 00:01:33.867
+Stack all six points in one place and every box shrinks to a point: HPWL = 0.
+
+a06-2
+00:01:33.867 --> 00:01:40.889
+The lowest score, yet not a usable placement: real cells have area and would overlap.
+
+a06-3
+00:01:40.889 --> 00:01:46.911
+Give each cell a 1 × 1 footprint: all 15 pairs overlap.
+
+a07-1
+00:01:47.711 --> 00:01:54.733
+Fix A (0, 0) and D (8, 8): ABCD is at least 16, and AB + BD and AC + CD are each at least 16.
+
+a07-2
+00:01:54.733 --> 00:02:02.089
+The point-model bound is 48; with non-overlapping 1 × 1 footprints EF ≥ 1, so the bound becomes 49.
+
+a07-3
+00:02:02.089 --> 00:02:06.667
+Before comparing HPWL, check that the constraints hold.
+
+a08-1
+00:02:07.467 --> 00:02:14.711
+HPWL = width + height, half the box perimeter; a multi-pin net counts one box.
+
+a08-2
+00:02:14.711 --> 00:02:22.844
+Moving an extreme pin changes the box; an interior move keeps that net but may change others.
+
+a08-3
+00:02:22.844 --> 00:02:31.867
+A lower HPWL alone does not prove a placement legal or usable. The lab below continues from any frame.
+

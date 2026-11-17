@@ -1,0 +1,115 @@
+{
+ "output": "site/media/concise.en.mp4",
+ "lang": "en",
+ "start": 0,
+ "end": 170.43,
+ "fps": 30,
+ "frames": 5113,
+ "width": 1920,
+ "height": 1080,
+ "crf": 20,
+ "codec": "h264",
+ "pixFmt": "yuv420p",
+ "durationProbe": 170.433333,
+ "film": "concise",
+ "clockId": "concise.en",
+ "clockKind": "voice",
+ "clockDuration": 170.43,
+ "clockSha256": "142b021a29139ab3649721a74a834367b9d072d2decfd0ff530d773bf3b78a05",
+ "audio": {
+  "film": "concise",
+  "lang": "en",
+  "duration": 170.43,
+  "audio": "voice+score",
+  "takes": 26,
+  "takesSha256": "228e1e81a68d93758d47ecdf4e9e630062797b90fdb1d45319833450977974ee",
+  "voices": {
+   "zh": "Tingting",
+   "en": "Samantha"
+  },
+  "wavSha256": "f4e15f6e2ab02199555e5479f1d27dbdf749c37b022168648990f97fb3f47b0a"
+ },
+ "timeOfFrame": "start + frameIndex / fps",
+ "cueFrames": [
+  {
+   "id": "k01",
+   "firstFrame": 0,
+   "lastFrame": 375
+  },
+  {
+   "id": "k02",
+   "firstFrame": 376,
+   "lastFrame": 849
+  },
+  {
+   "id": "k03",
+   "firstFrame": 850,
+   "lastFrame": 1462
+  },
+  {
+   "id": "k04",
+   "firstFrame": 1463,
+   "lastFrame": 2160
+  },
+  {
+   "id": "k05",
+   "firstFrame": 2161,
+   "lastFrame": 2778
+  },
+  {
+   "id": "k06",
+   "firstFrame": 2779,
+   "lastFrame": 3270
+  },
+  {
+   "id": "k07",
+   "firstFrame": 3271,
+   "lastFrame": 3902
+  },
+  {
+   "id": "k08",
+   "firstFrame": 3903,
+   "lastFrame": 4430
+  },
+  {
+   "id": "k09",
+   "firstFrame": 4431,
+   "lastFrame": 5112
+  }
+ ],
+ "sources": {
+  "site/css/film.css": "db34be4e00e9bbd44cb66b2321c62adaddff120a709b99b0b973a757f89e64fa",
+  "site/css/fonts.css": "4f54c21456413d07b1e91ab4218985dc58c6b8c838ea3003bbbbc77c444344a3",
+  "site/data/films/concise.clock.en.json": "142b021a29139ab3649721a74a834367b9d072d2decfd0ff530d773bf3b78a05",
+  "site/data/films/concise.json": "a32bcec55de7ee0afa2451db8f12e9749ab71d6817fe8611bf953f730079e2bc",
+  "site/data/fixtures.json": "efd240cc7818b0687518bdcbe4bf7f2fbaacf0c6f0db29fa3c6c19d12d6890c5",
+  "site/fonts/JetBrainsMono-Bold.woff2": "923023cb46936a8b8b7e8f197b86284929b91702336148f54ae3d02e70997bf7",
+  "site/fonts/JetBrainsMono-Regular.woff2": "003483b84443899726b599ed4ac8b025fae2250f64eaf964594554090f8fd371",
+  "site/fonts/Newsreader-Italic.woff2": "67a84221c778de1498d6f3a6b0571980eb4dc29ba2d2a4d9081d407d2dc52b54",
+  "site/fonts/Newsreader-Medium.woff2": "cb3e9eb516fb93bb07a3ba8a27dc5c179183f56b09db8fd23c994c37096e4fea",
+  "site/fonts/Newsreader-Regular.woff2": "f98f7cfa2d428a88201d6bbee007a68c2ee42e982bf89c3ede8533c6789a862c",
+  "site/fonts/NotoSans-Italic.woff2": "96376f91cd1875cc4722ecfdfcbd06127e128cfe50d49840cee79a7ba932c399",
+  "site/fonts/NotoSans-Regular.woff2": "83c706bdf9a1c16c1af27eeada9776e7ff7215560f1dd36f5842c1b4359ad983",
+  "site/fonts/NotoSans-SemiBold.woff2": "cba9a79f5952d0805e8d8b7a0143197ab33f23979e5e0156c0c2826142914f99",
+  "site/fonts/NotoSansSC-Bold.woff2": "45bc1d21717d8591afa5c7c8a664aa3c426be5f02b3089e111730826da8ad3cb",
+  "site/fonts/NotoSansSC-Regular.woff2": "c97aea1496634e99be314777eab8cac8f90214e6d6ca2f3258e5bf8a09bdfa02",
+  "site/fonts/NotoSerifSC-Regular.woff2": "2aa4717623174839f2f90ca2b12076e47d580f7e37df2e7e3731f90bc47eb1d7",
+  "site/fonts/NotoSerifSC-SemiBold.woff2": "a4d213c37dacf45a17cb7d23d0b9bd4a17dde7de857c739293f44a9925ca779f",
+  "site/js/board.js": "98e0db3d1ccd11bd6952cf5beb978e9cd572e7e242fc68109674805cd81fc23d",
+  "site/js/domain.js": "dc2f26a2f0a68bb714b1efbc4934ce03cdad1eddc48b31024023744a92082ac9",
+  "site/js/scene.js": "953cf7cb2468d54eaef17de412f818ea4006bb6ad254ac52cf942b53e6bd0b11",
+  "site/js/timeline.js": "ba78180a88baf207bae51649fc5eb1e73d15c909bdf13ab8ad613add09bc0a8b",
+  "site/render.html": "b3d10f947cc66b9189b9851a3d07a6a5a102f3eefe08cb3b0b00411280f4e7da"
+ },
+ "environment": {
+  "node": "v22.23.4",
+  "playwright": "1.63.0",
+  "chromium": "153.0.8010.12",
+  "ffmpeg": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "platform": "linux-x64"
+ },
+ "mp4Sha256": "f4510a92ecc3fed9b148922f74d38ba0e7305db005fa192c029db1d80122626c",
+ "bytes": 12627112,
+ "wallSeconds": 182,
+ "pageErrors": []
+}

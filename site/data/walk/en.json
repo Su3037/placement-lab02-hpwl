@@ -1,0 +1,216 @@
+{
+ "viewport": {
+  "w": 1440,
+  "h": 810
+ },
+ "lang": "en",
+ "shots": {
+  "w01": [
+   {
+    "img": "data/walk/en-w01-0.jpg",
+    "at": 0,
+    "cursor": [
+     861,
+     290
+    ],
+    "click": false
+   }
+  ],
+  "w02": [
+   {
+    "img": "data/walk/en-w02-0.jpg",
+    "at": 0.12,
+    "cursor": [
+     775,
+     351
+    ],
+    "click": true
+   },
+   {
+    "img": "data/walk/en-w02-1.jpg",
+    "at": 0.55,
+    "cursor": [
+     962,
+     351
+    ],
+    "click": true
+   }
+  ],
+  "w03": [
+   {
+    "img": "data/walk/en-w03-0.jpg",
+    "at": 0.08,
+    "cursor": [
+     212,
+     350
+    ],
+    "click": false
+   },
+   {
+    "img": "data/walk/en-w03-1.jpg",
+    "at": 0.3,
+    "cursor": [
+     293,
+     431
+    ],
+    "click": false
+   },
+   {
+    "img": "data/walk/en-w03-2.jpg",
+    "at": 0.5,
+    "cursor": [
+     374,
+     512
+    ],
+    "click": false
+   }
+  ],
+  "w04": [
+   {
+    "img": "data/walk/en-w04-0.jpg",
+    "at": 0.06,
+    "cursor": [
+     428,
+     566
+    ],
+    "click": true
+   },
+   {
+    "img": "data/walk/en-w04-1.jpg",
+    "at": 0.35,
+    "cursor": [
+     428,
+     566
+    ],
+    "click": false
+   },
+   {
+    "img": "data/walk/en-w04-2.jpg",
+    "at": 0.7,
+    "cursor": [
+     789,
+     545
+    ],
+    "click": true
+   }
+  ],
+  "w05": [
+   {
+    "img": "data/walk/en-w05-0.jpg",
+    "at": 0.05,
+    "cursor": [
+     841,
+     449
+    ],
+    "click": true
+   },
+   {
+    "img": "data/walk/en-w05-1.jpg",
+    "at": 0.25,
+    "cursor": [
+     841,
+     449
+    ],
+    "click": true
+   },
+   {
+    "img": "data/walk/en-w05-2.jpg",
+    "at": 0.45,
+    "cursor": [
+     841,
+     449
+    ],
+    "click": true
+   },
+   {
+    "img": "data/walk/en-w05-3.jpg",
+    "at": 0.6500000000000001,
+    "cursor": [
+     841,
+     449
+    ],
+    "click": true
+   },
+   {
+    "img": "data/walk/en-w05-4.jpg",
+    "at": 0.88,
+    "cursor": [
+     939,
+     570
+    ],
+    "click": true
+   }
+  ],
+  "w06": [
+   {
+    "img": "data/walk/en-w06-0.jpg",
+    "at": 0.08,
+    "cursor": [
+     1021,
+     174
+    ],
+    "click": true
+   },
+   {
+    "img": "data/walk/en-w06-1.jpg",
+    "at": 0.45,
+    "cursor": [
+     212,
+     781
+    ],
+    "click": true
+   }
+  ],
+  "w07": [
+   {
+    "img": "data/walk/en-w07-0.jpg",
+    "at": 0.06,
+    "cursor": [
+     224,
+     679
+    ],
+    "click": false
+   },
+   {
+    "img": "data/walk/en-w07-1.jpg",
+    "at": 0.45,
+    "cursor": [
+     720,
+     271
+    ],
+    "click": true
+   }
+  ],
+  "w08": [
+   {
+    "img": "data/walk/en-w08-0.jpg",
+    "at": 0.06,
+    "cursor": [
+     803,
+     308
+    ],
+    "click": false
+   },
+   {
+    "img": "data/walk/en-w08-1.jpg",
+    "at": 0.4,
+    "cursor": [
+     195,
+     364
+    ],
+    "click": true
+   }
+  ],
+  "w09": [
+   {
+    "img": "data/walk/en-w09-0.jpg",
+    "at": 0.1,
+    "cursor": [
+     250,
+     605
+    ],
+    "click": false
+   }
+  ]
+ }
+}

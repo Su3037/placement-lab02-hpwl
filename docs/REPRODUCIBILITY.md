@@ -40,46 +40,66 @@ node scripts/serve.mjs 8800 /placement-lab02-hpwl/   # same subpath as GitHub Pa
 
 GitHub Pages publishes `site/` unchanged (`.github/workflows/pages.yml`).
 
-## 2. Data, clock, captions, grading
+## 2. Data, film clocks, captions, grading
 
 ```sh
-node scripts/build.mjs --no-slides     # fixtures -> site/data, clock + VTT + transcripts, Python zip
+node scripts/build.mjs --no-slides     # fixtures -> site/data, four films' clocks + VTT + chapters + transcripts, Python zip
 npm test                               # node --test tests/*.test.mjs  +  python3 -m unittest tests/test_python.py
 ```
 
 - `fixtures/hpwl-fixtures.json` is the single data source (teacher data transcribed + original examples) with
   hand-computed goldens.
-- `scripts/build-clock.mjs` turns `content/script.json` into `site/data/clock.json` with the reading-time rule
-  printed in that file (decision D-07). The clock records the script's SHA-256.
+- `scripts/build-films.mjs` turns `content/films/{story,concise,advanced,lab}.json` into
+  `site/data/films/<id>.clock.<lang>.json`, `site/media/<id>.<lang>.vtt`, `site/media/<id>.chapters.<lang>.vtt` and
+  `media-source/transcripts/<id>.<lang>.md`. Three clock kinds (decisions D-07, D-21, D-23): **reading** (advanced;
+  one clock for both languages), **music** (story; cues pinned to times in the track, violations fail the build),
+  **voice** (concise, lab; one clock per language from measured take durations). Each clock records the script's
+  SHA-256. Without voice takes the build fails; `--draft` writes provisional clocks that nothing final accepts.
 - `scripts/crosscheck-gen.mjs` (seed 20261117, 300 cases) is run by the Python test to compare JS and Python.
 
-## 3. Stills and the short sample
+### Voice takes (macOS)
 
 ```sh
-node scripts/render.mjs --stills                     # one PNG per cue mid-point -> build/stills/
-node scripts/render.mjs --stills 12.3,118.2          # chosen times
-node scripts/render.mjs --sample                     # cues extreme_move + interior_move -> site/media/sample.zh.mp4 (41.1 s)
+python3 scripts/voice/make-job.py        # scripts/voice/lines.json + scripts/voice/render-voice-mac.sh
+zsh scripts/voice/render-voice-mac.sh    # on a Mac: say + afconvert -> media-source/voice/<film>-<cue>-<n>-<lang>.m4a
+node scripts/build-films.mjs             # measures every take with ffprobe and rebuilds the voice clocks
 ```
 
-## 4. Full film
+The script picks the best installed zh_CN and en_US voices (Premium, then Enhanced, then Tingting / Samantha) and
+records the choice in `media-source/voice/voices.json`.
+
+## 3. Stills and the lab walkthrough recording
 
 ```sh
-node scripts/render.mjs --full                       # -> site/media/film.zh.mp4 + film.zh.render.json (about 6 min wall time, 4 pages)
-node scripts/check-media.mjs                         # ffprobe, full decode, VTT, decoded-frame vs renderAt PSNR, source hashes
+node scripts/render.mjs --film story --lang zh --stills          # one PNG per cue mid-point -> build/stills/
+node scripts/render.mjs --film advanced --stills 12.3,40.5       # chosen times
+node scripts/record-walk.mjs                                     # screenshots of the real page -> site/data/walk/
 ```
 
-How a frame is made: `site/render.html` loads the fixtures, script and clock, waits for fonts, then exposes
-`window.renderAt(t)`. The renderer calls it for `t = frameIndex / 30` (random access, any order, several pages in
-parallel), screenshots 1920×1080 JPEG q95, and FFmpeg encodes H.264 (`-crf 20 -preset slow -tune animation`,
-yuv420p). `*.render.json` records frame count, fps, clock hash, SHA-256 of every source file, Node/Playwright/
-Chromium/FFmpeg versions, wall time and page errors. A browser screen recording is never used.
+`record-walk.mjs` must run after the other films are rendered (step 7 of the walkthrough pauses the advanced film).
+
+## 4. Full films
+
+```sh
+export HPWL_MUSIC_WENEVER=/path/to/wenever.m4a     # only for the story film; the track is not in the repository
+for f in story concise advanced lab; do for l in zh en; do node scripts/render.mjs --film $f --lang $l --full; done; done
+node scripts/check-media.mjs                         # ffprobe, decode, audio, VTT, decoded-frame vs renderAt PSNR, source hashes
+```
+
+How a frame is made: `site/render.html?film=<id>&lang=<zh|en>` loads the fixtures, script, clock (and the walk
+recording for the lab film), waits for fonts and images, then exposes `window.renderAt(t)`. The renderer calls it
+for `t = frameIndex / 30` (random access, any order, four pages in parallel), screenshots 1920×1080 JPEG q95, and
+FFmpeg encodes H.264 (`-crf 20 -preset slow -tune animation`, yuv420p). `scripts/mix_audio.py` builds the
+soundtrack from the same clock (music track; or voice takes at their `voiceAt` times over the ducked NumPy score;
+or the score alone), and it is muxed as AAC 160 kb/s. `*.render.json` records frame count, fps, clock hash and kind,
+the audio sources and their SHA-256, SHA-256 of every source file, Node/Playwright/Chromium/FFmpeg versions,
+wall time and page errors. A browser screen recording is never used.
 
 **What is promised.** In the pinned environment the semantic state for a time is identical in any call order
 (`tests/timeline.test.mjs`), and screenshots are pixel-identical in any order (`tests/browser.mjs`). Decoded
 MP4 frames match a fresh `renderAt` of the same t (PSNR ≥ 32 dB, `scripts/check-media.mjs`). **Not promised:**
-byte-identical MP4 files across operating systems, Chromium builds or encoder versions.
-
-An English-captioned variant can be rendered with `--lang en` (same timeline); it is not committed.
+byte-identical MP4 files across operating systems, Chromium builds or encoder versions, or identical voice takes
+across macOS versions (the takes are committed, so rebuilding the films does not need a Mac).
 
 ## 5. Slides and exports
 
@@ -93,7 +113,7 @@ python3 scripts/build-python-zip.py
 
 ```sh
 sh scripts/clean-rebuild.sh        # clones HEAD into a temp dir, rebuilds data/slides, runs tests,
-                                   # re-renders a 4 s range and compares it with the committed film
+                                   # re-renders advanced.zh 40–44 s and compares it with the committed film
 ```
 
 ## 7. Tests

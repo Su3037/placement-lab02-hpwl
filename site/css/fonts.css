@@ -1,6 +1,26 @@
-/* Bundled OFL fonts (subsets made by scripts/subset_fonts.py; licenses in fonts/OFL-*.txt). */
-@font-face { font-family: "Noto Sans SC"; font-weight: 400; font-style: normal; font-display: block; src: url("../fonts/NotoSansSC-Regular.woff2") format("woff2"); }
-@font-face { font-family: "Noto Sans SC"; font-weight: 700; font-style: normal; font-display: block; src: url("../fonts/NotoSansSC-Bold.woff2") format("woff2"); }
-@font-face { font-family: "JetBrains Mono"; font-weight: 400; font-style: normal; font-display: block; src: url("../fonts/JetBrainsMono-Regular.woff2") format("woff2"); }
-@font-face { font-family: "JetBrains Mono"; font-weight: 700; font-style: normal; font-display: block; src: url("../fonts/JetBrainsMono-Bold.woff2") format("woff2"); }
-:root { --sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; --mono: "JetBrains Mono", "Noto Sans SC", ui-monospace, monospace; }
+/* Bundled OFL fonts (subsets made by scripts/subset_fonts.py; licences in fonts/OFL-*.txt).
+   Display: Newsreader (Latin) + Noto Serif SC (Han). Text: Noto Sans (Latin, English pages) + Noto Sans SC. Numbers/code: JetBrains Mono. */
+@font-face { font-family: "Noto Sans SC"; font-weight: 300 500; font-style: normal; font-display: block; src: url("../fonts/NotoSansSC-Regular.woff2") format("woff2"); }
+@font-face { font-family: "Noto Sans SC"; font-weight: 600 900; font-style: normal; font-display: block; src: url("../fonts/NotoSansSC-Bold.woff2") format("woff2"); }
+@font-face { font-family: "Noto Serif SC"; font-weight: 300 500; font-display: block; src: url("../fonts/NotoSerifSC-Regular.woff2") format("woff2"); }
+@font-face { font-family: "Noto Serif SC"; font-weight: 600 900; font-display: block; src: url("../fonts/NotoSerifSC-SemiBold.woff2") format("woff2"); }
+@font-face { font-family: "Newsreader"; font-weight: 300 450; font-style: normal; font-display: block; src: url("../fonts/Newsreader-Regular.woff2") format("woff2"); }
+@font-face { font-family: "Newsreader"; font-weight: 451 900; font-style: normal; font-display: block; src: url("../fonts/Newsreader-Medium.woff2") format("woff2"); }
+@font-face { font-family: "Newsreader"; font-weight: 300 900; font-style: italic; font-display: block; src: url("../fonts/Newsreader-Italic.woff2") format("woff2"); }
+/* Chinese pages: curly quotes stay with the Han face so “引号” remain full-width. */
+@font-face { font-family: "Newsreader Han"; font-weight: 300 450; font-display: block; src: url("../fonts/Newsreader-Regular.woff2") format("woff2"); unicode-range: U+0000-2017, U+2020-2E7F; }
+@font-face { font-family: "Newsreader Han"; font-weight: 451 900; font-display: block; src: url("../fonts/Newsreader-Medium.woff2") format("woff2"); unicode-range: U+0000-2017, U+2020-2E7F; }
+@font-face { font-family: "Noto Sans"; font-weight: 300 500; font-style: normal; font-display: block; src: url("../fonts/NotoSans-Regular.woff2") format("woff2"); }
+@font-face { font-family: "Noto Sans"; font-weight: 501 900; font-style: normal; font-display: block; src: url("../fonts/NotoSans-SemiBold.woff2") format("woff2"); }
+@font-face { font-family: "Noto Sans"; font-weight: 300 900; font-style: italic; font-display: block; src: url("../fonts/NotoSans-Italic.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-weight: 300 500; font-style: normal; font-display: block; src: url("../fonts/JetBrainsMono-Regular.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-weight: 600 900; font-style: normal; font-display: block; src: url("../fonts/JetBrainsMono-Bold.woff2") format("woff2"); }
+:root {
+  --serif: "Newsreader Han", "Noto Serif SC", "Songti SC", Georgia, serif;
+  --sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --mono: "JetBrains Mono", "Noto Sans SC", ui-monospace, monospace;
+}
+:root:lang(en) {
+  --serif: "Newsreader", "Noto Serif SC", Georgia, serif;
+  --sans: "Noto Sans", "Noto Sans SC", -apple-system, "Segoe UI", sans-serif;
+}

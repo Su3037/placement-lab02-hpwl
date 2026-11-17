@@ -1,0 +1,114 @@
+[
+ {
+  "id": "story",
+  "kind": "music",
+  "title": {
+   "zh": "科普 · 一根光纤有多长",
+   "en": "Popular science · How long is one cable?"
+  },
+  "langs": {
+   "zh": {
+    "clock": "data/films/story.clock.zh.json",
+    "video": "media/story.zh.mp4",
+    "poster": "media/story.zh.jpg",
+    "vtt": "media/story.zh.vtt",
+    "chapters": "media/story.chapters.zh.vtt",
+    "duration": 189.823,
+    "provisional": false
+   },
+   "en": {
+    "clock": "data/films/story.clock.en.json",
+    "video": "media/story.en.mp4",
+    "poster": "media/story.en.jpg",
+    "vtt": "media/story.en.vtt",
+    "chapters": "media/story.chapters.en.vtt",
+    "duration": 189.823,
+    "provisional": false
+   }
+  }
+ },
+ {
+  "id": "concise",
+  "kind": "voice",
+  "title": {
+   "zh": "精讲 · 半周长线长 HPWL",
+   "en": "Concise · Half-perimeter wirelength"
+  },
+  "langs": {
+   "zh": {
+    "clock": "data/films/concise.clock.zh.json",
+    "video": "media/concise.zh.mp4",
+    "poster": "media/concise.zh.jpg",
+    "vtt": "media/concise.zh.vtt",
+    "chapters": "media/concise.chapters.zh.vtt",
+    "duration": 199.436,
+    "provisional": false
+   },
+   "en": {
+    "clock": "data/films/concise.clock.en.json",
+    "video": "media/concise.en.mp4",
+    "poster": "media/concise.en.jpg",
+    "vtt": "media/concise.en.vtt",
+    "chapters": "media/concise.chapters.en.vtt",
+    "duration": 170.43,
+    "provisional": false
+   }
+  }
+ },
+ {
+  "id": "advanced",
+  "kind": "reading",
+  "title": {
+   "zh": "进阶 · HPWL 的边界",
+   "en": "Advanced · The limits of HPWL"
+  },
+  "langs": {
+   "zh": {
+    "clock": "data/films/advanced.clock.zh.json",
+    "video": "media/advanced.zh.mp4",
+    "poster": "media/advanced.zh.jpg",
+    "vtt": "media/advanced.zh.vtt",
+    "chapters": "media/advanced.chapters.zh.vtt",
+    "duration": 154.367,
+    "provisional": false
+   },
+   "en": {
+    "clock": "data/films/advanced.clock.en.json",
+    "video": "media/advanced.en.mp4",
+    "poster": "media/advanced.en.jpg",
+    "vtt": "media/advanced.en.vtt",
+    "chapters": "media/advanced.chapters.en.vtt",
+    "duration": 154.367,
+    "provisional": false
+   }
+  }
+ },
+ {
+  "id": "lab",
+  "kind": "voice",
+  "title": {
+   "zh": "实验演示 · HPWL 实验台",
+   "en": "Lab walkthrough · The HPWL lab"
+  },
+  "langs": {
+   "zh": {
+    "clock": "data/films/lab.clock.zh.json",
+    "video": "media/lab.zh.mp4",
+    "poster": "media/lab.zh.jpg",
+    "vtt": "media/lab.zh.vtt",
+    "chapters": "media/lab.chapters.zh.vtt",
+    "duration": 74.009,
+    "provisional": false
+   },
+   "en": {
+    "clock": "data/films/lab.clock.en.json",
+    "video": "media/lab.en.mp4",
+    "poster": "media/lab.en.jpg",
+    "vtt": "media/lab.en.vtt",
+    "chapters": "media/lab.chapters.en.vtt",
+    "duration": 62.26,
+    "provisional": false
+   }
+  }
+ }
+]

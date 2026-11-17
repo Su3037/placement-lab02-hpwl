@@ -12,7 +12,7 @@ EN="${HPWL_VOICE_EN:-$(pick en_US)}"; [ -n "$EN" ] || EN=Samantha
 echo "zh voice: $ZH"; echo "en voice: $EN"
 say -v "?" > "$OUT/voices-available.txt"
 sw_vers > "$OUT/system.txt"
-v() { say -v "$1" -o "$OUT/$2.aiff" "$3" && afconvert -f m4af -d aac -b 128000 "$OUT/$2.aiff" "$OUT/$2.m4a" && rm "$OUT/$2.aiff"; }
+v() { say -v "$1" -o "$OUT/$2.aiff" "$3" && afconvert -f m4af -d aac@44100 -b 128000 "$OUT/$2.aiff" "$OUT/$2.m4a" && rm "$OUT/$2.aiff"; }
 v "$ZH" concise-k01-1-zh '这一讲用几分钟，把半周长线长，也就是 H P W L，从定义讲到代码。'
 v "$EN" concise-k01-1-en 'In a few minutes: half-perimeter wirelength, or H P W L, from the definition to the code.'
 v "$ZH" concise-k01-2-zh '布局决定每个单元放在哪里；单元之间由线网相连。'

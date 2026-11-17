@@ -1,0 +1,307 @@
+{
+ "id": "concise",
+ "kind": "voice",
+ "title": {
+  "zh": "精讲 · 半周长线长 HPWL",
+  "en": "Concise · Half-perimeter wirelength"
+ },
+ "chapters": {
+  "01": {
+   "zh": "问题",
+   "en": "The problem"
+  },
+  "02": {
+   "zh": "两个引脚",
+   "en": "Two pins"
+  },
+  "03": {
+   "zh": "多引脚包围盒",
+   "en": "Multi-pin box"
+  },
+  "04": {
+   "zh": "移动引脚",
+   "en": "Moving a pin"
+  },
+  "05": {
+   "zh": "老师的例子",
+   "en": "The teacher's example"
+  },
+  "06": {
+   "zh": "写成代码",
+   "en": "In code"
+  }
+ },
+ "cues": [
+  {
+   "id": "k01",
+   "scene": "title",
+   "chapter": "01",
+   "layout": "title",
+   "title": {
+    "zh": "开场",
+    "en": "Opening"
+   },
+   "lines": [
+    {
+     "zh": "这一讲用几分钟，把半周长线长 HPWL 从定义讲到代码。",
+     "en": "In a few minutes: half-perimeter wirelength, HPWL, from the definition to the code.",
+     "hold": 3,
+     "speak_zh": "这一讲用几分钟，把半周长线长，也就是 H P W L，从定义讲到代码。",
+     "speak_en": "In a few minutes: half-perimeter wirelength, or H P W L, from the definition to the code."
+    },
+    {
+     "zh": "布局决定每个单元放在哪里；单元之间由线网相连。",
+     "en": "Placement decides where each cell goes, and nets connect the cells.",
+     "hold": 3
+    }
+   ]
+  },
+  {
+   "id": "k02",
+   "scene": "problem",
+   "chapter": "01",
+   "layout": "board",
+   "title": {
+    "zh": "为什么要估计",
+    "en": "Why estimate"
+   },
+   "lines": [
+    {
+     "zh": "真实导线要等到布线阶段才画出来，代价很高。",
+     "en": "Real wires are only drawn at routing time, and that is expensive.",
+     "hold": 2.5
+    },
+    {
+     "zh": "所以布局时先用一个又快、又能比较的估计：HPWL。",
+     "en": "So during placement we use a fast, comparable estimate instead: HPWL.",
+     "hold": 2.5,
+     "speak_zh": "所以布局时，先用一个又快、又能比较的估计：H P W L。",
+     "speak_en": "So during placement we use a fast, comparable estimate instead: H P W L."
+    },
+    {
+     "zh": "图里的细虚线只说明谁和谁相连，不是导线。",
+     "en": "The thin dashed lines only show who connects to whom; they are not wires.",
+     "hold": 2.5
+    }
+   ]
+  },
+  {
+   "id": "k03",
+   "scene": "two_manhattan",
+   "chapter": "02",
+   "layout": "board",
+   "title": {
+    "zh": "两个引脚",
+    "en": "Two pins"
+   },
+   "lines": [
+    {
+     "zh": "先看两个引脚：P 在 (1, 1)，Q 在 (5, 4)。横向差 4，纵向差 3。",
+     "en": "Start with two pins: P at (1, 1), Q at (5, 4). Four across, three up.",
+     "hold": 3.5,
+     "speak_zh": "先看两个引脚。P 在 1、1，Q 在 5、4。横向差 4，纵向差 3。",
+     "speak_en": "Start with two pins. P at one, one. Q at five, four. Four across, three up."
+    },
+    {
+     "zh": "HPWL = 4 + 3 = 7，就是曼哈顿距离，不是直线距离 5。",
+     "en": "HPWL = 4 + 3 = 7: the Manhattan distance, not the straight-line 5.",
+     "hold": 3,
+     "speak_zh": "H P W L 等于 4 加 3，等于 7。这就是曼哈顿距离，不是直线距离 5。",
+     "speak_en": "H P W L is four plus three, seven. That is the Manhattan distance, not the straight-line five."
+    },
+    {
+     "zh": "芯片导线大多横平竖直；这条 L 形只是许多等长路径之一。",
+     "en": "Chip wires mostly run horizontally and vertically; this L is one of many equal-length paths.",
+     "hold": 3,
+     "speak_zh": "芯片导线大多横平竖直。这条 L 形，只是许多等长路径之一。"
+    }
+   ]
+  },
+  {
+   "id": "k04",
+   "scene": "multi_scan",
+   "chapter": "03",
+   "layout": "board",
+   "title": {
+    "zh": "多引脚包围盒",
+    "en": "Multi-pin box"
+   },
+   "lines": [
+    {
+     "zh": "四个引脚的线网 N1：逐个读取引脚，记下最小和最大的 x、y。",
+     "en": "A four-pin net, N1: read the pins one by one and keep the smallest and largest x and y.",
+     "hold": 2.5,
+     "speak_zh": "四个引脚的线网 N 1。逐个读取引脚，记下最小和最大的 x 和 y。",
+     "speak_en": "A four-pin net, N one. Read the pins one by one, and keep the smallest and largest x and y."
+    },
+    {
+     "zh": "P 给出初值；Q 刷新最大 x 和最大 y；R 再刷新最大 y；S 在内部，什么也不改。",
+     "en": "P sets the start; Q raises max x and max y; R raises max y again; S is inside and changes nothing.",
+     "hold": 7,
+     "speak_zh": "P 给出初值。Q 刷新最大 x 和最大 y。R 再刷新最大 y。S 在内部，什么也不改。",
+     "speak_en": "P sets the start. Q raises max x and max y. R raises max y again. S is inside, and changes nothing."
+    },
+    {
+     "zh": "宽 = 7 − 1 = 6，高 = 6 − 1 = 5，HPWL = 11。",
+     "en": "Width 7 − 1 = 6, height 6 − 1 = 5, so HPWL = 11.",
+     "hold": 3,
+     "speak_zh": "宽是 7 减 1，等于 6；高是 6 减 1，等于 5；H P W L 等于 11。",
+     "speak_en": "Width: seven minus one, six. Height: six minus one, five. So H P W L is eleven."
+    }
+   ]
+  },
+  {
+   "id": "k05",
+   "scene": "extreme_move",
+   "chapter": "04",
+   "layout": "board",
+   "title": {
+    "zh": "移动极值引脚",
+    "en": "Move an extreme pin"
+   },
+   "lines": [
+    {
+     "zh": "把极值引脚 Q 向右拖：最大 x 从 7 变成 9，HPWL 从 11 变成 13。",
+     "en": "Drag the extreme pin Q to the right: max x goes from 7 to 9, and HPWL from 11 to 13.",
+     "hold": 5,
+     "speak_zh": "把极值引脚 Q 向右拖。最大 x 从 7 变成 9，H P W L 从 11 变成 13。",
+     "speak_en": "Drag the extreme pin Q to the right. Max x goes from seven to nine, and H P W L from eleven to thirteen."
+    },
+    {
+     "zh": "再把 Q 往下拉：越过 y = 1 时，最小 y 换成 Q，HPWL 变成 14。",
+     "en": "Now pull Q down: once it passes y = 1, Q becomes the minimum y and HPWL becomes 14.",
+     "hold": 6,
+     "speak_zh": "再把 Q 往下拉。越过 y 等于 1 时，最小 y 换成 Q，H P W L 变成 14。",
+     "speak_en": "Now pull Q down. Once it passes y equals one, Q becomes the minimum y, and H P W L becomes fourteen."
+    },
+    {
+     "zh": "每一帧的数字都由同一组坐标当场重算。",
+     "en": "Every frame recomputes the numbers from the same coordinates.",
+     "hold": 2.5
+    }
+   ]
+  },
+  {
+   "id": "k06",
+   "scene": "interior_move",
+   "chapter": "04",
+   "layout": "board",
+   "title": {
+    "zh": "移动内部引脚",
+    "en": "Move an interior pin"
+   },
+   "lines": [
+    {
+     "zh": "再移动内部引脚 S：只要留在绿色区域里，N1 一直是 14。",
+     "en": "Now move the interior pin S: while it stays in the green region, N1 stays at 14.",
+     "hold": 5,
+     "speak_zh": "再移动内部引脚 S。只要留在绿色区域里，N 1 一直是 14。",
+     "speak_en": "Now move the interior pin S. While it stays in the green region, N one stays at fourteen."
+    },
+    {
+     "zh": "但 S 也在线网 N2 上：N2 从 4 变成 2，总和从 18 变成 16。",
+     "en": "But S is also on net N2: N2 drops from 4 to 2, and the total from 18 to 16.",
+     "hold": 3.5,
+     "speak_zh": "但 S 也在线网 N 2 上。N 2 从 4 变成 2，总和从 18 变成 16。",
+     "speak_en": "But S is also on net N two. N two drops from four to two, and the total from eighteen to sixteen."
+    },
+    {
+     "zh": "选中的线网没变，不等于总线长没变。",
+     "en": "An unchanged net does not mean an unchanged total.",
+     "hold": 2
+    }
+   ]
+  },
+  {
+   "id": "k07",
+   "scene": "teacher_starter",
+   "chapter": "05",
+   "layout": "board",
+   "title": {
+    "zh": "老师的例子",
+    "en": "The teacher's example"
+   },
+   "lines": [
+    {
+     "zh": "老师的例子有六个单元、六个线网；ABCD 是一个四引脚线网，只算一个包围盒。",
+     "en": "The teacher's example has six cells and six nets; ABCD is one four-pin net with a single box.",
+     "hold": 3.5,
+     "speak_zh": "老师的例子有六个单元、六个线网。A B C D 是一个四引脚线网，只算一个包围盒。",
+     "speak_en": "The teacher's example has six cells and six nets. A B C D is one four-pin net, with a single box."
+    },
+    {
+     "zh": "逐网计算：AB、CD、AC、BD 各为 8，ABCD 为 16，EF 为 4。",
+     "en": "Net by net: AB, CD, AC and BD are 8 each, ABCD is 16, and EF is 4.",
+     "hold": 8,
+     "speak_zh": "逐网计算：A B、C D、A C、B D 各为 8；A B C D 为 16；E F 为 4。",
+     "speak_en": "Net by net: A B, C D, A C and B D are eight each. A B C D is sixteen. E F is four."
+    },
+    {
+     "zh": "总和 = 8 × 4 + 16 + 4 = 52。",
+     "en": "Total = 8 × 4 + 16 + 4 = 52.",
+     "hold": 2.5,
+     "speak_zh": "总和是 8 乘 4，加 16，加 4，等于 52。",
+     "speak_en": "The total: eight times four, plus sixteen, plus four, is fifty-two."
+    }
+   ]
+  },
+  {
+   "id": "k08",
+   "scene": "pseudocode",
+   "chapter": "06",
+   "layout": "code",
+   "title": {
+    "zh": "伪代码",
+    "en": "Pseudocode"
+   },
+   "lines": [
+    {
+     "zh": "写成代码，第一步先检查输入：未知引脚、空线网、坐标缺失，都要报错。",
+     "en": "In code, validate first: unknown pins, empty nets and missing coordinates are errors.",
+     "hold": 3
+    },
+    {
+     "zh": "然后对每个线网求最小、最大的 x 和 y，宽加高，累加到总和。",
+     "en": "Then, for each net, take the min and max of x and y, and add width plus height to the total.",
+     "hold": 6
+    },
+    {
+     "zh": "一次遍历全部引脚，代价与引脚总数成正比。",
+     "en": "One pass over all pins; the cost grows linearly with the pin count.",
+     "hold": 2.5
+    }
+   ]
+  },
+  {
+   "id": "k09",
+   "scene": "takeaway",
+   "chapter": "06",
+   "layout": "summary",
+   "title": {
+    "zh": "小结",
+    "en": "Summary"
+   },
+   "lines": [
+    {
+     "zh": "记住：HPWL 等于宽加高，是包围盒周长的一半；多引脚线网只算一个盒子。",
+     "en": "Remember: HPWL is width plus height, half the box perimeter, and a multi-pin net counts one box.",
+     "hold": 3,
+     "speak_zh": "记住：H P W L 等于宽加高，是包围盒周长的一半；多引脚线网只算一个盒子。",
+     "speak_en": "Remember: H P W L is width plus height, half the box perimeter, and a multi-pin net counts one box."
+    },
+    {
+     "zh": "移动极值引脚会改变盒子；内部移动不改变这个线网，但可能改变别的线网。",
+     "en": "Moving an extreme pin changes the box; an interior move leaves that net alone but may change others.",
+     "hold": 3
+    },
+    {
+     "zh": "进阶片讲它的边界：比如为什么 HPWL 为 0 也不是好布局。",
+     "en": "The advanced film covers its limits, such as why an HPWL of zero is not a good placement.",
+     "hold": 3,
+     "speak_zh": "进阶片讲它的边界，比如为什么 H P W L 为 0，也不是好布局。",
+     "speak_en": "The advanced film covers its limits, such as why an H P W L of zero is not a good placement."
+    }
+   ]
+  }
+ ]
+}

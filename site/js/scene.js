@@ -5,7 +5,7 @@ import {fmt} from './domain.js';
 
 const TXT = {
   zh: {
-    brand: 'Placement · Lab 02 · HPWL', titleSub: '半周长线长：一个估计，以及它的边界', titleTags: ['单元', '线网', '包围盒', '宽 + 高'],
+    brand: 'Su3037 · Placement Lab 02', titleSub: '半周长线长：一个估计，以及它的边界', titleTags: ['单元', '线网', '包围盒', '宽 + 高'],
     notes: {
       problem: ['布局：决定每个单元的位置', '布线：画出真实导线（慢，代价高）', 'HPWL：布局阶段的快速线长估计'],
       coords: ['引脚看成点 (x, y)', '单位：抽象网格单位', 'x 向右，y 向上', '真实单元有面积（方块仅为示意）'],
@@ -22,9 +22,15 @@ const TXT = {
     code: ['validate(nets, pos)   // 未知引脚 / 空线网 / 非有限坐标 → 报错', 'total ← 0', 'for net in nets:', '    xs, ys ← net 中引脚的 x, y', '    total ← total + (max xs − min xs) + (max ys − min ys)', 'return total'],
     summary: ['HPWL = 宽 + 高 = 包围盒周长的一半；多引脚线网只算一个盒子', '移动极值引脚会改变盒子；内部移动不改变该线网，却可能改变别的线网', '低 HPWL 不能单独证明布局合法、可用：先检查约束'],
     sampleTag: '',
+    story: {
+      hook: ['四家店 P、Q、R、S', '街道只有横、竖两个方向', '最少要多长的光纤？'],
+      box: ['最小的框：把四家店都框住', '宽 + 高 = 周长的一半'],
+      chip: ['约 100 个线网（示意）', '每个盒子：一次遍历', '不看拥挤与时序', '下限式的估计', '与约束一起用', '100 个引脚呢？'],
+    },
+    end: {lab: '实验台 · 挑战 · Python 练习', site: 'su3037.github.io/placement-lab02-hpwl', credit: '音乐：We Never (Remix)（若如初见）· Hi Noise / 秋成 · 不属于本课程授权'},
   },
   en: {
-    brand: 'Placement · Lab 02 · HPWL', titleSub: 'Half-perimeter wirelength: an estimate and its limits', titleTags: ['cells', 'nets', 'bounding box', 'width + height'],
+    brand: 'Su3037 · Placement Lab 02', titleSub: 'Half-perimeter wirelength: an estimate and its limits', titleTags: ['cells', 'nets', 'bounding box', 'width + height'],
     notes: {
       problem: ['Placement: where each cell goes', 'Routing: draws the real wires (slow, costly)', 'HPWL: a fast wirelength estimate during placement'],
       coords: ['Pins are points (x, y)', 'Units: abstract grid units', 'x grows right, y grows up', 'Real cells have area (squares are illustrative)'],
@@ -40,6 +46,12 @@ const TXT = {
     fixed: {anchors: 'A (0, 0) and D (8, 8) fixed', bound: 'bound', point: 'point model', foot: 'non-overlapping 1 × 1', now: 'now', overlaps: 'overlapping pairs'},
     code: ['validate(nets, pos)   // unknown pin / empty net / non-finite → error', 'total ← 0', 'for net in nets:', '    xs, ys ← x and y of the net’s pins', '    total ← total + (max xs − min xs) + (max ys − min ys)', 'return total'],
     summary: ['HPWL = width + height = half the box perimeter; a multi-pin net is one box', 'Moving an extreme pin changes the box; an interior move keeps that net but may change others', 'A low HPWL alone does not prove a placement legal or usable: check constraints first'],
+    story: {
+      hook: ['Four shops: P, Q, R, S', 'Streets run only across and up', 'How much fibre at least?'],
+      box: ['The smallest box around all four', 'width + height = half the perimeter'],
+      chip: ['about 100 nets (illustration)', 'each box: one pass', 'blind to congestion and timing', 'a lower-bound estimate', 'used together with constraints', 'and with 100 pins?'],
+    },
+    end: {lab: 'Lab · Challenges · Python practice', site: 'su3037.github.io/placement-lab02-hpwl', credit: 'Music: We Never (Remix) · Hi Noise / Qiucheng · not covered by the course licence'},
   },
 };
 
@@ -58,8 +70,32 @@ function eqLines(t, b) {
   <div class="eq big">HPWL = ${fmt(b.width)} + ${fmt(b.height)} = ${num(b.hpwl)}</div>`;
 }
 
+const WALK = {zh: {step: (i, n) => `第 ${i} 步，共 9 步`, missing: '（实验台截图尚未录制：运行 scripts/record-walk.mjs）'}, en: {step: (i, n) => `Step ${i} of 9`, missing: '(Lab screenshots not recorded yet: run scripts/record-walk.mjs)'}};
+const CURSOR = '<path d="M0 0 L0 30 L8 23 L13.5 35 L18.5 33 L13 21.5 L23 21.5 Z" fill="#fffdf8" stroke="#0b1b1f" stroke-width="2" stroke-linejoin="round"/>';
+function walkStage(state, lang) {
+  const w = state.walk;
+  if (!w) return `<div class="walk-stage"><div class="walk-missing">${E(WALK[lang].missing)}</div></div>`;
+  const W = 1380, H = Math.round(W * w.viewport.h / w.viewport.w), k = W / w.viewport.w;
+  const [cx, cy] = w.cursor ?? [w.viewport.w / 2, w.viewport.h / 2];
+  const ring = w.click == null ? '' : `<circle cx="${(cx * k).toFixed(1)}" cy="${(cy * k).toFixed(1)}" r="${(10 + 34 * w.click).toFixed(1)}" fill="none" stroke="#ddbd78" stroke-width="3" opacity="${(1 - w.click).toFixed(3)}"/>`;
+  return `<div class="walk-stage"><div class="walk-chrome"><i></i><i></i><i></i><span>su3037.github.io/placement-lab02-hpwl/${lang === 'en' ? '?lang=en' : ''}</span></div>
+    <div class="walk-shot" style="width:${W}px;height:${H}px"><img src="${E(w.img)}" width="${W}" height="${H}" alt="">
+    <svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">${ring}<g transform="translate(${(cx * k).toFixed(1)} ${(cy * k).toFixed(1)})">${CURSOR}</g></svg></div></div>`;
+}
+
 const PANELS = {
-  title: (s, t) => `<div class="title-card"><div class="kicker">${E(t.brand)}</div><h1>${s.lang === 'zh' ? '半周长线长' : 'Half-perimeter'}<br><span>${s.lang === 'zh' ? 'HPWL' : 'wirelength (HPWL)'}</span></h1><p>${E(t.titleSub)}</p><div class="tags">${t.titleTags.map(x => `<span>${E(x)}</span>`).join('')}</div></div>`,
+  walk: (s, t) => `<p class="walk-step num">${E(WALK[s.lang].step(Number(s.panel.step.slice(1)), 9))}</p>`,
+  title(s, t) {
+    const words = s.lang === 'zh' ? ['半', '周', '长', '线', '长'] : ['Half-', 'perimeter ', 'wire', 'length'];
+    // Music-locked assembly (story film): drum hit i reveals piece i (title pieces, then HPWL, then the subtitle).
+    const n = s.panel.shown === undefined ? Infinity : s.panel.shown;
+    const head = words.map((w, i) => `<span class="${i < n ? 'on' : 'off'}">${E(w)}</span>`).join('');
+    const on = i => (n > i ? 1 : 0);
+    return `<div class="title-card"><div class="kicker">${E(s.filmTitle)}</div><h1>${head}</h1><div class="hpwl" style="opacity:${on(words.length)}">HPWL</div>
+    <p style="opacity:${on(words.length + 1)}">${E(t.titleSub)}</p></div>`;
+  },
+  story: (s, t) => `<ul class="story">${t.story[s.panel.set].map((x, i) => `<li class="${i < s.panel.reveal ? 'on' : 'off'}">${E(x)}</li>`).join('')}</ul>${s.panel.set === 'box' && s.panel.reveal >= 2 ? `<div class="eq big">${fmt(s.metrics.selected.width)} + ${fmt(s.metrics.selected.height)} = ${num(s.metrics.selected.hpwl)}</div>` : ''}`,
+  end: (s, t) => `<div class="end-card"><div class="kicker">${E(s.filmTitle)}</div><h1>${E(t.end.lab)}</h1><p class="site">${E(t.end.site)}</p><p class="credit ${s.panel.credit ? 'on' : 'off'}">${E(t.end.credit)}</p></div>`,
   notes: (s, t) => `<ul class="notes">${t.notes[s.panel.set].map((x, i) => `<li class="${i < (s.panel.set === 'coords' ? (s.panel.reveal === 1 ? 3 : 4) : s.panel.reveal) ? 'on' : 'off'}">${E(x)}</li>`).join('')}</ul>`,
   net(s, t) {
     const b = s.metrics.selected;
@@ -144,15 +180,22 @@ const PANELS = {
 export function Scene(state, script, {lang = 'zh', captions = true} = {}) {
   const t = TXT[lang];
   const cue = script.cues[state.cueIndex];
-  const chapter = `${state.chapter} · ${script.chapters[state.chapter][lang]}`;
-  const s = {...state, lang};
+  const chapter = script.chapters[state.chapter][lang];
+  const s = {...state, lang, filmTitle: script.title[lang]};
   let boards;
-  if (state.boards) {
+  if (state.panel.kind === 'walk') {
+    boards = walkStage(state, lang);
+  } else if (state.boards) {
     boards = `<div class="boards two">${state.boards.map((b, i) => `<figure><figcaption>${i === 0 ? t.compare.starter : t.compare.compact} · ${t.total} ${fmt(state.boardsMetrics[i].total)}</figcaption>${Board(b, {width: 560, height: 560, id: `film-board-${i}`, lang, compact: true})}</figure>`).join('')}</div>`;
+  } else if (state.layout === 'wide') {
+    boards = `<div class="boards wide">${Board(state.board, {width: 1160, height: 820, id: 'film-board', lang})}</div>`;
   } else {
     boards = `<div class="boards one ${state.layout === 'title' ? 'faded' : ''}">${Board(state.board, {width: 840, height: 840, id: 'film-board', lang})}</div>`;
   }
   const panel = PANELS[state.panel.kind](s, t);
-  const cap = captions && state.caption ? `<div class="caption"><span>${E(state.caption[lang])}</span></div>` : '';
-  return `<section class="film-frame layout-${state.layout}" data-cue="${state.cueId}"><header><span class="chap">${E(chapter)}</span><span class="brand">${E(t.brand)}</span></header>${boards}<div class="panel ${state.boards ? 'narrow' : ''}"><h2>${E(cue.title[lang])}</h2>${panel}</div>${cap}</section>`;
+  // Chinese version: Chinese line with the English line small and italic under it. English version: English only.
+  const cap = captions && state.caption ? `<div class="caption"><div class="shade"></div><p class="main">${E(state.caption[lang])}</p>${lang === 'zh' && state.caption.en ? `<p class="second">${E(state.caption.en)}</p>` : ''}</div>` : '';
+  const narrow = state.boards || state.layout === 'wide';
+  const walkLayout = state.panel.kind === 'walk' ? ' walk' : '';
+  return `<section class="film-frame layout-${state.layout}" data-cue="${state.cueId}" lang="${lang === 'zh' ? 'zh-CN' : 'en'}"><header><span class="brand">${E(t.brand)}</span><span class="chap">${E(chapter)}</span><span class="film">${E(script.title[lang].split(' · ')[0])}</span></header>${boards}<div class="panel ${narrow ? 'narrow' : ''}${walkLayout}"><h2>${E(cue.title[lang])}</h2>${panel}</div>${cap}</section>`;
 }

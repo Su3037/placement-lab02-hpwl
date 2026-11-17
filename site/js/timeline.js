@@ -12,9 +12,9 @@ export function cueIndexAt(t, clock) {
   return segs.length - 1;
 }
 
-export function validateClock(clock, script) {
+export function validateClock(clock, script, {allowProvisional = false} = {}) {
   if (!clock || !Array.isArray(clock.segments) || !clock.segments.length) throw new TypeError('clock.segments required');
-  if (clock.provisional) throw new Error('final film cannot use a provisional clock');
+  if (clock.provisional && !allowProvisional) throw new Error('final film cannot use a provisional clock');
   let prev = 0;
   clock.segments.forEach((s, i) => {
     if (s.id !== script.cues[i]?.id) throw new Error(`clock/script order mismatch at ${i}: ${s.id}`);
@@ -146,13 +146,107 @@ const CUES = {
     const T = FX.teacher;
     return {board: view(T, clone(T.placements.compact), {showBoxes: 'all'}), panel: {kind: 'summary', reveal: c.li + 1}};
   },
+  // ---- popular-science film (cut to music) ----
+  city(FX, c) {
+    const f = FX.multi;
+    const show = c.lp(0, 0, 0.5);
+    return {board: view(f, clone(f.placements.start), {cells: ['P', 'Q', 'R', 'S'], nets: f.nets.filter(n => n.id === 'N1').map(n => ({...n, pins: [...n.pins]})),
+      selectedNet: 'N1', showBoxes: 'none', highlights: {city: true, appear: +show.toFixed(3), pulse: c.li >= 1 ? +c.lp(1, 0, 0.6).toFixed(3) : 0}}),
+      panel: {kind: 'story', set: 'hook', reveal: c.li + 1}};
+  },
+  city_box(FX, c) {
+    const f = FX.multi;
+    const p = c.since(c.seg.start + 0.4, 2.2), q = c.since(c.seg.start + 2.8, 1.6);
+    return {board: view(f, clone(f.placements.start), {cells: ['P', 'Q', 'R', 'S'], nets: f.nets.filter(n => n.id === 'N1').map(n => ({...n, pins: [...n.pins]})),
+      selectedNet: 'N1', showBoxes: q >= 1 ? 'selected' : 'none', highlights: {city: true, perimeter: {full: +p.toFixed(3), half: +q.toFixed(3)}, dims: q >= 1 ? 1 : 0}}),
+      panel: {kind: 'story', set: 'box', reveal: q >= 1 ? 2 : 1}};
+  },
+  chip_turn(FX, c) {
+    const T = FX.teacher;
+    return {board: view(T, clone(T.placements.starter), {showBoxes: c.li >= 1 ? 'all' : 'none', highlights: {flylines: c.li === 0 ? true : 0.3, legend: c.li >= 2}}),
+      panel: {kind: 'notes', set: 'problem', reveal: c.li + 1}};
+  },
+  title_story(FX, c) {
+    const T = FX.teacher;
+    const hits = c.hits.filter(h => h >= c.seg.start - 0.05 && h <= (c.sections.lock ?? c.seg.start + 2) + 0.05);
+    const shown = hits.filter(h => h <= c.T).length;
+    return {board: view(T, clone(T.placements.starter), {showBoxes: shown >= hits.length ? 'all' : 'none', highlights: {flylines: 0.35}}),
+      panel: {kind: 'title', shown: c.T >= (c.sections.lock ?? c.seg.start) + 0.8 ? 99 : shown}};
+  },
+  multi_story(FX, c) {
+    const f = FX.multi;
+    const k = Math.min(4, Math.floor(c.raw(0) * 6) + 1);
+    const done = c.raw(0) > 0.7;
+    return {board: view(f, clone(f.placements.start), {selectedNet: 'N1', visibleNets: ['N1'], highlights: done ? {dims: 1, extremes: 1} : {scanUpto: k}}),
+      panel: {kind: 'scan', net: 'N1', upto: k, formula: done}};
+  },
+  compact_collapse(FX, c) {
+    const T = FX.teacher, P = T.placements;
+    const a = c.lp(0, 0.05, 0.6), b = c.li >= 1 ? c.lp(1, 0.05, 0.6) : 0;
+    const pos = b > 0 ? lerpPositions(P.compact, P.collapsed, b) : lerpPositions(P.starter, P.compact, a);
+    return {board: view(T, pos, {showBoxes: 'all', footprint: c.li >= 2 ? +c.lp(2, 0, 0.3).toFixed(3) : false}),
+      panel: {kind: 'collapse', showOverlap: c.li >= 2, judge: false}, intermediate: (a > 0 && a < 1) || (b > 0 && b < 1)};
+  },
+  collapse_hold(FX, c) {
+    const T = FX.teacher;
+    return {board: view(T, clone(T.placements.collapsed), {showBoxes: 'all', footprint: 1}), panel: {kind: 'collapse', showOverlap: true, judge: true}};
+  },
+  bound_why(FX, c) {
+    const T = FX.teacher;
+    return {board: view(T, clone(T.placements.fixed49), {mode: 'fixed', showMode: true, footprint: 1, showBoxes: 'all', selectedNet: c.li === 0 ? 'ABCD' : null, highlights: {dimOthers: false}}),
+      panel: {kind: 'fixed', bound: true}};
+  },
+  chip_wide(FX, c) {
+    const chip = syntheticChip();
+    const sel = chip.nets[(c.li * 7) % chip.nets.length].id;
+    return {board: view(chip, clone(chip.placements.start), {showBoxes: 'all', selectedNet: sel, highlights: {tiny: true, flylines: false}}),
+      panel: {kind: 'story', set: 'chip', reveal: c.li + 1}};
+  },
+  // Lab walkthrough: recorded screenshots of the real page (scripts/record-walk.mjs), a cursor that travels between
+  // the recorded pointer positions, and a click ring. Still a pure function of t and the recorded data.
+  walk(FX, c) {
+    const shots = c.walk?.shots?.[c.cue.id] ?? [];
+    const u = clamp((c.T - c.seg.start) / Math.max(0.001, c.seg.sceneEnd - c.seg.start));
+    let k = 0;
+    shots.forEach((s, i) => { if (s.at <= u) k = i; });
+    const cur = shots[k] ?? null, prev = shots[k - 1] ?? cur;
+    const since = cur ? (c.T - (c.seg.start + cur.at * (c.seg.sceneEnd - c.seg.start))) : 0;
+    const move = ease(since / 0.45);
+    const cursor = cur && prev ? [prev.cursor[0] + (cur.cursor[0] - prev.cursor[0]) * move, prev.cursor[1] + (cur.cursor[1] - prev.cursor[1]) * move].map(v => +v.toFixed(2)) : null;
+    // the picture switches to the new screenshot when the pointer arrives (that is when the click happened)
+    const shown = cur && since < 0.45 && prev !== cur ? prev : cur;
+    const click = cur?.click && since >= 0.45 && since < 0.95 ? +((since - 0.45) / 0.5).toFixed(3) : null;
+    return {board: null, panel: {kind: 'walk', step: c.cue.id, n: shots.length}, walk: shown ? {img: shown.img, cursor, click, viewport: c.walk.viewport} : null};
+  },
+  end_story(FX, c) {
+    const T = FX.teacher;
+    return {board: view(T, clone(T.placements.fixed49), {showBoxes: 'all', mode: 'fixed', footprint: 1}), panel: {kind: 'end', credit: c.li >= 1}};
+  },
 };
+
+// A deterministic stand-in for "a real chip": many cells and nets from a seeded generator (mulberry32).
+let CHIP = null;
+function syntheticChip() {
+  if (CHIP) return CHIP;
+  let a = 20261117;
+  const rnd = () => { a |= 0; a = a + 0x6D2B79F5 | 0; let t = Math.imul(a ^ a >>> 15, 1 | a); t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t; return ((t ^ t >>> 14) >>> 0) / 4294967296; };
+  const cells = [], start = {};
+  for (let i = 0; i < 160; i++) { const id = `c${i}`; cells.push(id); start[id] = {x: Math.round(rnd() * 400) / 10, y: Math.round(rnd() * 220) / 10}; }
+  const nets = [];
+  for (let i = 0; i < 110; i++) {
+    const k = 2 + Math.floor(rnd() * rnd() * 5), base = Math.floor(rnd() * 160), pins = new Set([`c${base}`]);
+    while (pins.size < k) { const near = cells.filter(id => Math.abs(start[id].x - start[`c${base}`].x) < 9 && Math.abs(start[id].y - start[`c${base}`].y) < 7); pins.add(near[Math.floor(rnd() * near.length)]); if (near.length < k) break; }
+    nets.push({id: `n${i}`, pins: [...pins], weight: 1});
+  }
+  CHIP = {id: 'chip', cells, nets: nets.filter(n => n.pins.length >= 2), fixed: [], bounds: {xmin: 0, xmax: 40, ymin: 0, ymax: 22}, placements: {start}};
+  return CHIP;
+}
 
 /**
  * stateAt(t, fixtures, script, clock): the complete semantic state at time t.
  * fixtures: prepared fixtures (domain.prepareFixtures).
  */
-export function stateAt(time, fixtures, script, clock) {
+export function stateAt(time, fixtures, script, clock, {walk = null} = {}) {
   if (!Number.isFinite(time)) throw new TypeError('A finite time is required.');
   const t = clamp(time, 0, clock.duration);
   const i = cueIndexAt(t, clock);
@@ -163,15 +257,19 @@ export function stateAt(time, fixtures, script, clock) {
   for (let k = 0; k < L.length; k++) if (L[k].start <= t) li = k;
   const raw = k => (k < li ? 1 : k > li ? 0 : clamp((t - L[k].start) / (L[k].end - L[k].start)));
   const lp = (k, a = 0, b = 1) => ease((raw(k) - a) / (b - a));
-  const build = CUES[cue.id];
-  if (!build) throw new Error(`No picture for cue ${cue.id}`);
-  const pic = build(fixtures, {li, raw, lp});
-  const captionOn = t >= L[li].start && t < L[li].end;
+  const scene = cue.scene ?? cue.id;
+  const build = CUES[scene];
+  if (!build) throw new Error(`No picture for scene ${scene} (cue ${cue.id})`);
+  const since = (a, d = 1) => ease((t - a) / d); // music-locked motion: 0 before time a, 1 after a + d
+  const pic = build(fixtures, {li, raw, lp, T: t, seg, since, hits: clock.track?.hits ?? [], sections: clock.track?.sections ?? {}, cue, walk});
+  const line = cue.lines[li];
+  const captionOn = t >= L[li].start && t < L[li].end && Boolean(line.zh || line.en);
   // Numbers for the panel: computed here, from the same positions the board draws.
-  const metrics = analyse(pic.board);
+  const metrics = pic.board ? analyse(pic.board) : {total: null, nets: []};
   const extra = {};
   if (pic.boards) extra.boardsMetrics = pic.boards.map(b => analyse(b));
   if (pic.panel.kind === 'scan') extra.scan = scanTrace(pic.board.nets.find(n => n.id === pic.panel.net), pic.board.positions);
+  if (pic.panel.kind === 'scan' && !pic.board.nets.find(n => n.id === pic.panel.net)) throw new Error('scan panel needs its net');
   if (pic.panel.kind === 'names') { const n = pic.board.nets.find(x => x.id === pic.panel.net); extra.clique = cliqueSum(n, pic.board.positions); }
   if (pic.panel.kind === 'move') {
     const fx = fixtures[pic.board.fixtureId];
@@ -188,13 +286,14 @@ export function stateAt(time, fixtures, script, clock) {
     lineIndex: li, lineProgress: raw(li), cueProgress: clamp((t - seg.start) / (seg.sceneEnd - seg.start)),
     caption: captionOn ? {zh: cue.lines[li].zh, en: cue.lines[li].en, id: `${cue.id}-${li + 1}`} : null,
     intermediate: Boolean(pic.intermediate),
-    board: pic.board, boards: pic.boards ?? null, panel: pic.panel, metrics, ...extra,
+    board: pic.board, boards: pic.boards ?? null, panel: pic.panel, metrics, walk: pic.walk ?? null, ...extra,
   };
 }
 
 /** What "Try this frame" hands to the lab: the actual coordinates and settings of the primary board. */
 export function labHandoff(state) {
   const b = state.board;
+  if (!b) return null;
   return {
     fixtureId: b.fixtureId, positions: clone(b.positions), mode: b.mode, selectedNet: b.selectedNet ?? b.nets[0].id,
     weighted: b.weighted, footprint: Boolean(b.footprint), fixed: [...b.fixed],

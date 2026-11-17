@@ -39,7 +39,8 @@
      "speak_zh": "这是实验台。打开时载入老师的起始布局，总 H P W L 是 52。",
      "speak_en": "This is the lab. It opens with the teacher's starter layout, with a total H P W L of fifty-two."
     }
-   ]
+   ],
+   "scene": "walk"
   },
   {
    "id": "w02",
@@ -54,7 +55,8 @@
      "en": "Click a net to highlight its box and extreme pins; the table updates at the same time.",
      "hold": 3
     }
-   ]
+   ],
+   "scene": "walk"
   },
   {
    "id": "w03",
@@ -71,7 +73,8 @@
      "speak_zh": "直接拖动单元。把 C 拖到 3、5，相关线网当场重算。",
      "speak_en": "Drag a cell directly. Move C to three, five, and every net it touches is recomputed."
     }
-   ]
+   ],
+   "scene": "walk"
   },
   {
    "id": "w04",
@@ -86,7 +89,8 @@
      "en": "Or use the keyboard: focus a cell and press the arrow keys. Undo steps back at any time.",
      "hold": 3.5
     }
-   ]
+   ],
+   "scene": "walk"
   },
   {
    "id": "w05",
@@ -101,7 +105,8 @@
      "en": "The step-by-step scan reads one pin at a time and shows how the min and max update.",
      "hold": 4
     }
-   ]
+   ],
+   "scene": "walk"
   },
   {
    "id": "w06",
@@ -116,7 +121,8 @@
      "en": "Switch to fixed-anchor mode: A and D are locked, and the status line says why they will not move.",
      "hold": 4
     }
-   ]
+   ],
+   "scene": "walk"
   },
   {
    "id": "w07",
@@ -133,7 +139,8 @@
      "speak_zh": "看片时，随时按“试试这一帧”，实验台会接过画面上的真实坐标。",
      "speak_en": "While watching, press Try this frame, and the lab takes over the exact coordinates on screen."
     }
-   ]
+   ],
+   "scene": "walk"
   },
   {
    "id": "w08",
@@ -148,7 +155,8 @@
      "en": "Challenges check the real layout in your lab, so different correct arrangements all pass.",
      "hold": 4
     }
-   ]
+   ],
+   "scene": "walk"
   },
   {
    "id": "w09",
@@ -163,7 +171,8 @@
      "en": "Finally, download the Python pack, complete the functions, and verify them with the checker.",
      "hold": 3.5
     }
-   ]
+   ],
+   "scene": "walk"
   }
  ]
 }

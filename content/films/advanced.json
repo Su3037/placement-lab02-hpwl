@@ -1,0 +1,228 @@
+{
+ "id": "advanced",
+ "kind": "reading",
+ "title": {
+  "zh": "进阶 · HPWL 的边界",
+  "en": "Advanced · The limits of HPWL"
+ },
+ "chapters": {
+  "01": {
+   "zh": "一 · 为什么是一半",
+   "en": "I · Why half"
+  },
+  "02": {
+   "zh": "二 · 并列与固定",
+   "en": "II · Ties and fixed pads"
+  },
+  "03": {
+   "zh": "三 · 加权",
+   "en": "III · Weights"
+  },
+  "04": {
+   "zh": "四 · 分数与合法",
+   "en": "IV · Score versus legality"
+  },
+  "05": {
+   "zh": "五 · 小结",
+   "en": "V · Summary"
+  }
+ },
+ "cues": [
+  {
+   "id": "a01",
+   "scene": "title",
+   "chapter": "01",
+   "layout": "title",
+   "title": {
+    "zh": "进阶：HPWL 的边界",
+    "en": "Advanced: the limits of HPWL"
+   },
+   "lines": [
+    {
+     "zh": "精讲片给出了定义。这一片问“为什么”和“如果……会怎样”。",
+     "en": "The concise film gave the definition. This one asks why, and what if.",
+     "hold": 3
+    },
+    {
+     "zh": "每一节都用实际计算回答一个问题。",
+     "en": "Each section answers one question with an actual computation.",
+     "hold": 3
+    }
+   ]
+  },
+  {
+   "id": "a02",
+   "chapter": "01",
+   "layout": "board",
+   "title": {
+    "zh": "为什么叫“半周长”",
+    "en": "Why “half perimeter”"
+   },
+   "lines": [
+    {
+     "zh": "包围盒的周长是 2 ×（6 + 5）= 22，取一半正好是宽 + 高 = 11。",
+     "en": "The box perimeter is 2 × (6 + 5) = 22; half of it is width + height = 11.",
+     "hold": 4.0
+    },
+    {
+     "zh": "所以 HPWL 不是周长 22，不是两两距离之和 35，也不是一条真实导线的长度。",
+     "en": "So HPWL is not the perimeter 22, not the all-pairs sum 35, and not the length of a real wire.",
+     "hold": 3.5
+    }
+   ],
+   "scene": "half_name"
+  },
+  {
+   "id": "a03",
+   "chapter": "02",
+   "layout": "board",
+   "title": {
+    "zh": "并列的极值",
+    "en": "Tied extremes"
+   },
+   "lines": [
+    {
+     "zh": "ABCD 的最小 x 由 A 和 C 一起取到：它们是并列的极值引脚。",
+     "en": "ABCD's minimum x is reached by both A and C: they are tied extreme pins.",
+     "hold": 3.0
+    },
+    {
+     "zh": "（自由点模式）把 A 右移 2：C 还在 x = 0，ABCD 仍是 16；AB 8 → 6，AC 8 → 10，总和仍是 52。",
+     "en": "(Free-point mode) Move A right by 2: C still holds x = 0, ABCD stays 16; AB 8 → 6, AC 8 → 10, total still 52.",
+     "hold": 6.0
+    }
+   ],
+   "scene": "ties"
+  },
+  {
+   "id": "a04",
+   "chapter": "02",
+   "layout": "compare",
+   "title": {
+    "zh": "两个布局的比较",
+    "en": "Two placements compared"
+   },
+   "lines": [
+    {
+     "zh": "老师给的紧凑参考布局：同样的线网，总 HPWL = 2 + 2 + 2 + 2 + 4 + 2 = 14。",
+     "en": "The teacher's compact reference: same nets, total HPWL = 2 + 2 + 2 + 2 + 4 + 2 = 14.",
+     "hold": 3.5
+    },
+    {
+     "zh": "52 → 14 少了 38 个坐标单位。这是两个布局的比较，不是优化过程，也不是实测的走线节省。",
+     "en": "52 → 14 is 38 coordinate units less. It compares two placements; it is not an optimization run or a measured routing saving.",
+     "hold": 3.5
+    },
+    {
+     "zh": "数据把 A、D 标为固定焊盘，紧凑布局却移动了它们：这只是自由点模式下的测量。",
+     "en": "The data marks A and D as fixed pads, yet the compact layout moves them: this is a free-point measurement only.",
+     "hold": 3.0
+    }
+   ],
+   "scene": "compact"
+  },
+  {
+   "id": "a05",
+   "chapter": "03",
+   "layout": "board",
+   "title": {
+    "zh": "可选扩展：加权 HPWL",
+    "en": "Optional extension: weighted HPWL"
+   },
+   "lines": [
+    {
+     "zh": "可选扩展：给每个线网一个权重，例如 ABCD 的权重为 5，其余为 1。",
+     "en": "Optional: give each net a weight, e.g. ABCD weighs 5 and the others 1.",
+     "hold": 3.0
+    },
+    {
+     "zh": "加权和：起始 116，紧凑 30。权重改变的是目标，不改变 HPWL 的定义。",
+     "en": "Weighted sums: starter 116, compact 30. Weights change the objective, not the definition of HPWL.",
+     "hold": 3.5
+    }
+   ],
+   "scene": "weights"
+  },
+  {
+   "id": "a06",
+   "chapter": "04",
+   "layout": "board",
+   "title": {
+    "zh": "把所有点叠在一起",
+    "en": "Stack every point"
+   },
+   "lines": [
+    {
+     "zh": "如果把六个点全部叠到同一个位置，每个包围盒都缩成一点，HPWL = 0。",
+     "en": "Stack all six points in one place and every box shrinks to a point: HPWL = 0.",
+     "hold": 5.0
+    },
+    {
+     "zh": "分数最低，却不是可用的布局：真实单元有面积，会互相重叠。",
+     "en": "The lowest score, yet not a usable placement: real cells have area and would overlap.",
+     "hold": 2.5
+    },
+    {
+     "zh": "给每个单元一个 1 × 1 的占位方块：15 对单元全部重叠。",
+     "en": "Give each cell a 1 × 1 footprint: all 15 pairs overlap.",
+     "hold": 3.5
+    }
+   ],
+   "scene": "collapse"
+  },
+  {
+   "id": "a07",
+   "chapter": "04",
+   "layout": "board",
+   "title": {
+    "zh": "固定焊盘模式",
+    "en": "Fixed-anchor mode"
+   },
+   "lines": [
+    {
+     "zh": "固定 A (0, 0) 和 D (8, 8)：ABCD 至少 16，AB + BD 与 AC + CD 也各至少 16。",
+     "en": "Fix A (0, 0) and D (8, 8): ABCD is at least 16, and AB + BD and AC + CD are each at least 16.",
+     "hold": 4.0
+    },
+    {
+     "zh": "点模型的下限是 48；再要求 1 × 1 方块互不重叠，EF ≥ 1，下限变成 49。",
+     "en": "The point-model bound is 48; with non-overlapping 1 × 1 footprints EF ≥ 1, so the bound becomes 49.",
+     "hold": 6.0
+    },
+    {
+     "zh": "比较 HPWL 之前，先确认约束是否成立。",
+     "en": "Before comparing HPWL, check that the constraints hold.",
+     "hold": 2.0
+    }
+   ],
+   "scene": "fixed_anchor"
+  },
+  {
+   "id": "a08",
+   "chapter": "05",
+   "layout": "summary",
+   "title": {
+    "zh": "小结",
+    "en": "Summary"
+   },
+   "lines": [
+    {
+     "zh": "HPWL = 宽 + 高，是包围盒周长的一半；多引脚线网只算一个包围盒。",
+     "en": "HPWL = width + height, half the box perimeter; a multi-pin net counts one box.",
+     "hold": 3.0
+    },
+    {
+     "zh": "移动极值引脚会改变盒子；内部移动不改变该线网，但可能改变别的线网。",
+     "en": "Moving an extreme pin changes the box; an interior move keeps that net but may change others.",
+     "hold": 3.0
+    },
+    {
+     "zh": "更低的 HPWL 不能单独证明布局合法或可用。下面的实验台可以从任意一帧接着操作。",
+     "en": "A lower HPWL alone does not prove a placement legal or usable. The lab below continues from any frame.",
+     "hold": 3.5
+    }
+   ],
+   "scene": "takeaway"
+  }
+ ]
+}

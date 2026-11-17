@@ -1,0 +1,407 @@
+{
+ "id": "story",
+ "kind": "music",
+ "music": "wenever",
+ "title": {
+  "zh": "科普 · 一根光纤有多长",
+  "en": "Popular science · How long is one cable?"
+ },
+ "chapters": {
+  "00": {
+   "zh": "一根光纤",
+   "en": "One cable"
+  },
+  "01": {
+   "zh": "一 · 盒子",
+   "en": "I · The box"
+  },
+  "02": {
+   "zh": "二 · 拖动",
+   "en": "II · Moving pins"
+  },
+  "03": {
+   "zh": "三 · 最低分",
+   "en": "III · The lowest score"
+  },
+  "04": {
+   "zh": "四 · 诚实的下限",
+   "en": "IV · An honest bound"
+  },
+  "05": {
+   "zh": "五 · 在芯片上",
+   "en": "V · On a chip"
+  }
+ },
+ "cues": [
+  {
+   "id": "s01",
+   "scene": "city",
+   "chapter": "00",
+   "layout": "wide",
+   "at": 0,
+   "title": {
+    "zh": "街区",
+    "en": "The grid"
+   },
+   "lines": [
+    {
+     "zh": "街道横平竖直。要用光纤把这四家店连起来，",
+     "en": "The streets run straight and square. To link these four shops with fibre,",
+     "hold": 4
+    },
+    {
+     "zh": "最少要多长？",
+     "en": "how much do you need at the very least?",
+     "hold": 3
+    }
+   ]
+  },
+  {
+   "id": "s02",
+   "scene": "city_box",
+   "chapter": "00",
+   "layout": "wide",
+   "at": 10.75,
+   "title": {
+    "zh": "一个盒子",
+    "en": "One box"
+   },
+   "lines": [
+    {
+     "zh": "画个最小的框：宽 + 高。没有更短的走法。",
+     "en": "Draw the smallest box: width + height. No route is shorter.",
+     "hold": 3
+    }
+   ]
+  },
+  {
+   "id": "s03",
+   "scene": "chip_turn",
+   "chapter": "01",
+   "layout": "board",
+   "at": 17.41,
+   "title": {
+    "zh": "芯片上的同一个问题",
+    "en": "The same problem on a chip"
+   },
+   "lines": [
+    {
+     "zh": "芯片布局每一步都在问同一个问题。",
+     "en": "Chip placement asks this question at every step.",
+     "hold": 3
+    },
+    {
+     "zh": "单元是店铺，线网是要连在一起的那几家。",
+     "en": "Cells are the shops; a net is a group that must be linked.",
+     "hold": 3
+    },
+    {
+     "zh": "导线还没画出来，长度就得先估出来。",
+     "en": "The wires are not drawn yet, but their length is needed now.",
+     "hold": 3
+    }
+   ]
+  },
+  {
+   "id": "s04",
+   "scene": "title_story",
+   "chapter": "01",
+   "layout": "title",
+   "at": 32.03,
+   "title": {
+    "zh": "半周长线长",
+    "en": "Half-perimeter wirelength"
+   },
+   "lines": [
+    {
+     "zh": "",
+     "en": "",
+     "hold": 6
+    }
+   ]
+  },
+  {
+   "id": "s05",
+   "scene": "two_manhattan",
+   "chapter": "01",
+   "layout": "board",
+   "at": 40.6,
+   "title": {
+    "zh": "两个引脚",
+    "en": "Two pins"
+   },
+   "lines": [
+    {
+     "zh": "两个引脚：横向 4，纵向 3。",
+     "en": "Two pins: four across, three up.",
+     "hold": 2.5
+    },
+    {
+     "zh": "HPWL = 7，是曼哈顿距离，不是直线 5。",
+     "en": "HPWL = 7: Manhattan distance, not the straight-line 5.",
+     "hold": 3
+    }
+   ]
+  },
+  {
+   "id": "s06",
+   "scene": "multi_story",
+   "chapter": "01",
+   "layout": "board",
+   "at": 49.06,
+   "title": {
+    "zh": "四个引脚，一个盒子",
+    "en": "Four pins, one box"
+   },
+   "lines": [
+    {
+     "zh": "四个引脚，一个盒子：11。",
+     "en": "Four pins, one box: 11.",
+     "hold": 2.5
+    }
+   ]
+  },
+  {
+   "id": "s07",
+   "scene": "extreme_move",
+   "chapter": "02",
+   "layout": "board",
+   "at": 53.3,
+   "title": {
+    "zh": "拖动边上的引脚",
+    "en": "Drag an edge pin"
+   },
+   "lines": [
+    {
+     "zh": "拖动边上的 Q，盒子跟着变大：11 → 13。",
+     "en": "Drag Q on the edge and the box grows: 11 → 13.",
+     "hold": 3
+    },
+    {
+     "zh": "越过 P 的高度，最低点换人：14。",
+     "en": "Below P's height, the lowest pin changes: 14.",
+     "hold": 3
+    },
+    {
+     "zh": "",
+     "en": "",
+     "hold": 0.5
+    }
+   ]
+  },
+  {
+   "id": "s08",
+   "scene": "interior_move",
+   "chapter": "02",
+   "layout": "board",
+   "at": 63.15,
+   "title": {
+    "zh": "拖动里面的引脚",
+    "en": "Drag an inside pin"
+   },
+   "lines": [
+    {
+     "zh": "里面的 S 怎么动，N1 都不变。",
+     "en": "Move S inside the box: N1 stays the same.",
+     "hold": 2.5
+    }
+   ]
+  },
+  {
+   "id": "s09",
+   "scene": "teacher_starter",
+   "chapter": "02",
+   "layout": "board",
+   "at": 68.2,
+   "title": {
+    "zh": "六个线网",
+    "en": "Six nets"
+   },
+   "lines": [
+    {
+     "zh": "老师的例子，六个线网，一网一个盒子。",
+     "en": "The teacher's example: six nets, one box each.",
+     "hold": 2.5
+    },
+    {
+     "zh": "8、8、8、8、16、4。",
+     "en": "8, 8, 8, 8, 16, 4.",
+     "hold": 4
+    },
+    {
+     "zh": "总和 52。",
+     "en": "Total: 52.",
+     "hold": 2
+    }
+   ]
+  },
+  {
+   "id": "s10",
+   "scene": "compact_collapse",
+   "chapter": "03",
+   "layout": "board",
+   "at": 80.16,
+   "title": {
+    "zh": "分数还能更低",
+    "en": "The score can go lower"
+   },
+   "lines": [
+    {
+     "zh": "换个紧凑的摆法：14。",
+     "en": "A compact arrangement: 14.",
+     "hold": 2.5
+    },
+    {
+     "zh": "再狠一点，全部叠到一点：0。",
+     "en": "Push harder and stack them all on one point: 0.",
+     "hold": 3
+    },
+    {
+     "zh": "1 × 1 的方块一放，15 对全部重叠。",
+     "en": "Give each cell a 1 × 1 footprint: all 15 pairs overlap.",
+     "hold": 3.5
+    }
+   ]
+  },
+  {
+   "id": "s11",
+   "scene": "collapse_hold",
+   "chapter": "03",
+   "layout": "board",
+   "at": 97.19,
+   "title": {
+    "zh": "最低分",
+    "en": "The lowest score"
+   },
+   "lines": [
+    {
+     "zh": "最低的分数，最不能用的布局。",
+     "en": "The lowest score, and the least usable layout.",
+     "hold": 3
+    }
+   ]
+  },
+  {
+   "id": "s12",
+   "scene": "fixed_anchor",
+   "chapter": "04",
+   "layout": "board",
+   "at": 102.5,
+   "title": {
+    "zh": "钉住焊盘",
+    "en": "Pin down the pads"
+   },
+   "lines": [
+    {
+     "zh": "把焊盘 A、D 钉在原地。",
+     "en": "Fix the pads A and D where they are.",
+     "hold": 3
+    },
+    {
+     "zh": "再要求方块互不重叠，诚实的最好成绩是 49。",
+     "en": "Require footprints not to overlap, and the honest best is 49.",
+     "hold": 7
+    },
+    {
+     "zh": "点模型能到 48；多出的 1，来自方块要占地方。",
+     "en": "Points could reach 48; the extra 1 is the room the squares need.",
+     "hold": 4
+    }
+   ]
+  },
+  {
+   "id": "s13",
+   "scene": "bound_why",
+   "chapter": "04",
+   "layout": "board",
+   "at": 119.27,
+   "title": {
+    "zh": "为什么到不了更低",
+    "en": "Why not lower"
+   },
+   "lines": [
+    {
+     "zh": "A 和 D 隔着 8 + 8：连到它们的线网，加起来至少 48。",
+     "en": "A and D are 8 + 8 apart: the nets that reach them add up to at least 48.",
+     "hold": 4.5
+    },
+    {
+     "zh": "这是证明出来的下限，不是猜出来的。",
+     "en": "That bound is proved, not guessed.",
+     "hold": 3
+    },
+    {
+     "zh": "",
+     "en": "",
+     "hold": 0.5
+    }
+   ]
+  },
+  {
+   "id": "s14",
+   "scene": "chip_wide",
+   "chapter": "05",
+   "layout": "wide",
+   "at": 134.16,
+   "title": {
+    "zh": "在真实芯片上",
+    "en": "On a real chip"
+   },
+   "lines": [
+    {
+     "zh": "真实芯片有上百万个线网。",
+     "en": "A real chip has millions of nets.",
+     "hold": 2.5
+    },
+    {
+     "zh": "布局器每走一步，都要把它们的盒子重算一遍。",
+     "en": "Every step of a placer recomputes all of their boxes.",
+     "hold": 3.5
+    },
+    {
+     "zh": "所以这个估计必须便宜：一次遍历，就有答案。",
+     "en": "So the estimate must be cheap: one pass and you have it.",
+     "hold": 3.5
+    },
+    {
+     "zh": "它便宜，却不完整：不看拥挤，不看时序。",
+     "en": "It is cheap but incomplete: it ignores congestion and timing.",
+     "hold": 3.5
+    },
+    {
+     "zh": "它只是线长的下限式估计，还要和约束一起用。",
+     "en": "It is a lower-bound estimate of wire length, to be used with constraints.",
+     "hold": 4
+    },
+    {
+     "zh": "一个线网有 100 个引脚时，盒子还靠得住吗？",
+     "en": "When a net has 100 pins, can one box still be trusted?",
+     "hold": 4
+    }
+   ]
+  },
+  {
+   "id": "s15",
+   "scene": "end_story",
+   "chapter": "05",
+   "layout": "title",
+   "at": 170.6,
+   "title": {
+    "zh": "去实验台",
+    "en": "To the lab"
+   },
+   "lines": [
+    {
+     "zh": "去实验台，亲手拖一拖这些引脚。",
+     "en": "Head to the lab and drag the pins yourself.",
+     "hold": 3.5
+    },
+    {
+     "zh": "音乐：We Never (Remix)（若如初见）· Hi Noise / 秋成",
+     "en": "Music: We Never (Remix) · Hi Noise / Qiucheng",
+     "hold": 4
+    }
+   ]
+  }
+ ]
+}

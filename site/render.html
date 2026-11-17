@@ -1,32 +1,40 @@
 <!doctype html>
 <html lang="zh-CN"><head><meta charset="utf-8"><title>HPWL film frame renderer</title>
 <link rel="stylesheet" href="css/fonts.css"><link rel="stylesheet" href="css/film.css">
-<style>html,body{margin:0;background:#0b1016}#stage{width:1920px;height:1080px}</style></head>
+<style>html,body{margin:0;background:#061219}#stage{width:1920px;height:1080px}</style></head>
 <body><div id="stage"></div>
 <script type="module">
-// Page contract (docs/REPRODUCIBILITY.md): window.ready, window.clock, window.renderAt(seconds) -> semantic snapshot.
+// Page contract (docs/REPRODUCIBILITY.md): render.html?film=<id>&lang=<zh|en>; window.ready, window.clock,
+// window.renderAt(seconds) -> semantic snapshot.
 import {prepareFixtures} from './js/domain.js';
 import {stateAt, validateClock, labHandoff} from './js/timeline.js';
 import {Scene} from './js/scene.js';
 const q = new URLSearchParams(location.search);
 const lang = q.get('lang') === 'en' ? 'en' : 'zh';
+const film = q.get('film') ?? 'concise';
+if (!/^[a-z]+$/.test(film)) throw new Error('bad film id');
 async function data(path) { const r = await fetch(path); if (!r.ok) throw new Error(`Missing ${path} (HTTP ${r.status})`); return r.json(); }
 try {
-  const [fx, script, clock] = await Promise.all([data('data/fixtures.json'), data('data/script.json'), data('data/clock.json')]);
-  validateClock(clock, script);
+  const [fx, script, clock] = await Promise.all([data('data/fixtures.json'), data(`data/films/${film}.json`), data(`data/films/${film}.clock.${lang}.json`)]);
+  validateClock(clock, script, {allowProvisional: q.get('draft') === '1'});
+  // The lab walkthrough draws recorded screenshots of the real page (scripts/record-walk.mjs).
+  const walk = film === 'lab' ? await data(`data/walk/${lang}.json`).catch(() => null) : null;
+  window.walk = walk;
   const fixtures = prepareFixtures(fx);
   window.clock = clock;
   const stage = document.getElementById('stage');
-  window.stateAt = t => stateAt(t, fixtures, script, clock);
+  window.stateAt = t => stateAt(t, fixtures, script, clock, {walk});
   window.renderAt = async seconds => {
-    const state = stateAt(seconds, fixtures, script, clock);
+    const state = stateAt(seconds, fixtures, script, clock, {walk});
     stage.innerHTML = Scene(state, script, {lang});
+    await Promise.all([...stage.querySelectorAll('img')].map(im => im.complete ? (im.naturalWidth ? null : Promise.reject(new Error(`image failed: ${im.src}`))) : im.decode()));
     await document.fonts.ready;
     // Snapshot of the semantic state actually drawn (used by tests and the frame map).
     return {time: state.time, cueId: state.cueId, lineIndex: state.lineIndex, caption: state.caption?.id ?? null, intermediate: state.intermediate,
-      total: state.metrics.total, handoff: labHandoff(state)};
+      total: state.metrics.total, handoff: labHandoff(state), walk: state.walk ? {img: state.walk.img, cursor: state.walk.cursor} : null};
   };
-  await Promise.all(['400 30px "Noto Sans SC"', '700 30px "Noto Sans SC"', '400 30px "JetBrains Mono"', '700 30px "JetBrains Mono"'].map(f => document.fonts.load(f, '半周长 HPWL 0123')));
+  await Promise.all(['400 30px "Noto Sans SC"', '700 30px "Noto Sans SC"', '400 30px "JetBrains Mono"', '700 30px "JetBrains Mono"', '400 30px "Noto Serif SC"',
+    '400 30px "Newsreader"', 'italic 400 30px "Noto Sans"', '400 30px "Noto Sans"', '600 30px "Noto Sans"'].map(f => document.fonts.load(f, '半周长 HPWL 0123 Aa')));
   await window.renderAt(Number(q.get('t') ?? 0));
   window.ready = true;
 } catch (e) {

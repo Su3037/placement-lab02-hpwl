@@ -1,0 +1,38 @@
+WEBVTT
+
+w01-1
+00:00:00.600 --> 00:00:07.071
+This is the lab. It opens with the teacher's starter layout: total HPWL 52.
+
+w02-1
+00:00:07.871 --> 00:00:13.460
+Click a net to highlight its box and extreme pins; the table updates at the same time.
+
+w03-1
+00:00:14.260 --> 00:00:20.243
+Drag a cell directly. Move C to (3, 5) and every net it touches is recomputed.
+
+w04-1
+00:00:21.043 --> 00:00:27.236
+Or use the keyboard: focus a cell and press the arrow keys. Undo steps back at any time.
+
+w05-1
+00:00:28.036 --> 00:00:33.044
+The step-by-step scan reads one pin at a time and shows how the min and max update.
+
+w06-1
+00:00:33.844 --> 00:00:39.758
+Switch to fixed-anchor mode: A and D are locked, and the status line says why they will not move.
+
+w07-1
+00:00:40.558 --> 00:00:46.541
+While watching, press “Try this frame” and the lab takes over the exact coordinates on screen.
+
+w08-1
+00:00:47.341 --> 00:00:52.675
+Challenges check the real layout in your lab, so different correct arrangements all pass.
+
+w09-1
+00:00:53.475 --> 00:00:59.760
+Finally, download the Python pack, complete the functions, and verify them with the checker.
+

@@ -2,20 +2,27 @@
 <html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>HPWL slides</title>
 <link rel="stylesheet" href="css/fonts.css">
 <style>
+/* House slide style (same family as the course films): near-black blue-green, a thin teal rule on top, ivory titles
+   with a short gold underline, gold bullets, quiet footer with the module name and a page number "p3/13". */
 @page { size: 1600px 900px; margin: 0; }
 html, body { margin: 0; background: #555; font-family: var(--sans); }
-.slide { width: 1600px; height: 900px; position: relative; overflow: hidden; background: #0b1016; color: #e6edf5; page-break-after: always; break-after: page; margin: 0 auto 20px; }
-@media print { .slide { margin: 0; } body { background: #0b1016; } }
-.slide h1 { position: absolute; left: 70px; top: 46px; right: 70px; margin: 0; font-size: 50px; line-height: 1.2; }
-.slide .s-body { position: absolute; left: 70px; right: 60px; top: 150px; bottom: 80px; display: flex; gap: 40px; }
-.slide ul { flex: 1; margin: 10px 0 0; padding-left: 1.1em; font-size: 31px; line-height: 1.5; }
-.slide li { margin-bottom: 18px; }
-.slide .s-fig { width: 700px; flex: none; } .slide .s-fig svg { width: 700px; height: auto; display: block; }
-.slide .s-code { flex: none; width: 820px; margin: 0; font: 21px/1.6 var(--mono); background: #0f151d; border: 1px solid #223041; border-radius: 10px; padding: 18px; white-space: pre-wrap; }
-.slide footer { position: absolute; left: 70px; right: 70px; bottom: 26px; display: flex; justify-content: space-between; color: #8aa0b6; font-size: 22px; border-top: 1px solid #1f2b38; padding-top: 10px; }
-.slide .pn { font-family: var(--mono); color: #ffd166; }
-.title-slide h1 { top: 150px; font-size: 72px; color: #ffd166; }
-.title-slide .s-body { top: 270px; } .title-slide ul { list-style: none; padding: 0; font-size: 34px; color: #c9d3df; }
+.slide { width: 1600px; height: 900px; position: relative; overflow: hidden; background: #0a1b21; color: #eeeadd; page-break-after: always; break-after: page; margin: 0 auto 20px; border-top: 5px solid #4f8f84; box-sizing: border-box; }
+@media print { .slide { margin: 0; } body { background: #0a1b21; } }
+.slide h1 { position: absolute; left: 76px; top: 52px; right: 76px; margin: 0; font: 400 50px/1.2 var(--serif); letter-spacing: .02em; }
+.slide h1::after { content: ""; display: block; width: 74px; height: 3px; background: #ddbd78; margin-top: 18px; }
+.slide .s-body { position: absolute; left: 76px; right: 70px; top: 178px; bottom: 90px; display: flex; gap: 48px; }
+.slide ul { flex: 1; margin: 0; padding: 0; list-style: none; font-size: 30px; line-height: 1.5; }
+.slide li { margin-bottom: 20px; padding-left: 30px; position: relative; }
+.slide li::before { content: ""; position: absolute; left: 4px; top: .62em; width: 9px; height: 9px; border-radius: 50%; background: #ddbd78; }
+.slide .s-fig { width: 680px; flex: none; } .slide .s-fig svg { width: 680px; height: auto; display: block; border-radius: 6px; }
+.slide .s-code { flex: none; width: 820px; margin: 0; font: 21px/1.65 var(--mono); background: #081a22; border: 1px solid #1d3640; border-left: 2px solid #ddbd78; border-radius: 6px; padding: 18px 20px; white-space: pre-wrap; color: #d8e8d8; }
+.slide footer { position: absolute; left: 76px; right: 76px; bottom: 22px; display: flex; justify-content: space-between; color: #8fa3a3; font-size: 21px; border-top: 1px solid #1d3640; padding-top: 12px; }
+.slide .pn { font-weight: 700; color: #c9d3cf; }
+.title-slide h1 { top: 290px; text-align: center; font-size: 86px; color: #ddbd78; letter-spacing: .08em; }
+.title-slide h1::after { display: none; }
+.title-slide .s-body { top: 430px; justify-content: center; } .title-slide ul { flex: none; text-align: center; font-size: 32px; color: #c9d3cf; }
+.title-slide li { padding: 0; margin-bottom: 14px; } .title-slide li::before { display: none; }
+.title-slide li:last-child { color: #8fa3a3; font-size: 26px; margin-top: 40px; }
 </style></head>
 <body><main id="deck"></main>
 <script type="module">import {boot} from './js/slides.js'; boot().catch(e => { document.body.textContent = 'Slides failed: ' + e; window.slidesError = String(e); });</script>

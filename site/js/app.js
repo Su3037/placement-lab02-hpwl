@@ -1,7 +1,6 @@
 // Page bootstrap: language, sections, figures, worked table, lab, film player, challenges, quiz, slides.
 import {prepareFixtures, makeState, analyse, fmt} from './domain.js';
 import {Board, netColor, escapeText as E} from './board.js';
-import {validateClock} from './timeline.js';
 import {TEXT, REPO, TEACHER} from './content.js';
 import {createLab} from './lab.js';
 import {createPlayer} from './player.js';
@@ -51,7 +50,7 @@ function challengeCard(ch) {
     return `<label class="numfield">${E(c.labels[k])} <input type="text" inputmode="decimal" name="${ch.id}-${k}" autocomplete="off"></label>`;
   };
   return `<article class="challenge" id="${ch.id}" data-id="${ch.id}">
-    <header><h3>${E(c.title)}</h3><span class="badge cat">${E(T.cat[ch.category])}</span><span class="badge diff d${ch.difficulty}">${E(T.diff[ch.difficulty])}</span><span class="badge progress" data-k="progress"></span></header>
+    <header><h3>${E(c.title)}</h3><span class="tag cat">${E(T.cat[ch.category])}</span><span class="tag diff d${ch.difficulty}">${E(T.diff[ch.difficulty])}</span><span class="tag progress" data-k="progress"></span></header>
     <p class="goal"><b>${ui.goal}:</b> ${E(c.goal)}</p><p>${E(c.prompt)}</p>
     <form>${(ch.fields ?? []).map(field).join('')}
       <div class="ch-actions">${ch.kind === 'state' ? `<button type="button" data-a="start">${ui.start}</button>` : ''}<button type="submit" class="primary">${ui.check}</button><button type="button" data-a="hint">${ui.hint1}</button><button type="button" data-a="answer">${ui.showAnswer}</button><button type="reset">${ui.retry}</button></div>
@@ -65,7 +64,7 @@ function wireChallenges(root, fixtures, lab) {
     const p = progress[el.dataset.id];
     const badge = el.querySelector('[data-k="progress"]');
     badge.textContent = p?.done ? (p.studied ? T.chUi.studied : T.chUi.independent) : T.chUi.notYet;
-    badge.className = `badge progress ${p?.done ? (p.studied ? 'studied' : 'indep') : ''}`;
+    badge.className = `tag progress ${p?.done ? (p.studied ? 'studied' : 'indep') : ''}`;
   });
   root.querySelectorAll('.challenge').forEach(el => {
     const ch = CHALLENGES.find(c => c.id === el.dataset.id), c = T.ch[ch.id];
@@ -135,7 +134,7 @@ function wireSlides(root, manifest) {
   const show = () => {
     const s = slides[i];
     root.querySelector('.slide-img').src = s.img; root.querySelector('.slide-img').alt = s.title;
-    root.querySelector('.slide-notes').textContent = s.notes;
+    root.querySelector('.slide-notes-text').textContent = s.notes;
     root.querySelector('.slide-page').textContent = T.page(i + 1, slides.length);
   };
   root.querySelector('[data-a="prev"]').addEventListener('click', () => { i = Math.max(0, i - 1); show(); });
@@ -143,41 +142,65 @@ function wireSlides(root, manifest) {
   show();
 }
 
+const sec = (id, no, title, intro, body, cls = '') => `<section id="${id}" class="section ${cls}"><div class="wrap">
+  <div class="section-head"><div><p class="eyebrow">${no} / ${E(T.nav.find(n => n[0] === id)?.[1] ?? '')}</p><h2>${title}</h2></div>${intro ? `<p>${intro}</p>` : ''}</div>${body}</div></section>`;
+const BRAND = '<svg viewBox="0 0 26 26" aria-hidden="true"><rect x="4.5" y="7.5" width="17" height="11" fill="none" stroke="#0f6b5c" stroke-width="1.4" stroke-dasharray="3 2"/><circle cx="4.5" cy="18.5" r="2.6" fill="#fffdf8" stroke="#0f6b5c" stroke-width="1.4"/><circle cx="21.5" cy="7.5" r="2.6" fill="#fffdf8" stroke="#0f6b5c" stroke-width="1.4"/><circle cx="12" cy="12" r="2.2" fill="#946a17"/></svg>';
+
+function wireNav() {
+  const links = [...document.querySelectorAll('.module-nav a')];
+  if (!('IntersectionObserver' in window)) return;
+  const io = new IntersectionObserver(entries => entries.forEach(en => {
+    if (en.isIntersecting) links.forEach(a => a.classList.toggle('active', a.hash === `#${en.target.id}`));
+  }), {rootMargin: '-45% 0px -50% 0px'});
+  links.forEach(a => { const el = document.querySelector(a.hash); if (el) io.observe(el); });
+}
+
 async function main() {
   const app = document.getElementById('app');
   app.textContent = T.loading;
-  const [fx, script, clock] = await Promise.all([data('data/fixtures.json'), data('data/script.json'), data('data/clock.json')]);
-  validateClock(clock, script);
+  const [fx, films] = await Promise.all([data('data/fixtures.json'), data('data/films/index.json')]);
   const slidesManifest = await data('slides/manifest.json').catch(() => null);
   const fixtures = prepareFixtures(fx);
+  const other = lang === 'zh' ? 'en' : 'zh';
   app.innerHTML = `
-  <header class="hero"><div class="wrap"><div class="topline"><span>${T.kicker}</span><a class="lang" href="${T.switchHref}">${T.switchTo}</a></div>
-    <h1>${T.title}</h1><p class="lead">${T.subtitle}</p><p class="meta">${T.meta}</p></div></header>
-  <nav class="toc" aria-label="sections"><div class="wrap">${T.nav.map(([id, l]) => `<a href="#${id}">${l}</a>`).join('')}</div></nav>
-  <main class="wrap">
-    <section id="outcomes"><h2>${T.outcomesTitle}</h2><ol class="outcomes">${T.outcomes.map(o => `<li>${o}</li>`).join('')}</ol></section>
-    <section id="background"><h2>${T.backgroundTitle}</h2>${T.background.map(p => `<p>${p}</p>`).join('')}</section>
-    <section id="definitions"><h2>${T.defsTitle}</h2><div class="defs">${T.defs.map(d => `<article class="def"><div class="fig">${figure(fixtures, d.fig)}</div><h3>${d.term}</h3><p>${d.text}</p></article>`).join('')}</div></section>
-    <section id="worked"><h2>${T.workedTitle}</h2><p>${T.workedIntro}</p>${workedTable(fixtures)}<p>${T.workedNote}</p></section>
-    <section id="film" class="dark"><h2>${T.filmTitle}</h2><p>${T.filmIntro} <a href="media/sample.zh.mp4">${T.sampleLink}</a></p><div data-k="player"></div></section>
-    <section id="lab" class="dark"><h2>${T.labTitle}</h2><p>${T.labIntro}</p><div data-k="lab" class="lab"></div></section>
-    <section id="pseudocode"><h2>${T.pseudoTitle}</h2><pre class="code">${E(T.pseudo)}</pre><ul>${T.pseudoNotes.map(n => `<li>${n}</li>`).join('')}</ul></section>
-    <section id="mistakes"><h2>${T.mistakesTitle}</h2><div class="mistakes">${T.mistakes.map(([a, b]) => `<div><h3>✗ ${a}</h3><p>${b}</p></div>`).join('')}</div>
-      <h2>${T.limitsTitle}</h2><ul>${T.limits.map(l => `<li>${l}</li>`).join('')}</ul></section>
-    <section id="challenges"><h2>${T.challengesTitle}</h2><p>${T.challengesIntro}</p><div class="challenges">${CHALLENGES.map(challengeCard).join('')}</div></section>
-    <section id="quiz"><h2>${T.quizTitle}</h2>${T.quiz.map((q, i) => `<fieldset class="quiz-item"><legend>${i + 1}. ${E(q.q)}</legend>${q.a.map((a, j) => `<label><input type="radio" name="quiz-${i}" value="${j}"> ${E(a)}</label>`).join('')}<p class="fb" aria-live="polite"></p></fieldset>`).join('')}</section>
-    <section id="python"><h2>${T.pythonTitle}</h2><p>${T.pythonIntro}</p><ol>${T.pythonSteps.map(s => `<li>${s}</li>`).join('')}</ol><p><a class="button" href="downloads/hpwl-python.zip" download>${T.pythonDownload}</a></p><p class="small">${T.pythonNote}</p></section>
-    <section id="slides"><h2>${T.slidesTitle}</h2><p>${T.slidesIntro} <a href="slides/hpwl-slides.${lang}.pdf">${T.slidesPdf}</a> · <a href="slides/hpwl-slides.${lang}.pptx">${T.slidesPptx}</a></p>
-      <div class="slide-view"><img class="slide-img" alt="" width="1600" height="900"><div class="slide-nav"><button type="button" data-a="prev">${T.prev}</button><span class="slide-page"></span><button type="button" data-a="next">${T.next}</button></div><p class="slide-notes"></p></div></section>
-    <section id="repro"><h2>${T.reproTitle}</h2>${T.repro.map(p => `<p>${links(p)}</p>`).join('')}<h3>${T.sourcesTitle}</h3><ul>${T.sources.map(s => `<li>${links(s)}</li>`).join('')}</ul></section>
+  <a class="skip" href="#main">${lang === 'zh' ? '跳到正文' : 'Skip to content'}</a>
+  <header class="topbar"><div class="wrap"><a class="brand" href="./${lang === 'en' ? '?lang=en' : ''}">${BRAND}<span class="brand-name">Placement Lab 02</span><span class="brand-sub">${E(T.title)}</span></a>
+    <nav class="topnav" aria-label="${lang === 'zh' ? '页面' : 'Page'}"><a href="#films">${E(T.nav[1][1])}</a><a href="#lab">${E(T.nav[4][1])}</a><a href="#challenges">${E(T.nav[5][1])}</a><a href="${REPO}">GitHub</a></nav>
+    <div class="lang-switch" role="group" aria-label="Language">${lang === 'zh' ? '<span aria-current="true" lang="zh-CN">中文</span><a href="?lang=en" lang="en">EN</a>' : '<a href="?lang=zh" lang="zh-CN">中文</a><span aria-current="true" lang="en">EN</span>'}</div></div></header>
+  <nav class="module-nav" aria-label="${lang === 'zh' ? '本课各部分' : 'Sections'}"><div class="wrap">${T.nav.map(([id, l, n]) => `<a href="#${id}"><span>${n}</span>${E(l)}</a>`).join('')}</div></nav>
+  <main id="main">
+  <header class="mod-hero"><div class="wrap"><div><p class="eyebrow">${E(T.eyebrow)}</p><h1>${E(T.title)}</h1><p class="sub">${E(T.heroSub)}</p><p class="byline">${E(T.meta)}</p></div>
+    <aside class="factbox"><dl>${T.facts.map(([k, v]) => `<dt>${E(k)}</dt><dd>${E(v)}</dd>`).join('')}</dl></aside></div></header>
+  ${sec('goals', '01', T.outcomesTitle, '', `<div class="grid-2"><div><ol class="objectives">${T.outcomes.map(o => `<li>${o}</li>`).join('')}</ol></div>
+    <div><h3>${T.problemTitle}</h3><div class="problem">${T.problem.map(([k, v]) => `<div><b>${E(k)}</b><p>${E(v)}</p></div>`).join('')}</div></div></div>`)}
+  ${sec('films', '02', T.filmsTitle, T.filmsIntro, '<div data-k="player"></div>', 'dark')}
+  ${sec('lesson', '03', T.lessonTitle, '', `<div class="lesson-layout"><nav class="lesson-toc">${[['background', T.backgroundTitle], ['definitions', T.defsTitle], ['worked', T.workedTitle], ['pseudocode', T.pseudoTitle]].map(([id, t], i) => `<a href="#${id}"><span>03.${i + 1}</span>${E(t)}</a>`).join('')}</nav>
+    <div class="prose wide">
+    <div class="lesson-part" id="background"><span class="part-no">03.1</span><h3>${T.backgroundTitle}</h3>${T.background.map(p => `<p>${p}</p>`).join('')}</div>
+    <div class="lesson-part" id="definitions"><span class="part-no">03.2</span><h3>${T.defsTitle}</h3><div class="defs">${T.defs.map(d => `<article class="def"><div class="fig">${figure(fixtures, d.fig)}</div><h4>${d.term}</h4><p>${d.text}</p></article>`).join('')}</div></div>
+    <div class="lesson-part" id="worked"><span class="part-no">03.3</span><h3>${T.workedTitle}</h3><p>${T.workedIntro}</p>${workedTable(fixtures)}<p class="callout">${T.workedNote}</p></div>
+    <div class="lesson-part" id="pseudocode"><span class="part-no">03.4</span><h3>${T.pseudoTitle}</h3><pre class="code">${E(T.pseudo)}</pre><ul>${T.pseudoNotes.map(n => `<li>${n}</li>`).join('')}</ul></div>
+    </div></div>`)}
+  ${sec('slides', '04', T.slidesTitle, `${T.slidesIntro} <a href="slides/hpwl-slides.${lang}.pdf">${T.slidesPdf}</a> · <a href="slides/hpwl-slides.${lang}.pptx">${T.slidesPptx}</a>`,
+    `<div class="slides slide-view"><div class="slide-bar"><button type="button" class="btn small" data-a="prev">${T.prev}</button><span class="pageno slide-page"></span><button type="button" class="btn small" data-a="next">${T.next}</button></div>
+     <div class="slide-stage"><img class="slide-img" alt="" width="1600" height="900"></div><div class="slide-notes"><h4>${lang === 'zh' ? '讲稿' : 'Notes'}</h4><p class="slide-notes-text"></p></div></div>`)}
+  ${sec('lab', '05', T.labTitle, T.labIntro, '<div data-k="lab" class="lab"></div>', 'dark')}
+  ${sec('challenges', '06', T.challengesTitle, T.challengesIntro, `<div class="challenges">${CHALLENGES.map(challengeCard).join('')}</div>`)}
+  ${sec('quiz', '07', T.quizTitle, '', T.quiz.map((q, i) => `<fieldset class="quiz-item"><legend><span>${String(i + 1).padStart(2, '0')}</span> ${E(q.q)}</legend>${q.a.map((a, j) => `<label><input type="radio" name="quiz-${i}" value="${j}"> ${E(a)}</label>`).join('')}<p class="fb" aria-live="polite"></p></fieldset>`).join(''))}
+  ${sec('python', '08', T.pythonTitle, T.pythonIntro, `<ol class="objectives">${T.pythonSteps.map(s => `<li>${s}</li>`).join('')}</ol><p class="btn-row"><a class="btn primary" href="downloads/hpwl-python.zip" download>${T.pythonDownload}</a></p><p class="small muted">${T.pythonNote}</p>`)}
+  ${sec('mistakes', '09', T.mistakesTitle, '', `<div class="mistakes">${T.mistakes.map(([a, b]) => `<div class="mistake"><h4>${a}</h4><p>${b}</p></div>`).join('')}</div>
+    <div class="limits"><h3>${T.limitsTitle}</h3><ul class="prose">${T.limits.map(l => `<li>${l}</li>`).join('')}</ul></div>`)}
+  ${sec('repro', '10', T.reproTitle, '', `<div class="grid-2"><div class="prose">${T.repro.map(p => `<p>${links(p)}</p>`).join('')}</div><div><h3>${T.sourcesTitle}</h3><ul class="credits-list">${T.sources.map(s => `<li>${links(s)}</li>`).join('')}</ul></div></div>`)}
   </main>
-  <footer><div class="wrap">${T.footer} · <a href="${REPO}">GitHub</a></div></footer>`;
+  <footer class="footer"><div class="wrap"><p>${T.footer}</p><p><a href="${REPO}">GitHub</a> · <a href="?lang=${other}">${T.switchTo}</a></p></div></footer>`;
   const lab = createLab(app.querySelector('[data-k="lab"]'), {fixtures, text: T, lang});
   window.hpwlLab = lab; // exposed for the browser tests
-  window.hpwlPlayer = createPlayer(app.querySelector('[data-k="player"]'), {fixtures, script, clock, text: T, lang, lab, media: {film: 'media/film.zh.mp4'}});
+  window.hpwlPlayer = createPlayer(app.querySelector('[data-k="player"]'), {fixtures, films, text: T, lang, lab});
   wireChallenges(app.querySelector('#challenges'), fixtures, lab);
   wireQuiz(app.querySelector('#quiz'));
   wireSlides(app.querySelector('#slides'), slidesManifest);
+  wireNav();
+  await window.hpwlPlayer.ready.catch(e => console.error(e));
   if (location.hash) document.querySelector(location.hash)?.scrollIntoView();
   window.appReady = true;
 }

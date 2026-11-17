@@ -1,0 +1,159 @@
+{
+ "output": "site/media/lab.en.mp4",
+ "lang": "en",
+ "start": 0,
+ "end": 62.26,
+ "fps": 30,
+ "frames": 1868,
+ "width": 1920,
+ "height": 1080,
+ "crf": 20,
+ "codec": "h264",
+ "pixFmt": "yuv420p",
+ "durationProbe": 62.266667,
+ "film": "lab",
+ "clockId": "lab.en",
+ "clockKind": "voice",
+ "clockDuration": 62.26,
+ "clockSha256": "5adb253a6e23a72afd223819848b942eafb3a81e7a483c3759c5d41fb4251af6",
+ "audio": {
+  "film": "lab",
+  "lang": "en",
+  "duration": 62.26,
+  "audio": "voice+score",
+  "takes": 9,
+  "takesSha256": "e8f0ab0bdc111107711cf2e5558123e6199f371b773bc041c3dabd2b6a41cfa8",
+  "voices": {
+   "zh": "Tingting",
+   "en": "Samantha"
+  },
+  "wavSha256": "c12daee5d7e336b42a11cd0ad32ad787f4c0bd0eae832ed40a0645684c69128e"
+ },
+ "timeOfFrame": "start + frameIndex / fps",
+ "cueFrames": [
+  {
+   "id": "w01",
+   "firstFrame": 0,
+   "lastFrame": 236
+  },
+  {
+   "id": "w02",
+   "firstFrame": 237,
+   "lastFrame": 427
+  },
+  {
+   "id": "w03",
+   "firstFrame": 428,
+   "lastFrame": 631
+  },
+  {
+   "id": "w04",
+   "firstFrame": 632,
+   "lastFrame": 841
+  },
+  {
+   "id": "w05",
+   "firstFrame": 842,
+   "lastFrame": 1015
+  },
+  {
+   "id": "w06",
+   "firstFrame": 1016,
+   "lastFrame": 1216
+  },
+  {
+   "id": "w07",
+   "firstFrame": 1217,
+   "lastFrame": 1420
+  },
+  {
+   "id": "w08",
+   "firstFrame": 1421,
+   "lastFrame": 1604
+  },
+  {
+   "id": "w09",
+   "firstFrame": 1605,
+   "lastFrame": 1867
+  }
+ ],
+ "sources": {
+  "site/css/film.css": "db34be4e00e9bbd44cb66b2321c62adaddff120a709b99b0b973a757f89e64fa",
+  "site/css/fonts.css": "4f54c21456413d07b1e91ab4218985dc58c6b8c838ea3003bbbbc77c444344a3",
+  "site/data/films/lab.clock.en.json": "5adb253a6e23a72afd223819848b942eafb3a81e7a483c3759c5d41fb4251af6",
+  "site/data/films/lab.json": "873e6da414a6cfefad2bc8eea2fff974abc4bef530deb58dd01c18158b9ba31e",
+  "site/data/fixtures.json": "efd240cc7818b0687518bdcbe4bf7f2fbaacf0c6f0db29fa3c6c19d12d6890c5",
+  "site/data/walk/en-w01-0.jpg": "46f0c5512282551507c2b46570c681f07809c308ff16ebe7681d1f649c2a52e4",
+  "site/data/walk/en-w02-0.jpg": "499e3185f3f6a3cfdfce1f2d569bb655f051ec80566f64022a12dd1a4333c2af",
+  "site/data/walk/en-w02-1.jpg": "03ed0e39c7cbb5b58c01349736449afc1c865f0d823059545617a56dd5f2b6e5",
+  "site/data/walk/en-w03-0.jpg": "5dbfd28548526fd93fe90355224b4793bbd04b99b019850daceee830a5372922",
+  "site/data/walk/en-w03-1.jpg": "8e3d53d5beba1d32e934f41e35c826fd46bab4170d34554f4be50584e76b0020",
+  "site/data/walk/en-w03-2.jpg": "940539a34a6a0f76af85b7c951fa43051ba044d1b2657ffe26aa2499d2a781ee",
+  "site/data/walk/en-w04-0.jpg": "d52748fc13d0a2874f81947f3d91478c50cf77255a279d14ce5633e322e93eff",
+  "site/data/walk/en-w04-1.jpg": "32c8db5d2da0478403b022613b46ea493e914858cbc7e5f2be7942c3a3f46c8b",
+  "site/data/walk/en-w04-2.jpg": "fcab93b6c26503bca84ea37ea7f98dc56bd49ae67e10ed054ae833cb74931a91",
+  "site/data/walk/en-w05-0.jpg": "0f520967aec7eb3704ea7a3809cdcec5214a88739eb6a97850c062172eb62245",
+  "site/data/walk/en-w05-1.jpg": "23828d2f5912957f61ef015298de6d6c9f738dabd1f633f160b88a0afada08f4",
+  "site/data/walk/en-w05-2.jpg": "884420a33a97adb917c0db5ba54b9e1852ae68c457be19073223e1707e8d98ba",
+  "site/data/walk/en-w05-3.jpg": "d8d9d501266ae86cc3069d3ce09991e29d3e27c0e560849b5f4a450d661ada1e",
+  "site/data/walk/en-w05-4.jpg": "f1908ab2952ff714c5e2b6b23472d1873955ff22fb719ac6ce9293e66bd9e315",
+  "site/data/walk/en-w06-0.jpg": "f261037cb6f79dbcd6dc1c6a20d00944266ef195e879ec3606d85f6a4adb2109",
+  "site/data/walk/en-w06-1.jpg": "dbb85e2ce2695c49fab909385c4b54503db6000fe2722c206bdb272bf4054c26",
+  "site/data/walk/en-w07-0.jpg": "6b5ba8014febfb8d864e695a15de4d8c0b63ae3ed72e847e35ecfc23c328f4cd",
+  "site/data/walk/en-w07-1.jpg": "95db766ee4977d32d39971fbfceb9e3095aaf27344754b52435251988251c930",
+  "site/data/walk/en-w08-0.jpg": "375f57b66ab1a29308c79cde1b3720bfc173ba28223f7b773474ea32b1866740",
+  "site/data/walk/en-w08-1.jpg": "f5c5c5e9eb6069b983cc7c69efb99e9e6475b7ccc79e0bc7054a1f9152e2963a",
+  "site/data/walk/en-w09-0.jpg": "e52bda221918325a67641e10bb1679d7deb3009fb807623d0f35ecbf20c9d43b",
+  "site/data/walk/en.json": "e7fe512bec816a768d8e6863844adf20991c57c1165cdaeb5c88a52330bb4690",
+  "site/data/walk/zh-w01-0.jpg": "db607acf66c8e4e362feef94463dc917a234fdaacbfc5502176d7e176c4e0487",
+  "site/data/walk/zh-w02-0.jpg": "f4c42eba850f35dabacf446c77af96cd71c0f6ac6e60b781d0c065bbae0f32a8",
+  "site/data/walk/zh-w02-1.jpg": "40a9e8a5935c8da7259074ac06fb31f59bdc6f52635486ea8066e9e718eb5461",
+  "site/data/walk/zh-w03-0.jpg": "9243feebcdb3071cf5ef26961282a2806bca0ebc100b9da206a144ea734ac6ef",
+  "site/data/walk/zh-w03-1.jpg": "ee9b31876dbf8d27aa3355ebd013ed6a165ed93ac1a16c1bc5f5311ba0f7c7aa",
+  "site/data/walk/zh-w03-2.jpg": "8ba5170c70ec9dcf629578d3b2ae82ae6df28b37bfaaa75f51a792eda74bd18a",
+  "site/data/walk/zh-w04-0.jpg": "aa26fc5626c764005f00fb3c9143f8604f490413c466c3e076c8684017c67221",
+  "site/data/walk/zh-w04-1.jpg": "724c6f773f551b33b5088ab092394ccde4aecd3f7685b9da6997d4046b6847cf",
+  "site/data/walk/zh-w04-2.jpg": "5592541d499a3a0bdd5984e1c7d6086d2c80ddf7a9a05896a43baf12e2b017e0",
+  "site/data/walk/zh-w05-0.jpg": "0fb9427e84851a15e8e447555b3544d9a7fd8cd1a7da926127e53599fe58e98f",
+  "site/data/walk/zh-w05-1.jpg": "c414b07f6e55c959b7d43dd60d81fa2e46b1a2886ea67881d23079bb139ec761",
+  "site/data/walk/zh-w05-2.jpg": "53d5f7c11bfbea2d8940ab6beb311349f01df472bfe8763fb0f57992f67d6350",
+  "site/data/walk/zh-w05-3.jpg": "7867844721cdf39dfe0b50253f1437aceb234d9b88d9cb96b6f257e9b3b47224",
+  "site/data/walk/zh-w05-4.jpg": "c9764947031f98e0cc5506470886e8c703249c505eedf7f82fcddf55fff377a0",
+  "site/data/walk/zh-w06-0.jpg": "f77514ffb8a45314fa39459d8b94a247cc450c7f431eb2e8063d224f783d993e",
+  "site/data/walk/zh-w06-1.jpg": "92418599a310ecc11bf17ab76a9946baf82bcf5420c7a00f6846bef1e05675ed",
+  "site/data/walk/zh-w07-0.jpg": "020a430e54105eb0c01ce4d7a29abf37ff0702858f98941fa73e91206431560f",
+  "site/data/walk/zh-w07-1.jpg": "4019344a99ddee64d87cc1fc375f9f5db0690ac04cac1837fffd7224fcf55a9a",
+  "site/data/walk/zh-w08-0.jpg": "69a1964659c24e8371755d8db3725cc1b7822b4e3952d99fc8fe97328faaeccb",
+  "site/data/walk/zh-w08-1.jpg": "403238456bd663c921cbd77497d975c5134d9f2e1fc853f1763ac3e4969fd797",
+  "site/data/walk/zh-w09-0.jpg": "d4874c39a19c7835c8c7d4ef4ff75dd7de9ae65e2cc711eb1f26186c5bc7c073",
+  "site/data/walk/zh.json": "14b5c3bd824fbc84da66b7054a630911dd3fad281f8f44797f79c713f5f1135b",
+  "site/fonts/JetBrainsMono-Bold.woff2": "923023cb46936a8b8b7e8f197b86284929b91702336148f54ae3d02e70997bf7",
+  "site/fonts/JetBrainsMono-Regular.woff2": "003483b84443899726b599ed4ac8b025fae2250f64eaf964594554090f8fd371",
+  "site/fonts/Newsreader-Italic.woff2": "67a84221c778de1498d6f3a6b0571980eb4dc29ba2d2a4d9081d407d2dc52b54",
+  "site/fonts/Newsreader-Medium.woff2": "cb3e9eb516fb93bb07a3ba8a27dc5c179183f56b09db8fd23c994c37096e4fea",
+  "site/fonts/Newsreader-Regular.woff2": "f98f7cfa2d428a88201d6bbee007a68c2ee42e982bf89c3ede8533c6789a862c",
+  "site/fonts/NotoSans-Italic.woff2": "96376f91cd1875cc4722ecfdfcbd06127e128cfe50d49840cee79a7ba932c399",
+  "site/fonts/NotoSans-Regular.woff2": "83c706bdf9a1c16c1af27eeada9776e7ff7215560f1dd36f5842c1b4359ad983",
+  "site/fonts/NotoSans-SemiBold.woff2": "cba9a79f5952d0805e8d8b7a0143197ab33f23979e5e0156c0c2826142914f99",
+  "site/fonts/NotoSansSC-Bold.woff2": "45bc1d21717d8591afa5c7c8a664aa3c426be5f02b3089e111730826da8ad3cb",
+  "site/fonts/NotoSansSC-Regular.woff2": "c97aea1496634e99be314777eab8cac8f90214e6d6ca2f3258e5bf8a09bdfa02",
+  "site/fonts/NotoSerifSC-Regular.woff2": "2aa4717623174839f2f90ca2b12076e47d580f7e37df2e7e3731f90bc47eb1d7",
+  "site/fonts/NotoSerifSC-SemiBold.woff2": "a4d213c37dacf45a17cb7d23d0b9bd4a17dde7de857c739293f44a9925ca779f",
+  "site/js/board.js": "98e0db3d1ccd11bd6952cf5beb978e9cd572e7e242fc68109674805cd81fc23d",
+  "site/js/domain.js": "dc2f26a2f0a68bb714b1efbc4934ce03cdad1eddc48b31024023744a92082ac9",
+  "site/js/scene.js": "953cf7cb2468d54eaef17de412f818ea4006bb6ad254ac52cf942b53e6bd0b11",
+  "site/js/timeline.js": "ba78180a88baf207bae51649fc5eb1e73d15c909bdf13ab8ad613add09bc0a8b",
+  "site/render.html": "b3d10f947cc66b9189b9851a3d07a6a5a102f3eefe08cb3b0b00411280f4e7da"
+ },
+ "environment": {
+  "node": "v22.23.4",
+  "playwright": "1.63.0",
+  "chromium": "153.0.8010.12",
+  "ffmpeg": "ffmpeg version 6.1.1-3ubuntu5 Copyright (c) 2000-2023 the FFmpeg developers",
+  "platform": "linux-x64"
+ },
+ "mp4Sha256": "3329bf1eccff787f79be9840774e9e232bb8ba9ffc7367fd54899835ce70b2d5",
+ "bytes": 5967384,
+ "wallSeconds": 78,
+ "pageErrors": []
+}

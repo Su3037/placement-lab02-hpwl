@@ -35,7 +35,7 @@ sh = [
     'echo "zh voice: $ZH"; echo "en voice: $EN"',
     'say -v "?" > "$OUT/voices-available.txt"',
     'sw_vers > "$OUT/system.txt"',
-    'v() { say -v "$1" -o "$OUT/$2.aiff" "$3" && afconvert -f m4af -d aac -b 128000 "$OUT/$2.aiff" "$OUT/$2.m4a" && rm "$OUT/$2.aiff"; }',
+    'v() { say -v "$1" -o "$OUT/$2.aiff" "$3" && afconvert -f m4af -d aac@44100 -b 128000 "$OUT/$2.aiff" "$OUT/$2.m4a" && rm "$OUT/$2.aiff"; }',
 ]
 for it in items:
     voice = '"$ZH"' if it["lang"] == "zh" else '"$EN"'

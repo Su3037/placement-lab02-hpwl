@@ -1,0 +1,178 @@
+{
+ "id": "lab",
+ "kind": "voice",
+ "title": {
+  "zh": "实验演示 · HPWL 实验台",
+  "en": "Lab walkthrough · The HPWL lab"
+ },
+ "chapters": {
+  "01": {
+   "zh": "实验台",
+   "en": "The lab"
+  },
+  "02": {
+   "zh": "改变布局",
+   "en": "Change the layout"
+  },
+  "03": {
+   "zh": "从影片进入",
+   "en": "From the film"
+  },
+  "04": {
+   "zh": "挑战与 Python",
+   "en": "Challenges and Python"
+  }
+ },
+ "cues": [
+  {
+   "id": "w01",
+   "chapter": "01",
+   "title": {
+    "zh": "打开实验台",
+    "en": "Open the lab"
+   },
+   "lines": [
+    {
+     "zh": "这是实验台。打开时载入老师的起始布局，总 HPWL 是 52。",
+     "en": "This is the lab. It opens with the teacher's starter layout: total HPWL 52.",
+     "hold": 3,
+     "speak_zh": "这是实验台。打开时载入老师的起始布局，总 H P W L 是 52。",
+     "speak_en": "This is the lab. It opens with the teacher's starter layout, with a total H P W L of fifty-two."
+    }
+   ],
+   "scene": "walk"
+  },
+  {
+   "id": "w02",
+   "chapter": "01",
+   "title": {
+    "zh": "选择线网",
+    "en": "Pick a net"
+   },
+   "lines": [
+    {
+     "zh": "点一个线网，它的包围盒和极值引脚就会高亮，表格也同时更新。",
+     "en": "Click a net to highlight its box and extreme pins; the table updates at the same time.",
+     "hold": 3
+    }
+   ],
+   "scene": "walk"
+  },
+  {
+   "id": "w03",
+   "chapter": "02",
+   "title": {
+    "zh": "拖动单元",
+    "en": "Drag a cell"
+   },
+   "lines": [
+    {
+     "zh": "直接拖动单元。把 C 拖到 (3, 5)，相关线网当场重算。",
+     "en": "Drag a cell directly. Move C to (3, 5) and every net it touches is recomputed.",
+     "hold": 4,
+     "speak_zh": "直接拖动单元。把 C 拖到 3、5，相关线网当场重算。",
+     "speak_en": "Drag a cell directly. Move C to three, five, and every net it touches is recomputed."
+    }
+   ],
+   "scene": "walk"
+  },
+  {
+   "id": "w04",
+   "chapter": "02",
+   "title": {
+    "zh": "键盘",
+    "en": "Keyboard"
+   },
+   "lines": [
+    {
+     "zh": "也可以用键盘：选中单元后按方向键；撤销按钮随时退回上一步。",
+     "en": "Or use the keyboard: focus a cell and press the arrow keys. Undo steps back at any time.",
+     "hold": 3.5
+    }
+   ],
+   "scene": "walk"
+  },
+  {
+   "id": "w05",
+   "chapter": "02",
+   "title": {
+    "zh": "逐步扫描",
+    "en": "Step-by-step scan"
+   },
+   "lines": [
+    {
+     "zh": "逐步扫描一次读一个引脚，演示最小值和最大值怎样更新。",
+     "en": "The step-by-step scan reads one pin at a time and shows how the min and max update.",
+     "hold": 4
+    }
+   ],
+   "scene": "walk"
+  },
+  {
+   "id": "w06",
+   "chapter": "02",
+   "title": {
+    "zh": "固定焊盘",
+    "en": "Fixed anchors"
+   },
+   "lines": [
+    {
+     "zh": "切换到固定焊盘模式：A 和 D 被锁住，拖不动，状态栏会说明原因。",
+     "en": "Switch to fixed-anchor mode: A and D are locked, and the status line says why they will not move.",
+     "hold": 4
+    }
+   ],
+   "scene": "walk"
+  },
+  {
+   "id": "w07",
+   "chapter": "03",
+   "title": {
+    "zh": "试试这一帧",
+    "en": "Try this frame"
+   },
+   "lines": [
+    {
+     "zh": "看片时随时按“试试这一帧”，实验台会接过画面上的真实坐标。",
+     "en": "While watching, press “Try this frame” and the lab takes over the exact coordinates on screen.",
+     "hold": 4,
+     "speak_zh": "看片时，随时按“试试这一帧”，实验台会接过画面上的真实坐标。",
+     "speak_en": "While watching, press Try this frame, and the lab takes over the exact coordinates on screen."
+    }
+   ],
+   "scene": "walk"
+  },
+  {
+   "id": "w08",
+   "chapter": "04",
+   "title": {
+    "zh": "挑战",
+    "en": "Challenges"
+   },
+   "lines": [
+    {
+     "zh": "挑战检查的是你在实验台里的真实布局，不同的正确摆法都能通过。",
+     "en": "Challenges check the real layout in your lab, so different correct arrangements all pass.",
+     "hold": 4
+    }
+   ],
+   "scene": "walk"
+  },
+  {
+   "id": "w09",
+   "chapter": "04",
+   "title": {
+    "zh": "Python 练习",
+    "en": "Python practice"
+   },
+   "lines": [
+    {
+     "zh": "最后下载 Python 练习包，补全函数，用检查脚本验证你的实现。",
+     "en": "Finally, download the Python pack, complete the functions, and verify them with the checker.",
+     "hold": 3.5
+    }
+   ],
+   "scene": "walk"
+  }
+ ]
+}

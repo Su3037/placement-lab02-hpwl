@@ -1,0 +1,106 @@
+WEBVTT
+
+k01-1
+00:00:00.600 --> 00:00:07.419
+In a few minutes: half-perimeter wirelength, HPWL, from the definition to the code.
+
+k01-2
+00:00:07.419 --> 00:00:11.708
+Placement decides where each cell goes, and nets connect the cells.
+
+k02-1
+00:00:12.508 --> 00:00:16.843
+Real wires are only drawn at routing time, and that is expensive.
+
+k02-2
+00:00:16.843 --> 00:00:22.942
+So during placement we use a fast, comparable estimate instead: HPWL.
+
+k02-3
+00:00:22.942 --> 00:00:27.532
+The thin dashed lines only show who connects to whom; they are not wires.
+
+k03-1
+00:00:28.332 --> 00:00:35.152
+Start with two pins: P at (1, 1), Q at (5, 4). Four across, three up.
+
+k03-2
+00:00:35.152 --> 00:00:42.064
+HPWL = 4 + 3 = 7: the Manhattan distance, not the straight-line 5.
+
+k03-3
+00:00:42.064 --> 00:00:47.955
+Chip wires mostly run horizontally and vertically; this L is one of many equal-length paths.
+
+k04-1
+00:00:48.755 --> 00:00:55.388
+A four-pin net, N1: read the pins one by one and keep the smallest and largest x and y.
+
+k04-2
+00:00:55.388 --> 00:01:03.276
+P sets the start; Q raises max x and max y; R raises max y again; S is inside and changes nothing.
+
+k04-3
+00:01:03.276 --> 00:01:11.210
+Width 7 − 1 = 6, height 6 − 1 = 5, so HPWL = 11.
+
+k05-1
+00:01:12.010 --> 00:01:19.665
+Drag the extreme pin Q to the right: max x goes from 7 to 9, and HPWL from 11 to 13.
+
+k05-2
+00:01:19.665 --> 00:01:28.063
+Now pull Q down: once it passes y = 1, Q becomes the minimum y and HPWL becomes 14.
+
+k05-3
+00:01:28.063 --> 00:01:31.818
+Every frame recomputes the numbers from the same coordinates.
+
+k06-1
+00:01:32.618 --> 00:01:38.346
+Now move the interior pin S: while it stays in the green region, N1 stays at 14.
+
+k06-2
+00:01:38.346 --> 00:01:44.933
+But S is also on net N2: N2 drops from 4 to 2, and the total from 18 to 16.
+
+k06-3
+00:01:44.933 --> 00:01:48.223
+An unchanged net does not mean an unchanged total.
+
+k07-1
+00:01:49.023 --> 00:01:56.005
+The teacher's example has six cells and six nets; ABCD is one four-pin net with a single box.
+
+k07-2
+00:01:56.005 --> 00:02:04.005
+Net by net: AB, CD, AC and BD are 8 each, ABCD is 16, and EF is 4.
+
+k07-3
+00:02:04.005 --> 00:02:09.292
+Total = 8 × 4 + 16 + 4 = 52.
+
+k08-1
+00:02:10.092 --> 00:02:16.099
+In code, validate first: unknown pins, empty nets and missing coordinates are errors.
+
+k08-2
+00:02:16.099 --> 00:02:22.291
+Then, for each net, take the min and max of x and y, and add width plus height to the total.
+
+k08-3
+00:02:22.291 --> 00:02:26.881
+One pass over all pins; the cost grows linearly with the pin count.
+
+k09-1
+00:02:27.681 --> 00:02:35.151
+Remember: HPWL is width plus height, half the box perimeter, and a multi-pin net counts one box.
+
+k09-2
+00:02:35.151 --> 00:02:41.390
+Moving an extreme pin changes the box; an interior move leaves that net alone but may change others.
+
+k09-3
+00:02:41.390 --> 00:02:47.930
+The advanced film covers its limits, such as why an HPWL of zero is not a good placement.
+

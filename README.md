@@ -4,18 +4,17 @@
 
 A self-contained teaching module for **half-perimeter wirelength (HPWL)**, the course's Placement Lab 02
 (module `module01-01-hpwl-metrics` of [yongfu-li/eda-learning](https://github.com/yongfu-li/eda-learning),
-issue #25). One JavaScript domain model and one SVG board draw the website lab, every frame of the film and every
-slide figure, so what the film shows is exactly what the lab computes.
+issue #25), in the author's course house style. One JavaScript domain model and one SVG board draw the website lab,
+every frame of all four films and every slide figure, so what a film shows is exactly what the lab computes.
 
-一个关于 **半周长线长（HPWL）** 的完整教学模块：同一套 JS 领域模型和同一个 SVG 棋盘同时绘制网页实验、影片的每一帧和讲义的每一张图。
+一个关于 **半周长线长（HPWL）** 的完整教学模块，沿用作者课程的统一风格：同一套 JS 领域模型和同一个 SVG 棋盘同时绘制网页实验、四部影片的每一帧和讲义的每一张图。
 
 ## What is in it · 内容
 
 | Part | Where |
 |---|---|
-| Lesson page (Chinese first, full English edition): outcomes, definitions, worked example, pitfalls, limits | `site/index.html`, text in `site/js/content.js` |
-| Film, 5:08, silent, code-drawn, Chinese captions burned in; zh/en WebVTT; chapters; transcript | `site/media/film.zh.mp4`, `site/media/*.vtt`, `media-source/transcript.*.md` |
-| 41 s sample (extremum switch + interior move) | `site/media/sample.zh.mp4` |
+| Lesson page (Chinese first, full English edition), ten numbered sections: goals and problem, films, lesson, slides, lab, challenges, quiz, Python, mistakes, sources | `site/index.html`, text in `site/js/content.js` |
+| Four code-drawn films, each in zh and en: 科普 (cut to the author's music), 精讲 (narrated), 进阶 (silent), 实验演示 (narrated walkthrough of the real page); captions, chapters, transcripts | `site/media/<film>.<lang>.mp4`, `site/media/*.vtt`, `media-source/transcripts/` |
 | Interactive lab: drag / keyboard / touch, free vs fixed-anchor mode, 1×1 footprints, pin scan, undo/redo, export, “Try this frame” from the film | `site/js/lab.js`, `site/js/player.js` |
 | 8 graded challenges (any valid layout accepted, two-stage hints, studied vs independent progress) and a 6-question concept quiz | `site/js/grade.js`, `site/js/content.js` |
 | Slides: 13 pages, PDF + editable PPTX with notes, zh and en | `site/slides/` |
@@ -39,13 +38,13 @@ Full build, film rendering and verification steps: [`docs/REPRODUCIBILITY.md`](d
 
 ```
 fixtures/hpwl-fixtures.json ─┐
-content/script.json ── build-clock ─> clock.json (reading-time clock, VTT, transcripts)
+content/films/*.json ── build-films ─> films/<id>.clock.<lang>.json (reading / music / measured-voice clocks, VTT)
                              ▼
 site/js/domain.js   pure HPWL, validation, moves, modes, overlaps
 site/js/board.js    Board(view) -> SVG (one drawing path)
 site/js/timeline.js stateAt(t) -> {board, panel, caption, metrics}   (random access)
 site/js/scene.js    Scene(state) -> 1920×1080 frame      site/js/lab.js   interactive lab
-site/render.html    window.renderAt(t)  ── scripts/render.mjs ── FFmpeg ──> film.zh.mp4
+site/render.html    window.renderAt(t)  ── scripts/render.mjs ── FFmpeg + mix_audio.py ──> <film>.<lang>.mp4
 site/js/slides.js   slides from the same Board           site/js/grade.js challenge grading
 ```
 
@@ -58,7 +57,8 @@ site/js/slides.js   slides from the same Board           site/js/grade.js challe
 
 ## Licence and credits
 
-Code: MIT (`LICENSE`). Lesson content and media: CC BY 4.0 (`LICENSE-CONTENT.md`). Fonts: SIL OFL 1.1.
+Code: MIT (`LICENSE`). Lesson content and media: CC BY 4.0 (`LICENSE-CONTENT.md`), except the music of the 科普
+film (“We Never (Remix)”, Hi Noise / 秋成), which is credited and not part of that licence. Fonts: SIL OFL 1.1.
 The small numeric example is transcribed from the course material of yongfu-li/eda-learning and credited, not
 relicensed. The render contract idea is adapted from GateUltra/vlsi-course-director (MIT, `NOTICE.md`).
 See `THIRD_PARTY_NOTICES.md`.
