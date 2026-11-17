@@ -8,12 +8,13 @@ unless it says so. Reports: `build/*.json` (not committed; regenerate with the c
 
 | Command | Result |
 |---|---|
+| GitHub Actions `ci` (runs 1–2: unit, data rebuild diff, browser, media) | success on Ubuntu 24.04 |
 | `npm test` (node --test) | **32 / 32** pass: domain 17, grading 6, timeline 9 |
 | `npm test` (python unittest) | **5 / 5** pass: goldens, reference passes 19/19 cases, starter fails until implemented, silent-skip caught, JS↔Python agree on 300 seeded cases (seed 20261117) |
 | `node tests/browser.mjs` (local server, subpath `/placement-lab02-hpwl/` and root) | **48 / 48** pass |
 | `node scripts/check-media.mjs` | **25 / 25** pass |
 | `sh scripts/clean-rebuild.sh` at commit `03a39a5` | pass: generated data, VTT, slide manifest and Python zip byte-identical to the committed ones; unit tests pass in the clone; re-rendered 116–120 s vs committed film **PSNR 54.3 dB** (threshold 35) |
-| Deployment: `node tests/browser.mjs --base https://su3037.github.io/placement-lab02-hpwl/` | see `docs/handoff-state.md` (run after Pages is live) |
+| Deployment: `node tests/browser.mjs --base https://su3037.github.io/placement-lab02-hpwl/` | **47 / 47** pass on the live site (GitHub Actions `pages` run 44015443846, job `verify`, 2026-11-17; the root-path check runs only locally) |
 
 Not done / not claimed: byte-identical MP4 across machines; audio review (the film is silent, no audio track);
 English-captioned MP4 (not rendered; English is shipped as WebVTT and a caption bar); screen-reader testing with

@@ -20,15 +20,13 @@ browser 48/48, media 25/25, clean-clone rebuild OK (PSNR 54.3 dB on a re-rendere
 ## Deployment status
 
 - [x] `main` pushed (commit 567515b and later)
-- [ ] Pages enabled with source “GitHub Actions” and the `pages` workflow green
-- [ ] `node tests/browser.mjs --base https://su3037.github.io/placement-lab02-hpwl/` passes against the deployment
+- [x] Pages enabled with source “GitHub Actions” by the owner; `pages` run 44015443846 deployed
+- [x] `node tests/browser.mjs --base https://su3037.github.io/placement-lab02-hpwl/` passes against the deployment (47/47, `verify` job); page also opened in a desktop browser: app ready, lab total 52, film duration 308.03 s
 
 ## Next actions
 
-1. Pages is not enabled yet (first `pages` run failed at configure-pages: "Get Pages site failed. Not Found"). Owner action: Settings → Pages → Build and deployment → Source: **GitHub Actions**, then re-run the
-   `pages` workflow (Actions tab → pages → Run workflow).
-2. Run the deployment browser check above and record the result in `docs/verification.md`.
-3. Submission: `docs/submission-draft.md` is a draft only. Nothing has been posted to Issue #25 and the teacher
+1. Owner review of the site, film and slides.
+2. Submission: `docs/submission-draft.md` is a draft only. Nothing has been posted to Issue #25 and the teacher
    has not been contacted; that waits for the owner's explicit instruction.
 
 ## Rules that still apply
