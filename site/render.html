@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><title>HPWL film frame renderer</title>
+<link rel="stylesheet" href="css/fonts.css"><link rel="stylesheet" href="css/film.css">
+<style>html,body{margin:0;background:#0b1016}#stage{width:1920px;height:1080px}</style></head>
+<body><div id="stage"></div>
+<script type="module">
+// Page contract (docs/REPRODUCIBILITY.md): window.ready, window.clock, window.renderAt(seconds) -> semantic snapshot.
+import {prepareFixtures} from './js/domain.js';
+import {stateAt, validateClock, labHandoff} from './js/timeline.js';
+import {Scene} from './js/scene.js';
+const q = new URLSearchParams(location.search);
+const lang = q.get('lang') === 'en' ? 'en' : 'zh';
+async function data(path) { const r = await fetch(path); if (!r.ok) throw new Error(`Missing ${path} (HTTP ${r.status})`); return r.json(); }
+try {
+  const [fx, script, clock] = await Promise.all([data('data/fixtures.json'), data('data/script.json'), data('data/clock.json')]);
+  validateClock(clock, script);
+  const fixtures = prepareFixtures(fx);
+  window.clock = clock;
+  const stage = document.getElementById('stage');
+  window.stateAt = t => stateAt(t, fixtures, script, clock);
+  window.renderAt = async seconds => {
+    const state = stateAt(seconds, fixtures, script, clock);
+    stage.innerHTML = Scene(state, script, {lang});
+    await document.fonts.ready;
+    // Snapshot of the semantic state actually drawn (used by tests and the frame map).
+    return {time: state.time, cueId: state.cueId, lineIndex: state.lineIndex, caption: state.caption?.id ?? null, intermediate: state.intermediate,
+      total: state.metrics.total, handoff: labHandoff(state)};
+  };
+  await Promise.all(['400 30px "Noto Sans SC"', '700 30px "Noto Sans SC"', '400 30px "JetBrains Mono"', '700 30px "JetBrains Mono"'].map(f => document.fonts.load(f, '半周长 HPWL 0123')));
+  await window.renderAt(Number(q.get('t') ?? 0));
+  window.ready = true;
+} catch (e) {
+  window.renderError = String(e);
+  document.body.innerHTML = `<pre style="color:#fff;font-size:28px;padding:40px">Render page failed: ${String(e).replace(/</g, '&lt;')}</pre>`;
+  throw e;
+}
+</script></body></html>

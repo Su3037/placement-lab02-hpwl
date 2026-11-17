@@ -1,0 +1,36 @@
+name: ci
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: sudo apt-get update && sudo apt-get install -y ffmpeg
+      - run: pip install python-pptx==1.0.2 pypdf
+      - name: Unit tests (JS + Python)
+        run: npm test
+      - name: Data build is reproducible (committed outputs unchanged)
+        run: |
+          node scripts/build.mjs --no-slides
+          git diff --exit-code -- site/data site/media/*.vtt site/downloads media-source
+      - name: Browser tests
+        run: node tests/browser.mjs
+      - name: Media checks
+        run: node scripts/check-media.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: reports
+          path: build/*.json

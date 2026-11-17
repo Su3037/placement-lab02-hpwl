@@ -1,0 +1,30 @@
+{
+  "_comment": "Hand-written expected outputs for the Python track. Coordinates: y grows upward.",
+  "teacher": {
+    "nets": [["A","B"],["C","D"],["A","C"],["B","D"],["A","B","C","D"],["E","F"]],
+    "weights": [1,1,1,1,5,1],
+    "starter": {"A":{"x":0,"y":0},"B":{"x":8,"y":0},"C":{"x":0,"y":8},"D":{"x":8,"y":8},"E":{"x":4,"y":4},"F":{"x":0,"y":4}},
+    "compact": {"A":{"x":2,"y":2},"B":{"x":4,"y":2},"C":{"x":2,"y":4},"D":{"x":4,"y":4},"E":{"x":3,"y":3},"F":{"x":1,"y":3}}
+  },
+  "cases": [
+    {"task": 1, "name": "two-pin horizontal", "fn": "hpwl", "net": ["P","Q"], "positions": {"P":{"x":1,"y":2},"Q":{"x":6,"y":2}}, "expect": 5},
+    {"task": 1, "name": "two-pin Manhattan (not Euclidean 5)", "fn": "hpwl", "net": ["P","Q"], "positions": {"P":{"x":1,"y":1},"Q":{"x":5,"y":4}}, "expect": 7},
+    {"task": 1, "name": "multi-pin bbox", "fn": "bbox", "net": ["P","Q","R","S"], "positions": {"P":{"x":1,"y":1},"Q":{"x":7,"y":2},"R":{"x":3,"y":6},"S":{"x":4,"y":3}}, "expect": {"min_x":1,"max_x":7,"min_y":1,"max_y":6,"width":6,"height":5}},
+    {"task": 1, "name": "multi-pin HPWL is half perimeter (11, not 22, not clique 35)", "fn": "hpwl", "net": ["P","Q","R","S"], "positions": {"P":{"x":1,"y":1},"Q":{"x":7,"y":2},"R":{"x":3,"y":6},"S":{"x":4,"y":3}}, "expect": 11},
+    {"task": 1, "name": "singleton net", "fn": "hpwl", "net": ["P"], "positions": {"P":{"x":3,"y":4}}, "expect": 0},
+    {"task": 1, "name": "negative coordinates", "fn": "hpwl", "net": ["A","B"], "positions": {"A":{"x":-3,"y":-1},"B":{"x":2,"y":-4}}, "expect": 8},
+    {"task": 2, "name": "teacher starter total", "fn": "total", "placement": "starter", "expect": 52},
+    {"task": 2, "name": "teacher compact total", "fn": "total", "placement": "compact", "expect": 14},
+    {"task": 3, "name": "teacher starter weighted", "fn": "total", "placement": "starter", "weighted": true, "expect": 116},
+    {"task": 3, "name": "teacher compact weighted", "fn": "total", "placement": "compact", "weighted": true, "expect": 30},
+    {"task": 4, "name": "unknown pin raises", "fn": "total_raw", "nets": [["A","Z"]], "positions": {"A":{"x":0,"y":0}}, "expect": "ValueError"},
+    {"task": 4, "name": "empty net raises", "fn": "total_raw", "nets": [[]], "positions": {"A":{"x":0,"y":0}}, "expect": "ValueError"},
+    {"task": 4, "name": "empty netlist raises", "fn": "total_raw", "nets": [], "positions": {"A":{"x":0,"y":0}}, "expect": "ValueError"},
+    {"task": 4, "name": "repeated pin raises", "fn": "total_raw", "nets": [["A","A"]], "positions": {"A":{"x":0,"y":0}}, "expect": "ValueError"},
+    {"task": 4, "name": "NaN coordinate raises", "fn": "total_raw", "nets": [["A","B"]], "positions": {"A":{"x":0,"y":0},"B":{"x":"nan","y":0}}, "expect": "ValueError"},
+    {"task": 4, "name": "missing y raises", "fn": "total_raw", "nets": [["A","B"]], "positions": {"A":{"x":0,"y":0},"B":{"x":1}}, "expect": "ValueError"},
+    {"task": 5, "name": "interior pin S", "fn": "interior", "net": ["P","Q","R","S"], "positions": {"P":{"x":1,"y":1},"Q":{"x":7,"y":2},"R":{"x":3,"y":6},"S":{"x":4,"y":3}}, "expect": ["S"]},
+    {"task": 5, "name": "ties are extremes (starter ABCD has no interior pin)", "fn": "interior", "net": ["A","B","C","D"], "positions": {"A":{"x":0,"y":0},"B":{"x":8,"y":0},"C":{"x":0,"y":8},"D":{"x":8,"y":8}}, "expect": []},
+    {"task": 5, "name": "on an edge is not interior", "fn": "interior", "net": ["P","Q","R"], "positions": {"P":{"x":0,"y":0},"Q":{"x":4,"y":4},"R":{"x":2,"y":0}}, "expect": []}
+  ]
+}

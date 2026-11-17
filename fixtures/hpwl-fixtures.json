@@ -1,0 +1,81 @@
+{
+  "schema": "hpwl-fixtures/1",
+  "units": "Abstract grid units. Coordinates are point-pin locations; x grows to the right and y grows UPWARD (mathematical convention). Screens flip y when drawing.",
+  "fixtures": {
+    "two_pin_h": {
+      "title": {"zh": "两引脚水平线网", "en": "Two-pin horizontal net"},
+      "source": "Original teaching example (this project).",
+      "bounds": {"xmin": 0, "xmax": 8, "ymin": 0, "ymax": 5},
+      "cells": ["P", "Q"],
+      "nets": [{"id": "PQ", "pins": ["P", "Q"], "weight": 1}],
+      "fixed": [],
+      "placements": {"start": {"P": {"x": 1, "y": 2}, "Q": {"x": 6, "y": 2}}}
+    },
+    "two_pin_manhattan": {
+      "title": {"zh": "两引脚：曼哈顿距离", "en": "Two pins: Manhattan distance"},
+      "source": "Original teaching example (this project).",
+      "bounds": {"xmin": 0, "xmax": 8, "ymin": 0, "ymax": 5},
+      "cells": ["P", "Q"],
+      "nets": [{"id": "PQ", "pins": ["P", "Q"], "weight": 1}],
+      "fixed": [],
+      "placements": {"start": {"P": {"x": 1, "y": 1}, "Q": {"x": 5, "y": 4}}}
+    },
+    "multi": {
+      "title": {"zh": "多引脚线网与内部引脚", "en": "Multi-pin net with an interior pin"},
+      "source": "Original teaching example (this project). Net N1 has four pins; S is strictly inside N1's box and also belongs to the two-pin net N2.",
+      "bounds": {"xmin": 0, "xmax": 10, "ymin": 0, "ymax": 7},
+      "cells": ["P", "Q", "R", "S", "T"],
+      "nets": [
+        {"id": "N1", "pins": ["P", "Q", "R", "S"], "weight": 1},
+        {"id": "N2", "pins": ["S", "T"], "weight": 1}
+      ],
+      "fixed": [],
+      "placements": {
+        "start": {"P": {"x": 1, "y": 1}, "Q": {"x": 7, "y": 2}, "R": {"x": 3, "y": 6}, "S": {"x": 4, "y": 3}, "T": {"x": 6, "y": 5}},
+        "q_right": {"P": {"x": 1, "y": 1}, "Q": {"x": 9, "y": 2}, "R": {"x": 3, "y": 6}, "S": {"x": 4, "y": 3}, "T": {"x": 6, "y": 5}},
+        "q_low": {"P": {"x": 1, "y": 1}, "Q": {"x": 9, "y": 0}, "R": {"x": 3, "y": 6}, "S": {"x": 4, "y": 3}, "T": {"x": 6, "y": 5}},
+        "s_moved": {"P": {"x": 1, "y": 1}, "Q": {"x": 9, "y": 0}, "R": {"x": 3, "y": 6}, "S": {"x": 5, "y": 4}, "T": {"x": 6, "y": 5}},
+        "s_moved2": {"P": {"x": 1, "y": 1}, "Q": {"x": 9, "y": 0}, "R": {"x": 3, "y": 6}, "S": {"x": 2.5, "y": 5}, "T": {"x": 6, "y": 5}}
+      }
+    },
+    "teacher": {
+      "title": {"zh": "老师的六单元例子 tiny_place", "en": "Teacher's six-cell tiny_place"},
+      "source": "yongfu-li/eda-learning@003bcd49e3794e6cfd2680181cdbd347d673ad07 courses/learn_placement/module01-01-hpwl-metrics/examples/tiny_place.json (data values re-typed; nets, weights, fixed_pads, starter, golden, overlap). 'collapsed' and 'fixed49' (one layout reaching the fixed-anchor footprint bound) are added by this project.",
+      "bounds": {"xmin": 0, "xmax": 8, "ymin": 0, "ymax": 8},
+      "cells": ["A", "B", "C", "D", "E", "F"],
+      "nets": [
+        {"id": "AB", "pins": ["A", "B"], "weight": 1},
+        {"id": "CD", "pins": ["C", "D"], "weight": 1},
+        {"id": "AC", "pins": ["A", "C"], "weight": 1},
+        {"id": "BD", "pins": ["B", "D"], "weight": 1},
+        {"id": "ABCD", "pins": ["A", "B", "C", "D"], "weight": 5},
+        {"id": "EF", "pins": ["E", "F"], "weight": 1}
+      ],
+      "fixed": ["A", "D"],
+      "placements": {
+        "starter": {"A": {"x": 0, "y": 0}, "B": {"x": 8, "y": 0}, "C": {"x": 0, "y": 8}, "D": {"x": 8, "y": 8}, "E": {"x": 4, "y": 4}, "F": {"x": 0, "y": 4}},
+        "compact": {"A": {"x": 2, "y": 2}, "B": {"x": 4, "y": 2}, "C": {"x": 2, "y": 4}, "D": {"x": 4, "y": 4}, "E": {"x": 3, "y": 3}, "F": {"x": 1, "y": 3}},
+        "overlap": {"A": {"x": 4, "y": 4}, "B": {"x": 4, "y": 4}, "C": {"x": 4, "y": 4}, "D": {"x": 7, "y": 1}, "E": {"x": 1, "y": 7}, "F": {"x": 7, "y": 7}},
+        "collapsed": {"A": {"x": 4, "y": 4}, "B": {"x": 4, "y": 4}, "C": {"x": 4, "y": 4}, "D": {"x": 4, "y": 4}, "E": {"x": 4, "y": 4}, "F": {"x": 4, "y": 4}},
+        "fixed49": {"A": {"x": 0, "y": 0}, "B": {"x": 5, "y": 3}, "C": {"x": 3, "y": 5}, "D": {"x": 8, "y": 8}, "E": {"x": 4, "y": 4}, "F": {"x": 3, "y": 4}}
+      }
+    }
+  },
+  "goldens": {
+    "_comment": "Hand-computed expectations, written independently of the implementation. Tests compare implementations against these numbers.",
+    "two_pin_h.start": {"perNet": [5], "total": 5},
+    "two_pin_manhattan.start": {"perNet": [7], "total": 7, "euclidean": 5},
+    "multi.start": {"perNet": [11, 4], "total": 15, "N1": {"width": 6, "height": 5, "fullPerimeter": 22, "cliqueSum": 35}},
+    "multi.q_right": {"perNet": [13, 4], "total": 17},
+    "multi.q_low": {"perNet": [14, 4], "total": 18},
+    "multi.s_moved": {"perNet": [14, 2], "total": 16},
+    "multi.s_moved2": {"perNet": [14, 3.5], "total": 17.5},
+    "teacher.starter": {"perNet": [8, 8, 8, 8, 16, 4], "total": 52, "weighted": 116},
+    "teacher.compact": {"perNet": [2, 2, 2, 2, 4, 2], "total": 14, "weighted": 30},
+    "teacher.overlap": {"perNet": [0, 6, 0, 6, 6, 6], "total": 24, "weighted": 48},
+    "teacher.collapsed": {"perNet": [0, 0, 0, 0, 0, 0], "total": 0, "weighted": 0},
+    "teacher.fixed49": {"perNet": [8, 8, 8, 8, 16, 1], "total": 49, "weighted": 113},
+    "teacher.fixedAnchorPointMin": 48,
+    "teacher.fixedAnchorFootprintMin": 49
+  }
+}

@@ -1,0 +1,22 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>HPWL slides</title>
+<link rel="stylesheet" href="css/fonts.css">
+<style>
+@page { size: 1600px 900px; margin: 0; }
+html, body { margin: 0; background: #555; font-family: var(--sans); }
+.slide { width: 1600px; height: 900px; position: relative; overflow: hidden; background: #0b1016; color: #e6edf5; page-break-after: always; break-after: page; margin: 0 auto 20px; }
+@media print { .slide { margin: 0; } body { background: #0b1016; } }
+.slide h1 { position: absolute; left: 70px; top: 46px; right: 70px; margin: 0; font-size: 50px; line-height: 1.2; }
+.slide .s-body { position: absolute; left: 70px; right: 60px; top: 150px; bottom: 80px; display: flex; gap: 40px; }
+.slide ul { flex: 1; margin: 10px 0 0; padding-left: 1.1em; font-size: 31px; line-height: 1.5; }
+.slide li { margin-bottom: 18px; }
+.slide .s-fig { width: 700px; flex: none; } .slide .s-fig svg { width: 700px; height: auto; display: block; }
+.slide .s-code { flex: none; width: 820px; margin: 0; font: 21px/1.6 var(--mono); background: #0f151d; border: 1px solid #223041; border-radius: 10px; padding: 18px; white-space: pre-wrap; }
+.slide footer { position: absolute; left: 70px; right: 70px; bottom: 26px; display: flex; justify-content: space-between; color: #8aa0b6; font-size: 22px; border-top: 1px solid #1f2b38; padding-top: 10px; }
+.slide .pn { font-family: var(--mono); color: #ffd166; }
+.title-slide h1 { top: 150px; font-size: 72px; color: #ffd166; }
+.title-slide .s-body { top: 270px; } .title-slide ul { list-style: none; padding: 0; font-size: 34px; color: #c9d3df; }
+</style></head>
+<body><main id="deck"></main>
+<script type="module">import {boot} from './js/slides.js'; boot().catch(e => { document.body.textContent = 'Slides failed: ' + e; window.slidesError = String(e); });</script>
+</body></html>

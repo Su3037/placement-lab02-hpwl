@@ -1,0 +1,22 @@
+# Decision log · 决策记录
+
+| # | Decision | Why |
+|---|---|---|
+| D-01 | Static site in plain ES modules (no bundler, no framework); SVG for all diagrams | Same code runs in the browser lab, in the headless render page and in the slide page; nothing to build for Pages |
+| D-02 | Point-pin model; y grows upward; the board flips y when drawing. One `geometry()` function maps both ways | Matches the teacher data; drag inversion uses the exact drawing transform |
+| D-03 | Validation policy: empty netlist, empty net, duplicate pin in a net, unknown pin, missing/non-finite coordinate, negative/non-finite weight → error. Singleton net valid (HPWL 0). Duplicate net id → error | Upstream helpers silently skip unknown ids and score an empty net 0; a partial score must never look normal |
+| D-04 | Two modes: **free-point** (measurement only, every point movable) and **fixed-anchor** (A, D locked). Switching to fixed reports displaced anchors instead of snapping them back | The teacher's compact reference moves the fixed pads; it is presented as a free-point comparison, not a trajectory |
+| D-05 | Optional 1×1 footprint proxy (positive-area overlap counts; touching edges/corners does not) | Gives the collapse counterexample and the fixed-anchor bound (49) a concrete, testable legality proxy without pretending to legalize |
+| D-06 | Fixed-anchor target: point bound 48, footprint bound 49 (proof in film cue `fixed_anchor`; brute force in `tests/domain.test.mjs`) | An independently verified target that respects the anchors, unlike 52 → 14 |
+| D-07 | Silent film; clock = reading time. Each caption line lasts `max(1.0 + w/5, 0.8 + c/15, hold, 2.0)` s, where w counts CJK characters as 1 and other visible characters as 0.5, c counts visible characters of the English line, hold is the animation's need. Cues get a 0.8 s tail (2.5 s at the end) | No narration exists, so no measured speech; one clock must be readable in both caption languages (5 CJK chars/s and 15 Latin chars/s are comfortable rates for diagram-heavy material) |
+| D-08 | Chinese captions burned in; zh/en WebVTT shipped; the page shows the selected language in a bar under the video (from the same `stateAt`) | The MP4 is self-contained in Chinese; English readers get synchronized subtitles without covering the diagram |
+| D-09 | 1920×1080, 30 fps, H.264 CRF 20 `-tune animation`, JPEG q95 intermediate frames | Legible text; ~20 MB for 5 minutes; deterministic per environment |
+| D-10 | Frame map rule `frame = floor(t·fps + 1e-6)`, `t = frame / fps`, shared by renderer and player | The state handed to the lab is exactly the state of the frame on screen |
+| D-11 | Grading uses full precision with relative tolerance 1e-9; display uses up to 2–4 decimals | Display rounding must not decide pass/fail |
+| D-12 | Challenges accept any layout satisfying stated constraints (e.g. any translation of compact; many 49 layouts) | Avoids grading “copy the teacher's coordinates” |
+| D-13 | Progress (studied vs independent) stored only in `localStorage`, wrapped in try/catch | Private, optional; the page works without storage |
+| D-14 | No browser Python (Pyodide); a downloadable Python pack with an independent reference and checker | Keeps the site small and honest; the brief allows downloadable exercises |
+| D-15 | Fonts committed as subsets; full fonts fetched only to re-subset | Builds need no network |
+| D-16 | Renderer ported to Node (`scripts/render.mjs`) instead of running the Python `render_html.py` | Playwright is installed for Node in this environment; same page contract |
+| D-17 | Title slide has no figure; every other figure in slides is drawn by `Board()` from fixtures | One drawing path for site, film and slides |
+| D-18 | `teacher.placements.fixed49` added as an original, labelled placement | Shared by film, slides and tests for the 49 bound |

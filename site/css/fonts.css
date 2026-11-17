@@ -1,0 +1,6 @@
+/* Bundled OFL fonts (subsets made by scripts/subset_fonts.py; licenses in fonts/OFL-*.txt). */
+@font-face { font-family: "Noto Sans SC"; font-weight: 400; font-style: normal; font-display: block; src: url("../fonts/NotoSansSC-Regular.woff2") format("woff2"); }
+@font-face { font-family: "Noto Sans SC"; font-weight: 700; font-style: normal; font-display: block; src: url("../fonts/NotoSansSC-Bold.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-weight: 400; font-style: normal; font-display: block; src: url("../fonts/JetBrainsMono-Regular.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-weight: 700; font-style: normal; font-display: block; src: url("../fonts/JetBrainsMono-Bold.woff2") format("woff2"); }
+:root { --sans: "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif; --mono: "JetBrains Mono", "Noto Sans SC", ui-monospace, monospace; }

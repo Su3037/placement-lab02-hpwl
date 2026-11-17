@@ -1,0 +1,577 @@
+{
+ "id": "zh-silent",
+ "provisional": false,
+ "kind": "silent-reading-time",
+ "rule": {
+  "zhBase": 1,
+  "zhRate": 5,
+  "enBase": 0.8,
+  "enRate": 15,
+  "minLine": 2,
+  "tail": 0.8,
+  "lastTail": 2.5,
+  "lead": 0.6
+ },
+ "scriptSha256": "0df70b95d0c314a67534ae30065845cc1ea7535ee0271ec44427e5b8488d9a97",
+ "duration": 308.033,
+ "segments": [
+  {
+   "id": "title",
+   "chapter": "00",
+   "start": 0,
+   "end": 13.2,
+   "sceneEnd": 14,
+   "lines": [
+    {
+     "start": 0.6,
+     "end": 6.7,
+     "basis": {
+      "zh": 6.1,
+      "en": 3.667,
+      "hold": 3.5
+     }
+    },
+    {
+     "start": 6.7,
+     "end": 13.2,
+     "basis": {
+      "zh": 6.5,
+      "en": 5.2,
+      "hold": 3
+     }
+    }
+   ]
+  },
+  {
+   "id": "problem",
+   "chapter": "01",
+   "start": 14,
+   "end": 31.3,
+   "sceneEnd": 32.1,
+   "lines": [
+    {
+     "start": 14,
+     "end": 20.3,
+     "basis": {
+      "zh": 6.3,
+      "en": 4.267,
+      "hold": 3
+     }
+    },
+    {
+     "start": 20.3,
+     "end": 25.9,
+     "basis": {
+      "zh": 5.6,
+      "en": 4.867,
+      "hold": 3
+     }
+    },
+    {
+     "start": 25.9,
+     "end": 31.3,
+     "basis": {
+      "zh": 5.4,
+      "en": 4.8,
+      "hold": 2.5
+     }
+    }
+   ]
+  },
+  {
+   "id": "coords",
+   "chapter": "01",
+   "start": 32.1,
+   "end": 44.3,
+   "sceneEnd": 45.1,
+   "lines": [
+    {
+     "start": 32.1,
+     "end": 38.5,
+     "basis": {
+      "zh": 6.4,
+      "en": 5,
+      "hold": 3
+     }
+    },
+    {
+     "start": 38.5,
+     "end": 44.3,
+     "basis": {
+      "zh": 5.8,
+      "en": 4.733,
+      "hold": 2.5
+     }
+    }
+   ]
+  },
+  {
+   "id": "two_h",
+   "chapter": "02",
+   "start": 45.1,
+   "end": 53.1,
+   "sceneEnd": 53.9,
+   "lines": [
+    {
+     "start": 45.1,
+     "end": 50.3,
+     "basis": {
+      "zh": 5.2,
+      "en": 4.267,
+      "hold": 3
+     }
+    },
+    {
+     "start": 50.3,
+     "end": 53.1,
+     "basis": {
+      "zh": 2.8,
+      "en": 2.4,
+      "hold": 2.5
+     }
+    }
+   ]
+  },
+  {
+   "id": "two_manhattan",
+   "chapter": "02",
+   "start": 53.9,
+   "end": 72.7,
+   "sceneEnd": 73.5,
+   "lines": [
+    {
+     "start": 53.9,
+     "end": 59.1,
+     "basis": {
+      "zh": 5.2,
+      "en": 3.867,
+      "hold": 3.5
+     }
+    },
+    {
+     "start": 59.1,
+     "end": 65.4,
+     "basis": {
+      "zh": 6.3,
+      "en": 5.267,
+      "hold": 3
+     }
+    },
+    {
+     "start": 65.4,
+     "end": 72.7,
+     "basis": {
+      "zh": 7.3,
+      "en": 6.533,
+      "hold": 3
+     }
+    }
+   ]
+  },
+  {
+   "id": "multi_scan",
+   "chapter": "03",
+   "start": 73.5,
+   "end": 92.3,
+   "sceneEnd": 93.1,
+   "lines": [
+    {
+     "start": 73.5,
+     "end": 80.5,
+     "basis": {
+      "zh": 7,
+      "en": 5.933,
+      "hold": 2.5
+     }
+    },
+    {
+     "start": 80.5,
+     "end": 88,
+     "basis": {
+      "zh": 7.5,
+      "en": 5.933,
+      "hold": 7
+     }
+    },
+    {
+     "start": 88,
+     "end": 92.3,
+     "basis": {
+      "zh": 4.3,
+      "en": 3.267,
+      "hold": 3
+     }
+    }
+   ]
+  },
+  {
+   "id": "half_name",
+   "chapter": "03",
+   "start": 93.1,
+   "end": 106.7,
+   "sceneEnd": 107.5,
+   "lines": [
+    {
+     "start": 93.1,
+     "end": 99.1,
+     "basis": {
+      "zh": 6,
+      "en": 4.4,
+      "hold": 4
+     }
+    },
+    {
+     "start": 99.1,
+     "end": 106.7,
+     "basis": {
+      "zh": 7.6,
+      "en": 5.733,
+      "hold": 3.5
+     }
+    }
+   ]
+  },
+  {
+   "id": "extreme_move",
+   "chapter": "04",
+   "start": 107.5,
+   "end": 127.633,
+   "sceneEnd": 128.433,
+   "lines": [
+    {
+     "start": 107.5,
+     "end": 113.7,
+     "basis": {
+      "zh": 6.2,
+      "en": 4.8,
+      "hold": 5
+     }
+    },
+    {
+     "start": 113.7,
+     "end": 120.7,
+     "basis": {
+      "zh": 7,
+      "en": 5.333,
+      "hold": 6
+     }
+    },
+    {
+     "start": 120.7,
+     "end": 127.633,
+     "basis": {
+      "zh": 6.6,
+      "en": 6.933,
+      "hold": 2.5
+     }
+    }
+   ]
+  },
+  {
+   "id": "interior_move",
+   "chapter": "04",
+   "start": 128.433,
+   "end": 147.833,
+   "sceneEnd": 148.633,
+   "lines": [
+    {
+     "start": 128.433,
+     "end": 136.733,
+     "basis": {
+      "zh": 8.3,
+      "en": 5.8,
+      "hold": 5
+     }
+    },
+    {
+     "start": 136.733,
+     "end": 142.833,
+     "basis": {
+      "zh": 6.1,
+      "en": 5.133,
+      "hold": 3.5
+     }
+    },
+    {
+     "start": 142.833,
+     "end": 147.833,
+     "basis": {
+      "zh": 5,
+      "en": 4.533,
+      "hold": 2
+     }
+    }
+   ]
+  },
+  {
+   "id": "teacher_starter",
+   "chapter": "05",
+   "start": 148.633,
+   "end": 167.733,
+   "sceneEnd": 168.533,
+   "lines": [
+    {
+     "start": 148.633,
+     "end": 156.933,
+     "basis": {
+      "zh": 8.3,
+      "en": 6.2,
+      "hold": 3.5
+     }
+    },
+    {
+     "start": 156.933,
+     "end": 164.933,
+     "basis": {
+      "zh": 5.8,
+      "en": 3.867,
+      "hold": 8
+     }
+    },
+    {
+     "start": 164.933,
+     "end": 167.733,
+     "basis": {
+      "zh": 2.8,
+      "en": 2,
+      "hold": 2.5
+     }
+    }
+   ]
+  },
+  {
+   "id": "ties",
+   "chapter": "05",
+   "start": 168.533,
+   "end": 182.733,
+   "sceneEnd": 183.533,
+   "lines": [
+    {
+     "start": 168.533,
+     "end": 174.433,
+     "basis": {
+      "zh": 5.9,
+      "en": 4.667,
+      "hold": 3
+     }
+    },
+    {
+     "start": 174.433,
+     "end": 182.733,
+     "basis": {
+      "zh": 8.3,
+      "en": 6.333,
+      "hold": 6
+     }
+    }
+   ]
+  },
+  {
+   "id": "compact",
+   "chapter": "06",
+   "start": 183.533,
+   "end": 207.333,
+   "sceneEnd": 208.133,
+   "lines": [
+    {
+     "start": 183.533,
+     "end": 190.233,
+     "basis": {
+      "zh": 6.7,
+      "en": 5,
+      "hold": 3.5
+     }
+    },
+    {
+     "start": 190.233,
+     "end": 199.133,
+     "basis": {
+      "zh": 8.9,
+      "en": 7.6,
+      "hold": 3.5
+     }
+    },
+    {
+     "start": 199.133,
+     "end": 207.333,
+     "basis": {
+      "zh": 8.2,
+      "en": 6.867,
+      "hold": 3
+     }
+    }
+   ]
+  },
+  {
+   "id": "weights",
+   "chapter": "06",
+   "start": 208.133,
+   "end": 222.033,
+   "sceneEnd": 222.833,
+   "lines": [
+    {
+     "start": 208.133,
+     "end": 214.933,
+     "basis": {
+      "zh": 6.8,
+      "en": 4.6,
+      "hold": 3
+     }
+    },
+    {
+     "start": 214.933,
+     "end": 222.033,
+     "basis": {
+      "zh": 7.1,
+      "en": 6.333,
+      "hold": 3.5
+     }
+    }
+   ]
+  },
+  {
+   "id": "collapse",
+   "chapter": "07",
+   "start": 222.833,
+   "end": 242.333,
+   "sceneEnd": 243.133,
+   "lines": [
+    {
+     "start": 222.833,
+     "end": 230.033,
+     "basis": {
+      "zh": 7.2,
+      "en": 4.867,
+      "hold": 5
+     }
+    },
+    {
+     "start": 230.033,
+     "end": 236.633,
+     "basis": {
+      "zh": 6.6,
+      "en": 5.533,
+      "hold": 2.5
+     }
+    },
+    {
+     "start": 236.633,
+     "end": 242.333,
+     "basis": {
+      "zh": 5.7,
+      "en": 3.733,
+      "hold": 3.5
+     }
+    }
+   ]
+  },
+  {
+   "id": "fixed_anchor",
+   "chapter": "07",
+   "start": 243.133,
+   "end": 261.033,
+   "sceneEnd": 261.833,
+   "lines": [
+    {
+     "start": 243.133,
+     "end": 249.733,
+     "basis": {
+      "zh": 6.6,
+      "en": 5.333,
+      "hold": 4
+     }
+    },
+    {
+     "start": 249.733,
+     "end": 256.633,
+     "basis": {
+      "zh": 6.9,
+      "en": 6.2,
+      "hold": 6
+     }
+    },
+    {
+     "start": 256.633,
+     "end": 261.033,
+     "basis": {
+      "zh": 4.4,
+      "en": 4,
+      "hold": 2
+     }
+    }
+   ]
+  },
+  {
+   "id": "pseudocode",
+   "chapter": "08",
+   "start": 261.833,
+   "end": 281.933,
+   "sceneEnd": 282.733,
+   "lines": [
+    {
+     "start": 261.833,
+     "end": 269.933,
+     "basis": {
+      "zh": 8.1,
+      "en": 6.667,
+      "hold": 3
+     }
+    },
+    {
+     "start": 269.933,
+     "end": 276.533,
+     "basis": {
+      "zh": 6.6,
+      "en": 5,
+      "hold": 6
+     }
+    },
+    {
+     "start": 276.533,
+     "end": 281.933,
+     "basis": {
+      "zh": 5.4,
+      "en": 4.733,
+      "hold": 2.5
+     }
+    }
+   ]
+  },
+  {
+   "id": "takeaway",
+   "chapter": "09",
+   "start": 282.733,
+   "end": 305.533,
+   "sceneEnd": 308.033,
+   "lines": [
+    {
+     "start": 282.733,
+     "end": 289.533,
+     "basis": {
+      "zh": 6.8,
+      "en": 5.067,
+      "hold": 3
+     }
+    },
+    {
+     "start": 289.533,
+     "end": 297.133,
+     "basis": {
+      "zh": 7.6,
+      "en": 5.933,
+      "hold": 3
+     }
+    },
+    {
+     "start": 297.133,
+     "end": 305.533,
+     "basis": {
+      "zh": 8.4,
+      "en": 6.4,
+      "hold": 3.5
+     }
+    }
+   ]
+  }
+ ]
+}

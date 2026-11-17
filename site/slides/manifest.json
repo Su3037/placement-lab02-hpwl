@@ -1,0 +1,136 @@
+{
+ "zh": [
+  {
+   "img": "slides/zh/slide-01.jpg",
+   "title": "半周长线长 HPWL",
+   "notes": "这一课只讲一个指标：HPWL。我们先定义它、算它，再看哪些几何变化会改变它，最后看它不能证明什么。"
+  },
+  {
+   "img": "slides/zh/slide-02.jpg",
+   "title": "问题：布线之前先估计",
+   "notes": "布局算法要在大量候选位置之间比较，不可能每次都去布线。HPWL 只看每个线网引脚的包围盒，计算很快。"
+  },
+  {
+   "img": "slides/zh/slide-03.jpg",
+   "title": "约定：点模型与坐标",
+   "notes": "先说清楚模型：这里的引脚是点。若要考虑单元尺寸、引脚偏移或合法布局，需要另外建模，不能从分开的点推出不重叠。"
+  },
+  {
+   "img": "slides/zh/slide-04.jpg",
+   "title": "两引脚：曼哈顿距离",
+   "notes": "两引脚线网的 HPWL 就是两点的曼哈顿距离。芯片导线大多沿水平、竖直方向，所以用曼哈顿距离而不是欧氏距离。"
+  },
+  {
+   "img": "slides/zh/slide-05.jpg",
+   "title": "多引脚：只算一个包围盒",
+   "notes": "多引脚线网（超边）只求一个包围盒。扫描引脚时，S 不刷新任何极值，所以它不影响 N1。"
+  },
+  {
+   "img": "slides/zh/slide-06.jpg",
+   "title": "半周长：不是周长，也不是两两之和",
+   "notes": "名字里的“半”就是周长的一半：黄色的两条边。clique 是另一种线网模型，不能混进 HPWL 报告。"
+  },
+  {
+   "img": "slides/zh/slide-07.jpg",
+   "title": "极值引脚与内部引脚",
+   "notes": "绿色区域是其它引脚的包围盒，S 在里面怎么动都不改变 N1；同一个引脚还在 N2 上，所以总和会变。"
+  },
+  {
+   "img": "slides/zh/slide-08.jpg",
+   "title": "老师的例子：起始布局 52",
+   "notes": "这是老师课程中的 starter 布局。每个线网都用同一个包围盒规则，然后相加。"
+  },
+  {
+   "img": "slides/zh/slide-09.jpg",
+   "title": "比较：紧凑参考布局 14",
+   "notes": "紧凑布局是老师给的参考答案。它移动了标为固定的 A 和 D，所以不能当作保留焊盘的优化轨迹。"
+  },
+  {
+   "img": "slides/zh/slide-10.jpg",
+   "title": "可选扩展：加权 HPWL",
+   "notes": "加权只是扩展，比如时序驱动布局会给关键线网更大的权重。核心课仍以普通 HPWL 为准。"
+  },
+  {
+   "img": "slides/zh/slide-11.jpg",
+   "title": "低 HPWL ≠ 好布局",
+   "notes": "只看分数会奖励坍缩。固定焊盘时，ABCD、AB + BD、AC + CD 各至少 16，所以下限 48；方块不重叠时 EF 至少 1，下限 49。"
+  },
+  {
+   "img": "slides/zh/slide-12.jpg",
+   "title": "伪代码",
+   "notes": "老师的辅助函数会悄悄跳过未知引脚；我们先验证再计算，避免一个看似正常的部分分数。"
+  },
+  {
+   "img": "slides/zh/slide-13.jpg",
+   "title": "小结与练习",
+   "notes": "完成网站上的挑战与 Python 练习；起始 52、紧凑 14、加权 116 / 30 是要对上的数字。"
+  }
+ ],
+ "en": [
+  {
+   "img": "slides/en/slide-01.jpg",
+   "title": "Half-perimeter wirelength (HPWL)",
+   "notes": "This lesson is about one metric, HPWL: define it, compute it, see which geometric changes affect it, and see what it cannot prove."
+  },
+  {
+   "img": "slides/en/slide-02.jpg",
+   "title": "Problem: estimate before routing",
+   "notes": "A placer compares huge numbers of candidates and cannot route each one. HPWL only looks at each net's pin bounding box, so it is fast."
+  },
+  {
+   "img": "slides/en/slide-03.jpg",
+   "title": "Conventions: point model and axes",
+   "notes": "State the model first: pins are points. Cell size, pin offsets and legality need separate modelling; separated points do not imply non-overlap."
+  },
+  {
+   "img": "slides/en/slide-04.jpg",
+   "title": "Two pins: Manhattan distance",
+   "notes": "For two pins, HPWL is the Manhattan distance. Chip wires run mostly horizontally and vertically, hence Manhattan rather than Euclidean."
+  },
+  {
+   "img": "slides/en/slide-05.jpg",
+   "title": "Multi-pin: one bounding box",
+   "notes": "A multi-pin net (hyperedge) has one bounding box. While scanning, S updates no extreme, so it does not affect N1."
+  },
+  {
+   "img": "slides/en/slide-06.jpg",
+   "title": "Half perimeter: not perimeter, not all pairs",
+   "notes": "“Half” means half the perimeter: the two yellow sides. The clique is another net model and must not be mixed into an HPWL report."
+  },
+  {
+   "img": "slides/en/slide-07.jpg",
+   "title": "Extreme pins and interior pins",
+   "notes": "Green is the other pins' box; S can move anywhere inside without changing N1. The same pin is on N2, so the total changes."
+  },
+  {
+   "img": "slides/en/slide-08.jpg",
+   "title": "Teacher's example: starter 52",
+   "notes": "This is the starter layout from the teacher's course. Each net uses the same box rule, then we sum."
+  },
+  {
+   "img": "slides/en/slide-09.jpg",
+   "title": "Comparison: compact reference 14",
+   "notes": "The compact layout is the teacher's reference. It moves the fixed pads A and D, so it is not a pad-preserving optimization trajectory."
+  },
+  {
+   "img": "slides/en/slide-10.jpg",
+   "title": "Optional: weighted HPWL",
+   "notes": "Weighting is an extension, e.g. timing-driven placement weights critical nets. The core lesson uses plain HPWL."
+  },
+  {
+   "img": "slides/en/slide-11.jpg",
+   "title": "Low HPWL ≠ good placement",
+   "notes": "Score-only thinking rewards collapse. With fixed pads, ABCD, AB + BD and AC + CD are each at least 16, so the bound is 48; with non-overlap EF is at least 1, so 49."
+  },
+  {
+   "img": "slides/en/slide-12.jpg",
+   "title": "Pseudocode",
+   "notes": "The teacher's helpers silently skip unknown pins; we validate before computing so no partial score looks normal."
+  },
+  {
+   "img": "slides/en/slide-13.jpg",
+   "title": "Summary and practice",
+   "notes": "Do the challenges and the Python track; the numbers to match are starter 52, compact 14, weighted 116 / 30."
+  }
+ ]
+}

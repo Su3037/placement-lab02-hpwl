@@ -1,0 +1,29 @@
+{
+ "glyphText": 712,
+ "fonts": {
+  "NotoSansSC-Regular.woff2": {
+   "source": "build/fontsrc/expo-google-fonts-noto-sans-sc-0.4.4/package/400Regular/NotoSansSC_400Regular.ttf",
+   "sourceSha256": "d45f67f0a7c0ca3f256950777ce6a61cc7ce5f9696d02900cbbaac25f8aa7d16",
+   "sha256": "93a2a3b7d1c5948804a5e1232726ad34d31eac5248291cce96af2df06b0fa636",
+   "bytes": 107532
+  },
+  "NotoSansSC-Bold.woff2": {
+   "source": "build/fontsrc/expo-google-fonts-noto-sans-sc-0.4.4/package/700Bold/NotoSansSC_700Bold.ttf",
+   "sourceSha256": "9a38ae0ab28cd5a256f9ea8e00dedc688aac17f7915fcb000572990afa956b96",
+   "sha256": "d5ae4526fe31de49846ee14e2f3eb757208fed64a61438228fa7547342308964",
+   "bytes": 109736
+  },
+  "JetBrainsMono-Regular.woff2": {
+   "source": "build/fontsrc/expo-google-fonts-jetbrains-mono-0.4.1/package/400Regular/JetBrainsMono_400Regular.ttf",
+   "sourceSha256": "b6b1ff4ddefe36d7f2a6174e1d001cab374e594519ee9049af028d577b64c5f5",
+   "sha256": "003483b84443899726b599ed4ac8b025fae2250f64eaf964594554090f8fd371",
+   "bytes": 18336
+  },
+  "JetBrainsMono-Bold.woff2": {
+   "source": "build/fontsrc/expo-google-fonts-jetbrains-mono-0.4.1/package/700Bold/JetBrainsMono_700Bold.ttf",
+   "sourceSha256": "a2349098b9e45419e7bf0e2958d6c4937a049dded37387b08be725be4c7615f3",
+   "sha256": "923023cb46936a8b8b7e8f197b86284929b91702336148f54ae3d02e70997bf7",
+   "bytes": 19096
+  }
+ }
+}
